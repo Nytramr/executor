@@ -27,32 +27,52 @@ export function property(name, getter) {
  * It returns an executor that returns true if the execution of its argument returns false, returns false otherwise.
  */
 
-export function not(arg) { }
+export function not(arg) {
+  return function (context) {
+    return !arg(context);
+  };
+}
 
 /**
  * And logic evaluator
  * 
  * It returns an executor that returns true if the execution of both arguments returns true, returns false otherwise.
  */
-export function and(oper1, oper2) { }
+export function and(oper1, oper2) {
+  return function (context) {
+    return oper1(context) && oper2(context);
+  };
+}
 
 /**
  * Or logic evaluator
  * 
  * It returns an executor that returns false if the execution of both arguments returns false, returns true otherwise.
  */
-export function or(oper1, oper2) { }
+export function or(oper1, oper2) {
+  return function (context) {
+    return oper1(context) || oper2(context);
+  };
+}
 
 /**
  * Equals comparator
  * 
  * It returns an executor that returns true if the execution of both arguments are equals (=== equivalent), returns false otherwise.
  */
-export function equals(oper1, oper2) { }
+export function equals(oper1, oper2) {
+  return function (context) {
+    return oper1(context) === oper2(context);
+  };
+}
 
 /**
  * Non Equals comparator
  * 
  * It returns an executor that returns true if the execution of both arguments are different (!== equivalent), returns false otherwise.
  */
-export function nonEquals(oper1, oper2) { }
+export function nonEquals(oper1, oper2) {
+  return function (context) {
+    return oper1(context) !== oper2(context);
+  };
+}
