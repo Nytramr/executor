@@ -7,51 +7,51 @@ describe('Executers', () => {
 
   describe('Constant', () => {
     it('should return the given value regardless the argument', () => {
-      const tenNum = constant(10);
-      expect(tenNum()).toBe(10);
-      expect(tenNum({ unused: 'value' })).toBe(10);
+      const executor = constant(10);
+      expect(executor()).toBe(10);
+      expect(executor({ unused: 'value' })).toBe(10);
     });
   });
 
   describe('Property', () => {
     it('should return the property of the given object', () => {
-      const prop = property('name');
+      const executor = property('name');
 
-      expect(prop({ name: 'name' })).toBe('name');
-      expect(prop({ name: 'another name' })).toBe('another name');
+      expect(executor({ name: 'name' })).toBe('name');
+      expect(executor({ name: 'another name' })).toBe('another name');
     });
 
     it('should return the index of the given array', () => {
-      const prop = property('1');
+      const executor = property('1');
 
-      expect(prop(['cero', 'uno', 'dos'])).toBe('uno');
+      expect(executor(['cero', 'uno', 'dos'])).toBe('uno');
     });
 
     it('should return the falsy value', () => {
-      const prop = property('name');
+      const executor = property('name');
 
-      expect(prop(0)).toBe(0);
-      expect(prop(undefined)).toBe(undefined);
-      expect(prop(null)).toBe(null);
-      expect(prop('')).toBe('');
-      expect(prop(false)).toBe(false);
+      expect(executor(0)).toBe(0);
+      expect(executor(undefined)).toBe(undefined);
+      expect(executor(null)).toBe(null);
+      expect(executor('')).toBe('');
+      expect(executor(false)).toBe(false);
     });
 
     it('should return the value of a complex property path of the given object', () => {
-      const prop = property('body', property('name'));
+      const executor = property('body', property('name'));
 
-      expect(prop({ body: { name: 'name' } })).toBe('name');
-      expect(prop({ body: { name: 'another name' } })).toBe('another name');
-      expect(prop({})).toBeUndefined();
+      expect(executor({ body: { name: 'name' } })).toBe('name');
+      expect(executor({ body: { name: 'another name' } })).toBe('another name');
+      expect(executor({})).toBeUndefined();
     });
 
     it('should return undefined', () => {
-      const prop = property('body', property('name'));
+      const executor = property('body', property('name'));
 
-      expect(prop({ body: { name: undefined } })).toBeUndefined();
-      expect(prop({ body: {} })).toBeUndefined();
-      expect(prop({ body: undefined })).toBeUndefined();
-      expect(prop({})).toBeUndefined();
+      expect(executor({ body: { name: undefined } })).toBeUndefined();
+      expect(executor({ body: {} })).toBeUndefined();
+      expect(executor({ body: undefined })).toBeUndefined();
+      expect(executor({})).toBeUndefined();
     });
   });
 
