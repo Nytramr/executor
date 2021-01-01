@@ -1,0 +1,22 @@
+{
+  "name": "@nytramr/executor",
+  "version": "0.0.1",
+  "description": "A small library to 'compile' and execute simple expressions scripts.",
+  "main": "build/index.js",
+  "author": "Martin Rubinsztein",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "npx rollup -c",
+    "test": "npx jest"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "jest": "^26.1.0"
+  },
+  "dependencies": {
+    "rollup": "^2.33.3"
+  }
+}
