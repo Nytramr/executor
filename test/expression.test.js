@@ -84,6 +84,35 @@ describe('Executers', () => {
       expect(executor({ first: false, second: true })).toBe(false);
       expect(executor({ first: false, second: false })).toBe(false);
     });
+
+    it('should return falsy argument', () => {
+      const executor = and(firstProp, secondProp);
+      expect(executor({ first: true, second: false })).toBe(false);
+      expect(executor({ first: 0, second: false })).toBe(0);
+      expect(executor({ first: null, second: false })).toBe(null);
+      expect(executor({ first: '', second: false })).toBe('');
+      expect(executor({ second: true })).toBeUndefined();
+    });
+
+    it('should execute both arguments', () => {
+      const firstArg = jest.fn(() => true);
+      const secondArg = jest.fn(() => false);
+      const executor = and(firstArg, secondArg);
+      executor({});
+
+      expect(firstArg).toHaveBeenCalled();
+      expect(secondArg).toHaveBeenCalled();
+    });
+
+    it('should execute only the first argument', () => {
+      const firstArg = jest.fn(() => false);
+      const secondArg = jest.fn(() => false);
+      const executor = and(firstArg, secondArg);
+      executor({});
+
+      expect(firstArg).toHaveBeenCalled();
+      expect(secondArg).not.toHaveBeenCalled();
+    });
   });
 
   describe('Or', () => {
@@ -97,6 +126,34 @@ describe('Executers', () => {
     it('should return false', () => {
       const executor = or(firstProp, secondProp);
       expect(executor({ first: false, second: false })).toBe(false);
+    });
+
+    it('should return truthy argument', () => {
+      const executor = or(firstProp, secondProp);
+      expect(executor({ first: true, second: false })).toBe(true);
+      expect(executor({ first: 10, second: false })).toBe(10);
+      expect(executor({ first: false, second: ['value1', 'value2'] })).toEqual(['value1', 'value2']);
+      expect(executor({ second: true })).toBe(true);
+    });
+
+    it('should execute both arguments', () => {
+      const firstArg = jest.fn(() => false);
+      const secondArg = jest.fn(() => true);
+      const executor = or(firstArg, secondArg);
+      executor({});
+
+      expect(firstArg).toHaveBeenCalled();
+      expect(secondArg).toHaveBeenCalled();
+    });
+
+    it('should execute only the first argument', () => {
+      const firstArg = jest.fn(() => true);
+      const secondArg = jest.fn(() => true);
+      const executor = or(firstArg, secondArg);
+      executor({});
+
+      expect(firstArg).toHaveBeenCalled();
+      expect(secondArg).not.toHaveBeenCalled();
     });
   });
 
