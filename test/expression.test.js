@@ -58,80 +58,80 @@ describe('Executers', () => {
   describe('Not', () => {
     it('should return true', () => {
       const executor = not(firstProp)
-      expect(executor({first: false})).toBe(true);
-      expect(executor({first: 0})).toBe(true);
-      expect(executor({first: null})).toBe(true);
+      expect(executor({ first: false })).toBe(true);
+      expect(executor({ first: 0 })).toBe(true);
+      expect(executor({ first: null })).toBe(true);
       expect(executor({})).toBe(true);
     });
 
     it('should return false', () => {
       const executor = not(firstProp)
-      expect(executor({first: true})).toBe(false);
-      expect(executor({first: 1})).toBe(false);
-      expect(executor({first: {}})).toBe(false);
+      expect(executor({ first: true })).toBe(false);
+      expect(executor({ first: 1 })).toBe(false);
+      expect(executor({ first: {} })).toBe(false);
     });
   });
 
   describe('And', () => {
     it('should return true', () => {
       const executor = and(firstProp, secondProp);
-      expect(executor({first: true, second:true})).toBe(true);
+      expect(executor({ first: true, second: true })).toBe(true);
     });
 
     it('should return false', () => {
       const executor = and(firstProp, secondProp);
-      expect(executor({first: true, second:false})).toBe(false);
-      expect(executor({first: false, second:true})).toBe(false);
-      expect(executor({first: false, second:false})).toBe(false);
+      expect(executor({ first: true, second: false })).toBe(false);
+      expect(executor({ first: false, second: true })).toBe(false);
+      expect(executor({ first: false, second: false })).toBe(false);
     });
   });
 
   describe('Or', () => {
     it('should return true', () => {
       const executor = or(firstProp, secondProp);
-      expect(executor({first: true, second:false})).toBe(true);
-      expect(executor({first: false, second:true})).toBe(true);
-      expect(executor({first: true, second:true})).toBe(true);
+      expect(executor({ first: true, second: false })).toBe(true);
+      expect(executor({ first: false, second: true })).toBe(true);
+      expect(executor({ first: true, second: true })).toBe(true);
     });
 
     it('should return false', () => {
       const executor = or(firstProp, secondProp);
-      expect(executor({first: false, second:false})).toBe(false);
+      expect(executor({ first: false, second: false })).toBe(false);
     });
   });
 
   describe('Equals', () => {
     it('should return true', () => {
       const executor = equals(firstProp, secondProp);
-      expect(executor({first: 10, second:10})).toBe(true);
-      expect(executor({first: '10', second:'10'})).toBe(true);
-      expect(executor({first: true, second:true})).toBe(true);
+      expect(executor({ first: 10, second: 10 })).toBe(true);
+      expect(executor({ first: '10', second: '10' })).toBe(true);
+      expect(executor({ first: true, second: true })).toBe(true);
       expect(executor({})).toBe(true);
     });
 
     it('should return false', () => {
       const executor = equals(firstProp, secondProp);
-      expect(executor({first: 10, second:'10'})).toBe(false);
-      expect(executor({first: false, second:true})).toBe(false);
-      expect(executor({first: false, second:undefined})).toBe(false);
-      expect(executor({first: false, second:0})).toBe(false);
+      expect(executor({ first: 10, second: '10' })).toBe(false);
+      expect(executor({ first: false, second: true })).toBe(false);
+      expect(executor({ first: false, second: undefined })).toBe(false);
+      expect(executor({ first: false, second: 0 })).toBe(false);
     });
   });
 
   describe('Not Equals', () => {
     it('should return true', () => {
       const executor = nonEquals(firstProp, secondProp);
-      expect(executor({first: 10, second:'10'})).toBe(true);
-      expect(executor({first: false, second:true})).toBe(true);
-      expect(executor({first: false, second:undefined})).toBe(true);
-      expect(executor({first: false, second:0})).toBe(true);
+      expect(executor({ first: 10, second: '10' })).toBe(true);
+      expect(executor({ first: false, second: true })).toBe(true);
+      expect(executor({ first: false, second: undefined })).toBe(true);
+      expect(executor({ first: false, second: 0 })).toBe(true);
     });
 
     it('should return false', () => {
       const executor = nonEquals(firstProp, secondProp);
-      expect(executor({first: 10, second:10})).toBe(false);
-      expect(executor({first: '10', second:'10'})).toBe(false);
-      expect(executor({first: true, second:true})).toBe(false);
+      expect(executor({ first: 10, second: 10 })).toBe(false);
+      expect(executor({ first: '10', second: '10' })).toBe(false);
+      expect(executor({ first: true, second: true })).toBe(false);
       expect(executor({})).toBe(false);
     });
   });
