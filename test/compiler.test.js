@@ -1,6 +1,6 @@
-import { graphIntoExecuters } from '../src/expression/compile';
+import { graphIntoExecuters } from '../src/expression/compiler';
 
-describe('Compile', () => {
+describe('Compiler', () => {
   describe('Graph into Executers', () => {
     beforeEach(() => {
       jest.clearAllMocks();
