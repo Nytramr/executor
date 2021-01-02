@@ -1,5 +1,16 @@
-import { and, constant, equals, nonEquals, not, or, property } from '../src/expression/executers';
-
+import {
+  and,
+  constant,
+  equals,
+  greaterOrEqualsThan,
+  greaterThan,
+  lessOrEqualsThan,
+  lessThan,
+  nonEquals,
+  not,
+  or,
+  property,
+} from '../src/expression/executers';
 
 describe('Executers', () => {
   const firstProp = (obj) => obj.first;
@@ -57,7 +68,7 @@ describe('Executers', () => {
 
   describe('Not', () => {
     it('should return true', () => {
-      const executor = not(firstProp)
+      const executor = not(firstProp);
       expect(executor({ first: false })).toBe(true);
       expect(executor({ first: 0 })).toBe(true);
       expect(executor({ first: null })).toBe(true);
@@ -65,7 +76,7 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = not(firstProp)
+      const executor = not(firstProp);
       expect(executor({ first: true })).toBe(false);
       expect(executor({ first: 1 })).toBe(false);
       expect(executor({ first: {} })).toBe(false);
@@ -189,6 +200,78 @@ describe('Executers', () => {
       expect(executor({ first: 10, second: 10 })).toBe(false);
       expect(executor({ first: '10', second: '10' })).toBe(false);
       expect(executor({ first: true, second: true })).toBe(false);
+      expect(executor({})).toBe(false);
+    });
+  });
+
+  describe('Greater', () => {
+    it('should return true', () => {
+      const executor = greaterThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: 5 })).toBe(true);
+      expect(executor({ first: -1, second: -12 })).toBe(true);
+      expect(executor({ first: 'b', second: 'a' })).toBe(true);
+      expect(executor({ first: 'a', second: 'A' })).toBe(true);
+    });
+
+    it('should return false', () => {
+      const executor = greaterThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: 10 })).toBe(false);
+      expect(executor({ first: -10, second: 10 })).toBe(false);
+      expect(executor({ first: 'a', second: 'b' })).toBe(false);
+      expect(executor({})).toBe(false);
+    });
+  });
+
+  describe('Greater or Equals', () => {
+    it('should return true', () => {
+      const executor = greaterOrEqualsThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: 10 })).toBe(true);
+      expect(executor({ first: 10, second: 5 })).toBe(true);
+      expect(executor({ first: -1, second: -12 })).toBe(true);
+      expect(executor({ first: 'b', second: 'a' })).toBe(true);
+      expect(executor({ first: 'a', second: 'A' })).toBe(true);
+    });
+
+    it('should return false', () => {
+      const executor = greaterThan(firstProp, secondProp);
+      expect(executor({ first: -10, second: 10 })).toBe(false);
+      expect(executor({ first: 'a', second: 'b' })).toBe(false);
+      expect(executor({})).toBe(false);
+    });
+  });
+
+  describe('Less', () => {
+    it('should return true', () => {
+      const executor = lessThan(firstProp, secondProp);
+      expect(executor({ first: 5, second: 6 })).toBe(true);
+      expect(executor({ first: -2, second: 0 })).toBe(true);
+      expect(executor({ first: 'a', second: 'b' })).toBe(true);
+      expect(executor({ first: 'A', second: 'a' })).toBe(true);
+    });
+
+    it('should return false', () => {
+      const executor = lessThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: 10 })).toBe(false);
+      expect(executor({ first: 10, second: -10 })).toBe(false);
+      expect(executor({ first: 'b', second: 'a' })).toBe(false);
+      expect(executor({})).toBe(false);
+    });
+  });
+
+  describe('Less or Equals', () => {
+    it('should return true', () => {
+      const executor = lessOrEqualsThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: 10 })).toBe(true);
+      expect(executor({ first: 5, second: 10 })).toBe(true);
+      expect(executor({ first: -1, second: 0 })).toBe(true);
+      expect(executor({ first: 'a', second: 'b' })).toBe(true);
+      expect(executor({ first: 'A', second: 'a' })).toBe(true);
+    });
+
+    it('should return false', () => {
+      const executor = lessOrEqualsThan(firstProp, secondProp);
+      expect(executor({ first: 10, second: -10 })).toBe(false);
+      expect(executor({ first: 'b', second: 'a' })).toBe(false);
       expect(executor({})).toBe(false);
     });
   });

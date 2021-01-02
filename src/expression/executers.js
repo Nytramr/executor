@@ -76,3 +76,47 @@ export function nonEquals(oper1, oper2) {
     return oper1(context) !== oper2(context);
   };
 }
+
+/**
+ * Greater than comparator
+ * 
+ * It returns an executor that returns true if the execution of first argument is greater than the execution of the second argument (> equivalent), returns false otherwise.
+ */
+export function greaterThan(oper1, oper2) {
+  return function (context) {
+    return oper1(context) > oper2(context);
+  };
+}
+
+/**
+ * Greater or equals than comparator
+ * 
+ * It returns an executor that returns true if the execution of first argument is greater or equals than the execution of the second argument (>= equivalent), returns false otherwise.
+ */
+export function greaterOrEqualsThan(oper1, oper2) {
+  return function (context) {
+    return oper1(context) >= oper2(context);
+  };
+}
+
+/**
+ * Less than comparator
+ * 
+ * It returns an executor that returns true if the execution of first argument is less than the execution of the second argument (< equivalent), returns false otherwise.
+ */
+export function lessThan(oper1, oper2) {
+  return function (context) {
+    return oper1(context) < oper2(context);
+  };
+}
+
+/**
+ * Less or equals than comparator
+ * 
+ * It returns an executor that returns true if the execution of first argument is less or equals than the execution of the second argument (<= equivalent), returns false otherwise.
+ */
+export function lessOrEqualsThan(oper1, oper2) {
+  return function (context) {
+    return oper1(context) <= oper2(context);
+  };
+}
