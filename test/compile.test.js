@@ -1,4 +1,3 @@
-
 import { compile } from '../src/expression/compile';
 
 describe('Compile', () => {
@@ -7,11 +6,7 @@ describe('Compile', () => {
   });
 
   it('should return a single function', () => {
-    const graph = [
-      () => () => { },
-      () => () => { },
-      () => () => { },
-    ];
+    const graph = [() => () => { }, () => () => { }, () => () => { }];
 
     const compiledGraph = compile(graph);
 
@@ -22,11 +17,7 @@ describe('Compile', () => {
     const operation = jest.fn();
     const arg1 = jest.fn();
     const arg2 = jest.fn();
-    const graph = [
-      operation,
-      arg1,
-      arg2,
-    ];
+    const graph = [operation, arg1, arg2];
 
     compile(graph);
 
@@ -43,15 +34,7 @@ describe('Compile', () => {
     const arg1 = jest.fn();
     const arg2 = jest.fn();
     const arg3 = jest.fn();
-    const graph = [
-      operation1,
-      [
-        operation2,
-        arg1,
-        [operation3, arg2],
-      ],
-      arg3,
-    ];
+    const graph = [operation1, [operation2, arg1, [operation3, arg2]], arg3];
 
     compile(graph);
 
