@@ -1,4 +1,4 @@
-import { constant } from './executers';
+import { constant, not } from './executers';
 /**
  * graphIntoExecuters transforms a graph like structure into an executable function
  */
@@ -17,13 +17,33 @@ export function graphIntoExecuter(graph) {
 
 const executers = {
   _C: constant,
+  _N: not,
 };
 
-const instructionRegEx = /^(_[C]+)\((.*)/; //first group: the instruction, second group: rest
+// const instructionRegEx = /^(_[CN]+)(\(.*)/; //first group: the instruction, second group: rest
+const instructionRegEx = /^(_[CN]+)\(\s*(.*)/; //first group: the instruction, second group: rest
 
-const endOfArgsRegEx = /^\)(.*)/; // detect and remove a close parenthesis
-const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
-const numberRegEx = /^(-?\d+(?:\.\d+)?),?(.*)/; // string argument, first group: number, second group: rest.
+const endOfArgsRegEx = /^\),?\s*(.*)/; // detect and remove a closing parenthesis
+const startOfArgsRegEx = /^\((.*)/; // detect and remove a opening parenthesis
+const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?\s*(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
+const numberRegEx = /^(-?\d+(?:\.\d+)?),?\s*(.*)/; // string argument, first group: number, second group: rest.
+
+function parseInstruction(match) {
+  const executer = executers[match[1]];
+  if (!executer) {
+    throw new Error(`Executer ${match[1]} wasn't recognized`);
+  }
+
+  const args = parseNext(match[2], []);
+
+  return parseNext(args[1], [executer, ...args[0]]);
+}
+
+function parseMatch(match) {
+  return parseNext(endOfArgs[1], accum);
+}
+
+const parsers = [[instructionRegEx, parseInstruction]];
 
 function parseNext(text, accum) {
   if (!text) {
@@ -38,18 +58,28 @@ function parseNext(text, accum) {
       throw new Error(`Executer ${instruction[1]} wasn't recognized`);
     }
 
+    console.log('instruction', instruction);
     const args = parseNext(instruction[2], []);
+    console.log('args', args);
 
-    return parseNext(args[1], [executer, ...args[0]]);
+    return parseNext(args[1], [...accum, [executer, ...args[0]]]);
   }
 
   const endOfArgs = endOfArgsRegEx.exec(text);
   if (endOfArgs) {
-    return parseNext(endOfArgs[1], accum);
+    console.log('endOfArgs', endOfArgs, accum);
+    return [accum, endOfArgs[1]];
   }
+
+  // const startOfArgs = startOfArgsRegEx.exec(text);
+  // if (startOfArgs) {
+  //   const args = parseNext(startOfArgs[1], []);
+  //   return parseNext()
+  // }
 
   const stringArg = stringRegEx.exec(text);
   if (stringArg) {
+    console.log(stringArg);
     const value = stringArg[1] || stringArg[2] || '';
 
     return parseNext(stringArg[3], accum.concat(value));
@@ -58,7 +88,7 @@ function parseNext(text, accum) {
   const numberArg = numberRegEx.exec(text);
   if (numberArg) {
     const value = +numberArg[1]; // convert into number
-
+    console.log('numbers', numberArg);
     return parseNext(numberArg[2], accum.concat(value));
   }
 
@@ -70,11 +100,11 @@ export function textIntoGraph(text) {
     return [];
   }
 
-  const graph = parseNext(text);
+  const graph = parseNext(text, []);
 
-  if (graph.length > 2) {
+  if (graph[0].length > 1) {
     throw new Error(`The expression ${text} has more than a main instruction close to ""`);
   }
 
-  return graph[0];
+  return graph[0][0];
 }

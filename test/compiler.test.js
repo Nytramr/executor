@@ -1,4 +1,4 @@
-import { constant } from '../src/expression/executers';
+import { constant, not } from '../src/expression/executers';
 import { graphIntoExecuter, textIntoGraph } from '../src/expression/compiler';
 
 describe('Compiler', () => {
@@ -51,6 +51,12 @@ describe('Compiler', () => {
       const graph = textIntoGraph('');
 
       expect(graph).toEqual([]);
+    });
+
+    it('should compile nested instruction', () => {
+      const graph = textIntoGraph('_N(_C(0))');
+
+      expect(graph).toEqual([not, [constant, 0]]);
     });
 
     describe('string', () => {
