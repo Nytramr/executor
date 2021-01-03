@@ -1,4 +1,15 @@
-import { constant, not } from './executers';
+import {
+  and,
+  constant,
+  equals,
+  greaterOrEqualsThan,
+  greaterThan,
+  lessOrEqualsThan,
+  lessThan,
+  nonEquals,
+  not,
+  or,
+} from './executers';
 /**
  * graphIntoExecuters transforms a graph like structure into an executable function
  */
@@ -16,11 +27,19 @@ export function graphIntoExecuter(graph) {
 }
 
 const executers = {
+  _A: and,
   _C: constant,
+  _E: equals,
+  _GE: greaterOrEqualsThan,
+  _G: greaterThan,
+  _LE: lessOrEqualsThan,
+  _L: lessThan,
+  _NE: nonEquals,
   _N: not,
+  _O: or,
 };
 
-const instructionRegEx = /^(_(?:C|N)+)\(\s*(.*)/; //first group: the instruction, second group: rest
+const instructionRegEx = /^(_(?:A|C|E|GE|G|LE|L|NE|N|O)+)\(\s*(.*)/; //first group: the instruction, second group: rest
 const endOfArgsRegEx = /^\),?\s*(.*)/; // detect and remove a closing parenthesis
 const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?\s*(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
 const numberRegEx = /^(-?\d+(?:\.\d+)?),?\s*(.*)/; // string argument, first group: number, second group: rest.
