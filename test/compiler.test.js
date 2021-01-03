@@ -53,7 +53,7 @@ describe('Compiler', () => {
       expect(graph).toEqual([]);
     });
 
-    it('should compile nested instruction', () => {
+    it('should compile nested instructions', () => {
       const graph = textIntoGraph('_N(_C(0))');
 
       expect(graph).toEqual([not, [constant, 0]]);
@@ -102,6 +102,20 @@ describe('Compiler', () => {
         const graph = textIntoGraph('_C(0.890)');
 
         expect(graph).toEqual([constant, 0.89]);
+      });
+    });
+
+    describe('boolean', () => {
+      it('should compile into a constant executer, with a true value', () => {
+        const graph = textIntoGraph('_C(true)');
+
+        expect(graph).toEqual([constant, true]);
+      });
+
+      it('should compile into a constant executer, with a false value', () => {
+        const graph = textIntoGraph('_C(false)');
+
+        expect(graph).toEqual([constant, false]);
       });
     });
   });
