@@ -19,10 +19,11 @@ const executers = {
   _C: constant,
 };
 
-const instructionRegEx = /^(_[C]+)\((.*)/; //first group is the instruction, second group the arguments
+const instructionRegEx = /^(_[C]+)\((.*)/; //first group: the instruction, second group: rest
 
 const endOfArgsRegEx = /^\)(.*)/; // detect and remove a close parenthesis
 const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
+const numberRegEx = /^(-?\d+(?:\.\d+)?),?(.*)/; // string argument, first group: number, second group: rest.
 
 function parseNext(text, accum) {
   if (!text) {
@@ -39,10 +40,6 @@ function parseNext(text, accum) {
 
     const args = parseNext(instruction[2], []);
 
-    // if (args[1]) {
-    //   throw new Error(`The expression ${text} has more than a main instruction close to "${args[1]}"`);
-    // }
-
     return parseNext(args[1], [executer, ...args[0]]);
   }
 
@@ -53,12 +50,19 @@ function parseNext(text, accum) {
 
   const stringArg = stringRegEx.exec(text);
   if (stringArg) {
-    const value = stringArg[1] || stringArg[2];
+    const value = stringArg[1] || stringArg[2] || '';
 
     return parseNext(stringArg[3], accum.concat(value));
   }
 
-  return [];
+  const numberArg = numberRegEx.exec(text);
+  if (numberArg) {
+    const value = +numberArg[1]; // convert into number
+
+    return parseNext(numberArg[2], accum.concat(value));
+  }
+
+  return []; // TODO: Throw error when the text has no match
 }
 
 export function textIntoGraph(text) {

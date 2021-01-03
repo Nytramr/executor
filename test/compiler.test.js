@@ -52,10 +52,51 @@ describe('Compiler', () => {
 
       expect(graph).toEqual([]);
     });
-    it('should compile into a string constant executer', () => {
-      const graph = textIntoGraph('_C("someText")');
 
-      expect(graph).toEqual([constant, 'someText']);
+    describe('string', () => {
+      it('should compile into a constant executer, with the given double quotes string', () => {
+        const graph = textIntoGraph('_C("someText")');
+
+        expect(graph).toEqual([constant, 'someText']);
+      });
+
+      it('should compile into a constant executer, with the given single quotes string', () => {
+        const graph = textIntoGraph("_C('someText')");
+
+        expect(graph).toEqual([constant, 'someText']);
+      });
+
+      it('should compile into a constant executer, with an empty string', () => {
+        const graph = textIntoGraph('_C("")');
+
+        expect(graph).toEqual([constant, '']);
+      });
+    });
+
+    describe('numbers', () => {
+      it('should compile into a constant executer, with the given positive number', () => {
+        const graph = textIntoGraph('_C(150)');
+
+        expect(graph).toEqual([constant, 150]);
+      });
+
+      it('should compile into a constant executer, with 0', () => {
+        const graph = textIntoGraph('_C(0)');
+
+        expect(graph).toEqual([constant, 0]);
+      });
+
+      it('should compile into a constant executer, with the given negative number', () => {
+        const graph = textIntoGraph('_C(-67)');
+
+        expect(graph).toEqual([constant, -67]);
+      });
+
+      it('should compile into a constant executer, with the given float number', () => {
+        const graph = textIntoGraph('_C(0.890)');
+
+        expect(graph).toEqual([constant, 0.89]);
+      });
     });
   });
 });
