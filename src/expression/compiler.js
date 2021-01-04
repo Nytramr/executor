@@ -27,19 +27,19 @@ export function graphIntoExecuter(graph) {
 }
 
 const executers = {
-  _A: and,
-  _C: constant,
-  _E: equals,
-  _GE: greaterOrEqualsThan,
-  _G: greaterThan,
-  _LE: lessOrEqualsThan,
-  _L: lessThan,
-  _NE: nonEquals,
-  _N: not,
-  _O: or,
+  AD: and,
+  CT: constant,
+  EQ: equals,
+  GE: greaterOrEqualsThan,
+  GT: greaterThan,
+  LE: lessOrEqualsThan,
+  LT: lessThan,
+  NE: nonEquals,
+  NT: not,
+  OR: or,
 };
 
-const instructionRegEx = /^(_(?:A|C|E|GE|G|LE|L|NE|N|O)+)\(\s*(.*)/; //first group: the instruction, second group: rest
+const instructionRegEx = /^(AN|CT|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the instruction, second group: rest
 const endOfArgsRegEx = /^\),?\s*(.*)/; // detect and remove a closing parenthesis
 const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?\s*(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
 const numberRegEx = /^(-?\d+(?:\.\d+)?),?\s*(.*)/; // string argument, first group: number, second group: rest.
@@ -110,7 +110,7 @@ function parseNext(text, accum) {
   return []; // TODO: Throw error when the text has no match
 }
 
-export function textIntoGraph(text) {
+export function textGraphIntoStructureGraph(text) {
   if (text === '') {
     return [];
   }
