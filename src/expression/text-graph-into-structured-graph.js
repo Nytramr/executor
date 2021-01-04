@@ -12,7 +12,7 @@ import {
 } from './executers';
 
 const executers = {
-  AD: and,
+  AN: and,
   CT: constant,
   EQ: equals,
   GE: greaterOrEqualsThan,
