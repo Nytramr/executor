@@ -92,7 +92,7 @@ function parseNext(text, accum) {
     }
   }
 
-  return []; // TODO: Throw error when the text has no match
+  throw new Error(`Token unrecognized near to ${text}`);
 }
 
 export function textGraphIntoStructureGraph(text) {
