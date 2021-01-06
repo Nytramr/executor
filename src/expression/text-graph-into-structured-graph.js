@@ -1,44 +1,22 @@
-import {
-  and,
-  constant,
-  equals,
-  greaterOrEqualsThan,
-  greaterThan,
-  lessOrEqualsThan,
-  lessThan,
-  nonEquals,
-  not,
-  or,
-} from './executers';
+import { executerRegEx, executers } from './executers';
+import { pathParser } from './path-parser';
 
-const executers = {
-  AN: and,
-  CT: constant,
-  EQ: equals,
-  GE: greaterOrEqualsThan,
-  GT: greaterThan,
-  LE: lessOrEqualsThan,
-  LT: lessThan,
-  NE: nonEquals,
-  NT: not,
-  OR: or,
-};
-
-const instructionRegEx = /^(AN|CT|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the instruction, second group: rest
+const propertyRegEx = /^PP\(\s*(.*)/; //only group: rest
 const endOfArgsRegEx = /^\),?\s*(.*)/; // detect and remove a closing parenthesis
 const stringRegEx = /^(?:"([^"]*)"|'([^']*)'),?\s*(.*)/; // string argument, first group: double quotes string, second group: single quotes string, third group: rest.
 const numberRegEx = /^(-?\d+(?:\.\d+)?),?\s*(.*)/; // string argument, first group: number, second group: rest.
 const booleanRegEx = /^(false|true),?\s*(.*)/; // string argument, first group: the boolean, second group: rest.
 
-function parseInstruction(match, accum) {
+// Instructions
+function parseExecuter(match, accum) {
   const executer = executers[match[1]];
   if (!executer) {
     throw new Error(`Executer ${match[1]} wasn't recognized`);
   }
 
-  const args = parseNext(match[2], []);
+  const args = parseNextInstruction(match[2], []);
 
-  return parseNext(args.text, [...accum, [executer, ...args.graph]]);
+  return parseNextInstruction(args.text, [...accum, [executer, ...args.graph]]);
 }
 
 function parseMatch(match, accum) {
@@ -52,32 +30,33 @@ function parseMatch(match, accum) {
 function parseString(match, accum) {
   const value = match[1] || match[2] || '';
 
-  return parseNext(match[3], accum.concat(value));
+  return parseNextInstruction(match[3], accum.concat(value));
 }
 
 function parseNumber(match, accum) {
   const value = +match[1]; // convert into number
 
-  return parseNext(match[2], accum.concat(value));
+  return parseNextInstruction(match[2], accum.concat(value));
 }
 
 function parseBoolean(match, accum) {
   const value = match[1]; // convert into number
 
-  return parseNext(match[2], accum.concat(value === 'true'));
+  return parseNextInstruction(match[2], accum.concat(value === 'true'));
 }
 
-const parsers = [
-  { regex: instructionRegEx, parser: parseInstruction },
+const instructionParsers = [
+  { regex: executerRegEx, parser: parseExecuter },
+  { regex: propertyRegEx, parser: pathParser },
   { regex: endOfArgsRegEx, parser: parseMatch },
   { regex: stringRegEx, parser: parseString },
   { regex: numberRegEx, parser: parseNumber },
   { regex: booleanRegEx, parser: parseBoolean },
 ];
 
-const parsersLength = parsers.length;
+const instructionParsersLength = instructionParsers.length;
 
-function parseNext(text, accum) {
+function parseNextInstruction(text, accum) {
   if (!text) {
     return {
       graph: accum,
@@ -85,10 +64,10 @@ function parseNext(text, accum) {
     };
   }
 
-  for (let i = 0; i < parsersLength; i++) {
-    const match = parsers[i].regex.exec(text);
+  for (let i = 0; i < instructionParsersLength; i++) {
+    const match = instructionParsers[i].regex.exec(text);
     if (match) {
-      return parsers[i].parser(match, accum);
+      return instructionParsers[i].parser(match, accum);
     }
   }
 
@@ -100,10 +79,10 @@ export function textGraphIntoStructureGraph(text) {
     return [];
   }
 
-  const textParsed = parseNext(text, []);
+  const textParsed = parseNextInstruction(text, []);
 
   if (textParsed.graph.length > 1) {
-    throw new Error(`The expression ${text} has more than a main instruction close to ""`);
+    throw new Error(`The expression ${text} has more than a main executer`);
   }
 
   return textParsed.graph[0];

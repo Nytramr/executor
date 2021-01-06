@@ -1,4 +1,4 @@
-import { and, constant, not } from '../src/expression/executers';
+import { and, constant, not, property } from '../src/expression/executers';
 import { textGraphIntoStructureGraph } from '../src/expression/text-graph-into-structured-graph';
 
 describe('Text Graph into Structured Graph', () => {
@@ -25,6 +25,32 @@ describe('Text Graph into Structured Graph', () => {
       const graph = textGraphIntoStructureGraph('NT(CT(0))');
 
       expect(graph).toEqual([not, [constant, 0]]);
+    });
+  });
+
+  describe('properties', () => {
+    it('should compile a simple property', () => {
+      const graph = textGraphIntoStructureGraph('PP(obj)');
+
+      expect(graph).toEqual([property, 'obj']);
+    });
+
+    it('should compile a multiple property', () => {
+      const graph = textGraphIntoStructureGraph('PP(obj.prop1)');
+
+      expect(graph).toEqual([property, 'obj', [property, 'prop1']]);
+    });
+
+    it('should compile a property between square brackets, considering all inside it as a single property name', () => {
+      const graph = textGraphIntoStructureGraph("PP(obj['prop1.name'])");
+
+      expect(graph).toEqual([property, 'obj', [property, 'prop1.name']]);
+    });
+
+    it('should compile a property between quotes, considering all inside it as a single property name', () => {
+      const graph = textGraphIntoStructureGraph("PP('prop1.name')");
+
+      expect(graph).toEqual([property, 'prop1.name']);
     });
   });
 
