@@ -1,4 +1,15 @@
 /**
+ * Undefined executer
+ *
+ * It returns an executor that returns always the given value.
+ */
+export function undef() {
+  return function () {
+    return undefined;
+  };
+}
+
+/**
  * Constant executer
  *
  * It returns an executor that returns always the given value.
