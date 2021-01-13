@@ -57,14 +57,14 @@ export function pathParser(match, accum) {
   const { text, parts } = splitPath(match[1]);
 
   let len = parts.length - 1;
-  let path = [property, parts[len]];
+  let path = property(parts[len]);
 
   for (len--; len >= 0; len--) {
-    path = [property, parts[len], path];
+    path = property(parts[len], path);
   }
 
   return {
-    graph: [...accum, path],
+    executers: accum.concat(path),
     text,
   };
 }

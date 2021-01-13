@@ -1,5 +1,5 @@
 import * as executers from '../src/expression/executers';
-import { textGraphIntoStructureGraph } from '../src/expression/text-graph-into-executer';
+import { textGraphIntoExecuter } from '../src/expression/text-graph-into-executer';
 
 describe('Text Graph into Executers', () => {
   afterEach(() => {
@@ -8,7 +8,7 @@ describe('Text Graph into Executers', () => {
 
   it('should compile into an empty graph', () => {
     const undef = jest.spyOn(executers, 'undef');
-    textGraphIntoStructureGraph('');
+    textGraphIntoExecuter('');
 
     expect(undef).toHaveBeenCalled();
   });
@@ -16,7 +16,7 @@ describe('Text Graph into Executers', () => {
   describe('instructions', () => {
     it('should compile the instruction, with the given argument', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
-      textGraphIntoStructureGraph("CT('someText')");
+      textGraphIntoExecuter("CT('someText')");
 
       expect(constant).toHaveBeenCalledWith('someText');
     });
@@ -30,7 +30,7 @@ describe('Text Graph into Executers', () => {
       constant.mockReturnValueOnce(constant1);
       constant.mockReturnValueOnce(constant2);
 
-      textGraphIntoStructureGraph('AN(CT(true), CT(false))');
+      textGraphIntoExecuter('AN(CT(true), CT(false))');
 
       expect(constant).toHaveBeenCalledWith(true);
       expect(constant).toHaveBeenCalledWith(false);
@@ -44,7 +44,7 @@ describe('Text Graph into Executers', () => {
 
       constant.mockReturnValueOnce(constant1);
 
-      textGraphIntoStructureGraph('NT(CT(0))');
+      textGraphIntoExecuter('NT(CT(0))');
 
       expect(constant).toHaveBeenCalledWith(0);
       expect(not).toHaveBeenCalledWith(constant1);
@@ -52,30 +52,53 @@ describe('Text Graph into Executers', () => {
   });
 
   describe('properties', () => {
-    //   it('should compile a simple property', () => {
-    //     const property = jest.spyOn(executers, 'property');
-    //     textGraphIntoStructureGraph('PP(obj)');
-    //     expect(property).toHaveBeenCalledWith('obj');
-    //   });
-    //   it('should compile a multiple property', () => {
-    //     const graph = textGraphIntoStructureGraph('PP(obj.prop1)');
-    //     expect(graph).toEqual([property, 'obj', [property, 'prop1']]);
-    //   });
-    //   it('should compile a property between square brackets, considering all inside it as a single property name', () => {
-    //     const graph = textGraphIntoStructureGraph("PP(obj['prop1.name'])");
-    //     expect(graph).toEqual([property, 'obj', [property, 'prop1.name']]);
-    //   });
-    //   it('should compile a property between quotes, considering all inside it as a single property name', () => {
-    //     const graph = textGraphIntoStructureGraph("PP('prop1.name')");
-    //     expect(graph).toEqual([property, 'prop1.name']);
-    //   });
+    it('should compile a simple property', () => {
+      const property = jest.spyOn(executers, 'property');
+      textGraphIntoExecuter('PP(obj)');
+      expect(property).toHaveBeenCalledWith('obj');
+    });
+    it('should compile a multiple property', () => {
+      const property = jest.spyOn(executers, 'property');
+      const property1 = jest.fn();
+      const property2 = jest.fn();
+
+      property.mockReturnValueOnce(property1);
+      property.mockReturnValueOnce(property2);
+
+      const graph = textGraphIntoExecuter('PP(obj.prop1)');
+
+      expect(property).toHaveBeenCalledWith('prop1');
+      expect(property).toHaveBeenCalledWith('obj', property1);
+      expect(graph).toEqual(property2);
+    });
+    it('should compile a property between square brackets, considering all inside it as a single property name', () => {
+      const property = jest.spyOn(executers, 'property');
+      const property1 = jest.fn();
+      const property2 = jest.fn();
+
+      property.mockReturnValueOnce(property1);
+      property.mockReturnValueOnce(property2);
+
+      const graph = textGraphIntoExecuter("PP(obj['prop1.name'])");
+
+      expect(property).toHaveBeenCalledWith('prop1.name');
+      expect(property).toHaveBeenCalledWith('obj', property1);
+      expect(graph).toEqual(property2);
+    });
+    it('should compile a property between quotes, considering all inside it as a single property name', () => {
+      const property = jest.spyOn(executers, 'property');
+
+      textGraphIntoExecuter("PP('prop1.name')");
+
+      expect(property).toHaveBeenCalledWith('prop1.name');
+    });
   });
 
   describe('string', () => {
     it('should compile into a constant executer, with the given double quotes string', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT("someText")');
+      textGraphIntoExecuter('CT("someText")');
 
       expect(constant).toHaveBeenCalledWith('someText');
     });
@@ -83,7 +106,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with the given single quotes string', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph("CT('someText')");
+      textGraphIntoExecuter("CT('someText')");
 
       expect(constant).toHaveBeenCalledWith('someText');
     });
@@ -91,7 +114,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with an empty string', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT("")');
+      textGraphIntoExecuter('CT("")');
 
       expect(constant).toHaveBeenCalledWith('');
     });
@@ -101,7 +124,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with the given positive number', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(150)');
+      textGraphIntoExecuter('CT(150)');
 
       expect(constant).toHaveBeenCalledWith(150);
     });
@@ -109,7 +132,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with 0', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(0)');
+      textGraphIntoExecuter('CT(0)');
 
       expect(constant).toHaveBeenCalledWith(0);
     });
@@ -117,7 +140,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with the given negative number', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(-67)');
+      textGraphIntoExecuter('CT(-67)');
 
       expect(constant).toHaveBeenCalledWith(-67);
     });
@@ -125,7 +148,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with the given float number', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(0.890)');
+      textGraphIntoExecuter('CT(0.890)');
 
       expect(constant).toHaveBeenCalledWith(0.89);
     });
@@ -135,7 +158,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with a true value', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(true)');
+      textGraphIntoExecuter('CT(true)');
 
       expect(constant).toHaveBeenCalledWith(true);
     });
@@ -143,7 +166,7 @@ describe('Text Graph into Executers', () => {
     it('should compile into a constant executer, with a false value', () => {
       const constant = jest.spyOn(executers.executers, 'CT');
 
-      textGraphIntoStructureGraph('CT(false)');
+      textGraphIntoExecuter('CT(false)');
 
       expect(constant).toHaveBeenCalledWith(false);
     });

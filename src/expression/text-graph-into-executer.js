@@ -16,13 +16,13 @@ function parseExecuter(match, accum) {
 
   const args = parseNextInstruction(match[2], []);
 
-  return parseNextInstruction(args.text, [...accum, executer(...args.graph)]);
+  return parseNextInstruction(args.text, accum.concat(executer(...args.executers)));
 }
 
 function parseMatch(match, accum) {
   // parseEndOfArguments
   return {
-    graph: accum,
+    executers: accum,
     text: match[1],
   };
 }
@@ -59,7 +59,7 @@ const instructionParsersLength = instructionParsers.length;
 function parseNextInstruction(text, accum) {
   if (!text) {
     return {
-      graph: accum,
+      executers: accum,
       text: '',
     };
   }
@@ -74,16 +74,16 @@ function parseNextInstruction(text, accum) {
   throw new Error(`Token unrecognized near to ${text}`);
 }
 
-export function textGraphIntoStructureGraph(text) {
+export function textGraphIntoExecuter(text) {
   if (text === '') {
     return undef('');
   }
 
   const textParsed = parseNextInstruction(text, []);
 
-  if (textParsed.graph.length > 1) {
+  if (textParsed.executers.length > 1) {
     throw new Error(`The expression ${text} has more than a main executer`);
   }
 
-  return textParsed.graph[0];
+  return textParsed.executers[0];
 }
