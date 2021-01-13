@@ -1,4 +1,3 @@
-import { property } from '../src/expression/executers';
 import { splitPath } from '../src/expression/path-parser';
 
 describe('path', () => {
