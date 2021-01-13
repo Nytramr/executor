@@ -18,11 +18,11 @@ $> yarn add @nytramr/executor
 
 ## API
 
-### textIntoExecuter(text)
+### compile(text)
 
 #### Syntax
 
-> textIntoExecuter(_textGraph_)
+> compile(_textGraph_)
 
 #### Parameters
 
