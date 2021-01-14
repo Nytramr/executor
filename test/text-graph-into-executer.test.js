@@ -67,8 +67,8 @@ describe('Text Graph into Executers', () => {
 
       const graph = textGraphIntoExecuter('PP(obj.prop1)');
 
-      expect(property).toHaveBeenCalledWith('prop1');
-      expect(property).toHaveBeenCalledWith('obj', property1);
+      expect(property).toHaveBeenCalledWith('obj');
+      expect(property).toHaveBeenCalledWith('prop1', property1);
       expect(graph).toEqual(property2);
     });
     it('should compile a property between square brackets, considering all inside it as a single property name', () => {
@@ -81,8 +81,8 @@ describe('Text Graph into Executers', () => {
 
       const graph = textGraphIntoExecuter("PP(obj['prop1.name'])");
 
-      expect(property).toHaveBeenCalledWith('prop1.name');
-      expect(property).toHaveBeenCalledWith('obj', property1);
+      expect(property).toHaveBeenCalledWith('prop1.name', property1);
+      expect(property).toHaveBeenCalledWith('obj');
       expect(graph).toEqual(property2);
     });
     it('should compile a property between quotes, considering all inside it as a single property name', () => {

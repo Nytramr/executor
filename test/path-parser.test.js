@@ -1,47 +1,87 @@
-import { splitPath } from '../src/expression/path-parser';
+import * as executers from '../src/expression/executers';
+import { pathParser } from '../src/expression/path-parser';
 
-describe('path', () => {
-  describe('splitPath', () => {
-    it('should compile a simple property', () => {
-      const graph = splitPath('obj)');
+describe('Path Parser', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-      expect(graph.parts).toEqual(['obj']);
-      expect(graph.text).toEqual(')');
+  it('should compile a simple property', () => {
+    const property = jest.spyOn(executers, 'property');
+    const property1 = jest.fn();
+    property.mockReturnValueOnce(property1);
+
+    const result = pathParser([, 'obj)'], []);
+
+    expect(property).toHaveBeenCalledWith('obj');
+    expect(result).toEqual({
+      accum: [property1],
+      text: '',
     });
+  });
 
-    it('should compile a multiple parts property', () => {
-      const graph = splitPath('obj.prop1)');
+  it('should compile a multiple parts property', () => {
+    const property = jest.spyOn(executers, 'property');
+    const property1 = jest.fn();
+    const property2 = jest.fn();
+    property.mockReturnValueOnce(property1);
+    property.mockReturnValueOnce(property2);
 
-      expect(graph.parts).toEqual(['obj', 'prop1']);
-      expect(graph.text).toEqual(')');
+    const result = pathParser([, 'obj.prop1)'], []);
+
+    expect(property).toHaveBeenNthCalledWith(1, 'obj');
+    expect(property).toHaveBeenNthCalledWith(2, 'prop1', property1);
+    expect(result).toEqual({
+      accum: [property2],
+      text: '',
     });
+  });
 
-    it('should compile a property between square brackets, considering all inside it as a single property name', () => {
-      const graph = splitPath("obj['prop1.name'])");
+  it('should compile a property between square brackets, considering all inside it as a single property name', () => {
+    const property = jest.spyOn(executers, 'property');
+    const property1 = jest.fn();
+    const property2 = jest.fn();
+    property.mockReturnValueOnce(property1);
+    property.mockReturnValueOnce(property2);
+    const result = pathParser([, "obj['prop1.name'])"], []);
 
-      expect(graph.parts).toEqual(['obj', 'prop1.name']);
-      expect(graph.text).toEqual(')');
+    expect(property).toHaveBeenNthCalledWith(1, 'obj');
+    expect(property).toHaveBeenNthCalledWith(2, 'prop1.name', property1);
+    expect(result).toEqual({
+      accum: [property2],
+      text: '',
     });
+  });
 
-    it('should compile a property between quotes, considering all inside it as a single property name', () => {
-      const graph = splitPath("'prop1.name')");
+  it('should compile a property between quotes, considering all inside it as a single property name', () => {
+    const property = jest.spyOn(executers, 'property');
+    const property1 = jest.fn();
+    property.mockReturnValueOnce(property1);
+    const result = pathParser([, "'prop1.name')"], []);
 
-      expect(graph.parts).toEqual(['prop1.name']);
-      expect(graph.text).toEqual(')');
+    expect(property).toHaveBeenCalledWith('prop1.name');
+    expect(result).toEqual({
+      accum: [property1],
+      text: '',
     });
+  });
 
-    it('should compile a number property', () => {
-      const graph = splitPath('2)');
+  it('should compile a number property', () => {
+    const property = jest.spyOn(executers, 'property');
+    const property1 = jest.fn();
+    property.mockReturnValueOnce(property1);
+    const result = pathParser([, '2)'], []);
 
-      expect(graph.parts).toEqual(['2']);
-      expect(graph.text).toEqual(')');
+    expect(property).toHaveBeenCalledWith('2');
+    expect(result).toEqual({
+      accum: [property1],
+      text: '',
     });
+  });
 
-    it("should return the final ')' followed by any other text", () => {
-      const graph = splitPath("'prop1.name') and more text after the final parenthesis");
+  it('should return any extra text after the match', () => {
+    const result = pathParser([, "'prop1.name') and more text after the final parenthesis"], []);
 
-      expect(graph.parts).toEqual(['prop1.name']);
-      expect(graph.text).toEqual(') and more text after the final parenthesis');
-    });
+    expect(result.text).toEqual('and more text after the final parenthesis');
   });
 });
