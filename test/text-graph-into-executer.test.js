@@ -15,14 +15,14 @@ describe('Text Graph into Executers', () => {
 
   describe('instructions', () => {
     it('should compile the instruction, with the given argument', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
       textGraphIntoExecuter("CT('someText')");
 
       expect(constant).toHaveBeenCalledWith('someText');
     });
 
     it('should compile the instruction, with the given arguments', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
       const and = jest.spyOn(executers.executers, 'AN');
       const constant1 = jest.fn();
       const constant2 = jest.fn();
@@ -38,7 +38,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile nested instructions', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
       const not = jest.spyOn(executers.executers, 'NT');
       const constant1 = jest.fn();
 
@@ -96,7 +96,7 @@ describe('Text Graph into Executers', () => {
 
   describe('string', () => {
     it('should compile into a constant executer, with the given double quotes string', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT("someText")');
 
@@ -104,7 +104,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with the given single quotes string', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter("CT('someText')");
 
@@ -112,7 +112,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with an empty string', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT("")');
 
@@ -122,7 +122,7 @@ describe('Text Graph into Executers', () => {
 
   describe('numbers', () => {
     it('should compile into a constant executer, with the given positive number', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(150)');
 
@@ -130,7 +130,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with 0', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(0)');
 
@@ -138,7 +138,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with the given negative number', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(-67)');
 
@@ -146,7 +146,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with the given float number', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(0.890)');
 
@@ -156,7 +156,7 @@ describe('Text Graph into Executers', () => {
 
   describe('boolean', () => {
     it('should compile into a constant executer, with a true value', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(true)');
 
@@ -164,7 +164,7 @@ describe('Text Graph into Executers', () => {
     });
 
     it('should compile into a constant executer, with a false value', () => {
-      const constant = jest.spyOn(executers.executers, 'CT');
+      const constant = jest.spyOn(executers, 'constant');
 
       textGraphIntoExecuter('CT(false)');
 
