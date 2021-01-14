@@ -26,20 +26,20 @@ describe('Executers', () => {
 
   describe('Property', () => {
     it('should return the property of the given object', () => {
-      const executor = property('name');
+      const executor = property(constant('name'));
 
       expect(executor({ name: 'name' })).toBe('name');
       expect(executor({ name: 'another name' })).toBe('another name');
     });
 
     it('should return the index of the given array', () => {
-      const executor = property('1');
+      const executor = property(constant('1'));
 
       expect(executor(['cero', 'uno', 'dos'])).toBe('uno');
     });
 
     it('should return the falsy value', () => {
-      const executor = property('name');
+      const executor = property(constant('name'));
 
       expect(executor(0)).toBe(0);
       expect(executor(undefined)).toBe(undefined);
@@ -49,7 +49,7 @@ describe('Executers', () => {
     });
 
     it('should return the value of a complex property path of the given object', () => {
-      const executor = property('body', property('name'));
+      const executor = property(constant('body'), property(constant('name')));
 
       expect(executor({ body: { name: 'name' } })).toBe('name');
       expect(executor({ body: { name: 'another name' } })).toBe('another name');
@@ -57,12 +57,42 @@ describe('Executers', () => {
     });
 
     it('should return undefined', () => {
-      const executor = property('body', property('name'));
+      const executor = property(constant('body'), property(constant('name')));
 
       expect(executor({ body: { name: undefined } })).toBeUndefined();
       expect(executor({ body: {} })).toBeUndefined();
       expect(executor({ body: undefined })).toBeUndefined();
       expect(executor({})).toBeUndefined();
+    });
+
+    describe('using properties as indexes', () => {
+      it('should return the value of the key obtained by a simple property', () => {
+        const executor = property(property(constant('key')));
+
+        expect(executor({ value: 'name', key: 'value' })).toBe('name');
+        expect(executor({ 'another.value': 'another name', key: 'another.value' })).toBe('another name');
+        expect(executor({ value: 'name', keyNotFound: 'value' })).toBeUndefined();
+        expect(executor({})).toBeUndefined();
+      });
+
+      it('should return the value of the key obtained by a complex property', () => {
+        const executor = property(property(constant('key'), property(constant('sub-key'))));
+
+        expect(executor({ value: 'name', key: { 'sub-key': 'value' } })).toBe('name');
+        expect(executor({ 'another value': 'another name', key: { 'sub-key': 'another value' } })).toBe('another name');
+        expect(executor({ value: 'name', keyNotFound: { 'sub-key': 'value' } })).toBeUndefined();
+        expect(executor({ value: 'name', key: { 'sub-keyNotFound': 'value' } })).toBeUndefined();
+        expect(executor({})).toBeUndefined();
+      });
+
+      it('should return the value of the key obtained by a simple property once in a dipper property context', () => {
+        const executor = property(constant('context'), property(property(constant('key'))));
+
+        expect(executor({ context: { value: 'name' }, key: 'value' })).toBe('name');
+        expect(executor({ context: { 'another.value': 'another name' }, key: 'another.value' })).toBe('another name');
+        expect(executor({ context: { value: 'name' }, keyNotFound: 'value' })).toBeUndefined();
+        expect(executor({})).toBeUndefined();
+      });
     });
   });
 

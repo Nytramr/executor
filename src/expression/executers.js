@@ -27,8 +27,10 @@ export function constant(value) {
  */
 
 export function property(name, getter) {
-  return function (context) {
-    return context && (getter ? getter(context[name]) : context[name]);
+  return function (subContext, context = subContext) {
+    return (
+      subContext && (getter && subContext ? getter(subContext[name(context)], context) : subContext[name(context)])
+    );
   };
 }
 
