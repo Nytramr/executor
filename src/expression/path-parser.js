@@ -1,9 +1,8 @@
 import { property } from './executers';
 import { textParser } from './parser';
-import { stringRegEx } from './regexs';
+import { stringRegEx, numberRegEx } from './regexs';
 
 const squareBracketsRegEx = /^\[['"]?([^\]'"]+)['"]?\]\.?\s*(.*)/; // square brackets path part, first group: part, second group: rest.
-const numberRegEx = /^(\d+)\.?\s*(.*)/; // number path part, first group: number index, second group: rest.
 const anyOtherPartRegEx = /^([\w][\w-\d_]*)\.?\s*(.*)/; // path part, first group: part name, second group: rest.
 
 const pathParsers = [

@@ -1,8 +1,7 @@
 import { constant } from './executers';
 import { parseNextPart } from './parser';
-import { stringRegEx, endOfFunction } from './regexs';
+import { stringRegEx, endOfFunction, numberRegEx } from './regexs';
 
-const numberRegEx = /^(-?\d+(?:\.\d+)?)\s*(.*)/; // number constant, first group: number, second group: rest.
 const booleanRegEx = /^(false|true)\s*(.*)/; // string argument, first group: the boolean, second group: rest.
 
 const constantParsers = [
