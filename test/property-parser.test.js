@@ -7,13 +7,17 @@ describe('Path Parser', () => {
   });
 
   it('should compile a simple property', () => {
+    const constant = jest.spyOn(executers, 'constant');
+    const constant1 = jest.fn();
+    constant.mockReturnValueOnce(constant1);
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
 
     const result = propertyParser([, 'obj)'], []);
 
-    expect(property).toHaveBeenCalledWith('obj');
+    expect(constant).toHaveBeenCalledWith('obj');
+    expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
       text: '',
@@ -21,6 +25,11 @@ describe('Path Parser', () => {
   });
 
   it('should compile a multiple parts property', () => {
+    const constant = jest.spyOn(executers, 'constant');
+    const constant1 = jest.fn();
+    const constant2 = jest.fn();
+    constant.mockReturnValueOnce(constant1);
+    constant.mockReturnValueOnce(constant2);
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     const property2 = jest.fn();
@@ -29,8 +38,10 @@ describe('Path Parser', () => {
 
     const result = propertyParser([, 'obj.prop1)'], []);
 
-    expect(property).toHaveBeenNthCalledWith(1, 'obj');
-    expect(property).toHaveBeenNthCalledWith(2, 'prop1', property1);
+    expect(constant).toHaveBeenCalledWith('obj');
+    expect(constant).toHaveBeenCalledWith('prop1');
+    expect(property).toHaveBeenNthCalledWith(1, constant1);
+    expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
     expect(result).toEqual({
       accum: [property2],
       text: '',
@@ -38,15 +49,23 @@ describe('Path Parser', () => {
   });
 
   it('should compile a property between square brackets, considering all inside it as a single property name', () => {
+    const constant = jest.spyOn(executers, 'constant');
+    const constant1 = jest.fn();
+    const constant2 = jest.fn();
+    constant.mockReturnValueOnce(constant1);
+    constant.mockReturnValueOnce(constant2);
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     const property2 = jest.fn();
     property.mockReturnValueOnce(property1);
     property.mockReturnValueOnce(property2);
+
     const result = propertyParser([, "obj['prop1.name'])"], []);
 
-    expect(property).toHaveBeenNthCalledWith(1, 'obj');
-    expect(property).toHaveBeenNthCalledWith(2, 'prop1.name', property1);
+    expect(constant).toHaveBeenCalledWith('obj');
+    expect(constant).toHaveBeenCalledWith('prop1.name');
+    expect(property).toHaveBeenNthCalledWith(1, constant1);
+    expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
     expect(result).toEqual({
       accum: [property2],
       text: '',
@@ -54,12 +73,16 @@ describe('Path Parser', () => {
   });
 
   it('should compile a property between quotes, considering all inside it as a single property name', () => {
+    const constant = jest.spyOn(executers, 'constant');
+    const constant1 = jest.fn();
+    constant.mockReturnValueOnce(constant1);
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
     const result = propertyParser([, "'prop1.name')"], []);
 
-    expect(property).toHaveBeenCalledWith('prop1.name');
+    expect(constant).toHaveBeenCalledWith('prop1.name');
+    expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
       text: '',
@@ -67,12 +90,16 @@ describe('Path Parser', () => {
   });
 
   it('should compile a number property', () => {
+    const constant = jest.spyOn(executers, 'constant');
+    const constant1 = jest.fn();
+    constant.mockReturnValueOnce(constant1);
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
     const result = propertyParser([, '2)'], []);
 
-    expect(property).toHaveBeenCalledWith('2');
+    expect(constant).toHaveBeenCalledWith('2');
+    expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
       text: '',

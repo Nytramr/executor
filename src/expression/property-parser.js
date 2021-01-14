@@ -1,4 +1,4 @@
-import { property } from './executers';
+import { constant, property } from './executers';
 import { textParser } from './parser';
 import { stringRegEx, numberRegEx } from './regexs';
 
@@ -16,14 +16,14 @@ const propertyParsersLength = propertyParsers.length;
 
 function parseNormal(match, accum) {
   return {
-    accum: accum.concat(match[1]),
+    accum: accum.concat(constant(match[1])),
     text: match[2],
   };
 }
 
 function parseString(match, accum) {
   return {
-    accum: accum.concat(match[1] || match[2]),
+    accum: accum.concat(constant(match[1] || match[2])),
     text: match[3],
   };
 }
