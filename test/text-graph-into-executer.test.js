@@ -28,9 +28,7 @@ describe('Text Graph into Executers', () => {
 
   it('should compile into an empty graph', () => {
     const undef = jest.spyOn(executers, 'undef');
-
-    const result = textGraphIntoExecuter('');
-
+    textGraphIntoExecuter('');
     expect(undef).toHaveBeenCalled();
   });
 
