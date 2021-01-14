@@ -34,7 +34,6 @@ function parseString(match) {
 }
 
 export function constantParser(match, accum) {
-  // console.log('constantParser', match[1]);
   const { text, value } = parseNextPart(match[1], constantParsers, constantParsersLength);
 
   return {
