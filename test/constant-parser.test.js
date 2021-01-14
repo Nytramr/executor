@@ -14,8 +14,8 @@ describe('Constant Parser', () => {
     const result = constantParser([, '"someText"), some more text to be parsed'], []);
 
     expect(result).toEqual({
-      executers: [constant1],
-      text: '), some more text to be parsed',
+      accum: [constant1],
+      text: 'some more text to be parsed',
     });
   });
 
@@ -29,8 +29,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith('someText');
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -43,8 +43,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith('someText');
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -57,8 +57,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith('');
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
   });
@@ -73,8 +73,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(150);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -87,8 +87,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(0);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -101,8 +101,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(-67);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -115,8 +115,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(0.89);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
   });
@@ -131,8 +131,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(true);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
 
@@ -145,8 +145,8 @@ describe('Constant Parser', () => {
 
       expect(constant).toHaveBeenCalledWith(false);
       expect(result).toEqual({
-        executers: [constant1],
-        text: ')',
+        accum: [constant1],
+        text: '',
       });
     });
   });
