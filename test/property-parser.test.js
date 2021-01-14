@@ -1,5 +1,5 @@
 import * as executers from '../src/expression/executers';
-import { pathParser } from '../src/expression/path-parser';
+import { propertyParser } from '../src/expression/property-parser';
 
 describe('Path Parser', () => {
   afterEach(() => {
@@ -11,7 +11,7 @@ describe('Path Parser', () => {
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
 
-    const result = pathParser([, 'obj)'], []);
+    const result = propertyParser([, 'obj)'], []);
 
     expect(property).toHaveBeenCalledWith('obj');
     expect(result).toEqual({
@@ -27,7 +27,7 @@ describe('Path Parser', () => {
     property.mockReturnValueOnce(property1);
     property.mockReturnValueOnce(property2);
 
-    const result = pathParser([, 'obj.prop1)'], []);
+    const result = propertyParser([, 'obj.prop1)'], []);
 
     expect(property).toHaveBeenNthCalledWith(1, 'obj');
     expect(property).toHaveBeenNthCalledWith(2, 'prop1', property1);
@@ -43,7 +43,7 @@ describe('Path Parser', () => {
     const property2 = jest.fn();
     property.mockReturnValueOnce(property1);
     property.mockReturnValueOnce(property2);
-    const result = pathParser([, "obj['prop1.name'])"], []);
+    const result = propertyParser([, "obj['prop1.name'])"], []);
 
     expect(property).toHaveBeenNthCalledWith(1, 'obj');
     expect(property).toHaveBeenNthCalledWith(2, 'prop1.name', property1);
@@ -57,7 +57,7 @@ describe('Path Parser', () => {
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
-    const result = pathParser([, "'prop1.name')"], []);
+    const result = propertyParser([, "'prop1.name')"], []);
 
     expect(property).toHaveBeenCalledWith('prop1.name');
     expect(result).toEqual({
@@ -70,7 +70,7 @@ describe('Path Parser', () => {
     const property = jest.spyOn(executers, 'property');
     const property1 = jest.fn();
     property.mockReturnValueOnce(property1);
-    const result = pathParser([, '2)'], []);
+    const result = propertyParser([, '2)'], []);
 
     expect(property).toHaveBeenCalledWith('2');
     expect(result).toEqual({
@@ -80,7 +80,7 @@ describe('Path Parser', () => {
   });
 
   it('should return any extra text after the match', () => {
-    const result = pathParser([, "'prop1.name') and more text after the final parenthesis"], []);
+    const result = propertyParser([, "'prop1.name') and more text after the final parenthesis"], []);
 
     expect(result.text).toEqual('and more text after the final parenthesis');
   });

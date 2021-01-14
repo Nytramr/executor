@@ -5,14 +5,14 @@ import { stringRegEx, numberRegEx } from './regexs';
 const squareBracketsRegEx = /^\[['"]?([^\]'"]+)['"]?\]\.?\s*(.*)/; // square brackets path part, first group: part, second group: rest.
 const anyOtherPartRegEx = /^([\w][\w-\d_]*)\.?\s*(.*)/; // path part, first group: part name, second group: rest.
 
-const pathParsers = [
+const propertyParsers = [
   { regex: stringRegEx, parser: parseString },
   { regex: numberRegEx, parser: parseNormal },
   { regex: squareBracketsRegEx, parser: parseNormal },
   { regex: anyOtherPartRegEx, parser: parseNormal },
 ];
 
-const pathParsersLength = pathParsers.length;
+const propertyParsersLength = propertyParsers.length;
 
 function parseNormal(match, accum) {
   return {
@@ -28,8 +28,8 @@ function parseString(match, accum) {
   };
 }
 
-export function pathParser(match, accum) {
-  const { text, accum: parts } = textParser(match[1], pathParsers, pathParsersLength, []);
+export function propertyParser(match, accum) {
+  const { text, accum: parts } = textParser(match[1], propertyParsers, propertyParsersLength, []);
 
   let len = parts.length;
   let path = property(parts[0]);
