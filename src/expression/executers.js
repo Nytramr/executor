@@ -134,7 +134,6 @@ export function lessOrEqualsThan(oper1, oper2) {
 
 export const executers = {
   AN: and,
-  CT: constant,
   EQ: equals,
   GE: greaterOrEqualsThan,
   GT: greaterThan,
@@ -145,4 +144,4 @@ export const executers = {
   OR: or,
 };
 
-export const executerRegEx = /^(AN|CT|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the executer, second group: rest
+export const executerRegEx = /^(AN|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the executer, second group: rest
