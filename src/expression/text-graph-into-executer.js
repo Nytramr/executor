@@ -1,10 +1,8 @@
 import { constantParser } from './constant-parser';
 import { undef, executerRegEx, executers } from './executers';
+import { propertyRegEx, constantRegEx } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
-
-const propertyRegEx = /^PP\(\s*(.*)/; //only group: rest
-const constantRegEx = /^CT\(\s*(.*)/; //only group: rest
 
 // Instructions
 const instructionParsers = [

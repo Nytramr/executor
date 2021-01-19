@@ -15,7 +15,7 @@ export function textParser(text, parsers, parsersLength, accum) {
   let _text = text;
   let _accum = accum;
 
-  while (_text && !_text.startsWith(')')) {
+  while (_text && !endOfFunction.test(_text)) {
     const next = parseNextPart(_text, parsers, parsersLength, _accum);
     _accum = next.accum;
     _text = next.text;
