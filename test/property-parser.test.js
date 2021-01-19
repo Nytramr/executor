@@ -42,8 +42,8 @@ describe('Path Parser', () => {
 
     expect(constant).toHaveBeenNthCalledWith(1, 'obj');
     expect(constant).toHaveBeenNthCalledWith(2, 'prop1');
-    expect(property).toHaveBeenNthCalledWith(1, constant1);
-    expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
+    expect(property).toHaveBeenNthCalledWith(1, constant2);
+    expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
     expect(result).toEqual({
       accum: [property2],
       text: '',
@@ -84,8 +84,8 @@ describe('Path Parser', () => {
 
       expect(constant).toHaveBeenNthCalledWith(1, 'obj');
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
-      expect(property).toHaveBeenNthCalledWith(1, constant1);
-      expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
+      expect(property).toHaveBeenNthCalledWith(1, constant2);
+      expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
         text: '',
@@ -97,8 +97,8 @@ describe('Path Parser', () => {
 
       expect(constant).toHaveBeenNthCalledWith(1, 'obj');
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
-      expect(property).toHaveBeenNthCalledWith(1, constant1);
-      expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
+      expect(property).toHaveBeenNthCalledWith(1, constant2);
+      expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
         text: '',
@@ -110,8 +110,8 @@ describe('Path Parser', () => {
 
       expect(constant).toHaveBeenNthCalledWith(1, 'obj');
       expect(constant).toHaveBeenNthCalledWith(2, '2');
-      expect(property).toHaveBeenNthCalledWith(1, constant1);
-      expect(property).toHaveBeenNthCalledWith(2, constant2, property1);
+      expect(property).toHaveBeenNthCalledWith(1, constant2);
+      expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
         text: '',
@@ -125,9 +125,9 @@ describe('Path Parser', () => {
         expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
         expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
         expect(property).toHaveBeenNthCalledWith(1, constant2); // we create a property using the 'value' constant
-        expect(property).toHaveBeenNthCalledWith(2, constant1); // we create a property using the 'obj' constant
+        expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
-        expect(property).toHaveBeenNthCalledWith(3, property1, property2);
+        expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
           text: '',
@@ -140,11 +140,11 @@ describe('Path Parser', () => {
         expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
         expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
         expect(constant).toHaveBeenNthCalledWith(3, 'prop'); // returns constant3
-        expect(property).toHaveBeenNthCalledWith(1, constant2); // we create a property using the 'value' constant
-        expect(property).toHaveBeenNthCalledWith(2, constant3, property1); // we create a property using the 'prop' constant and the value sub-context
-        expect(property).toHaveBeenNthCalledWith(3, constant1); // we create a property using the 'obj' constant
+        expect(property).toHaveBeenNthCalledWith(1, constant3); // we create a property using the 'value' constant
+        expect(property).toHaveBeenNthCalledWith(2, constant2, property1); // we create a property using the 'prop' constant and the value sub-context
+        expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
-        expect(property).toHaveBeenNthCalledWith(4, property2, property3);
+        expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
         expect(result).toEqual({
           accum: [property4],
           text: '',
@@ -157,9 +157,9 @@ describe('Path Parser', () => {
         expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
         expect(constant).toHaveBeenNthCalledWith(2, 'value.prop'); // returns constant2
         expect(property).toHaveBeenNthCalledWith(1, constant2); // we create a property using the 'value' constant
-        expect(property).toHaveBeenNthCalledWith(2, constant1); // we create a property using the 'obj' constant
+        expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
-        expect(property).toHaveBeenNthCalledWith(3, property1, property2);
+        expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
           text: '',
@@ -173,9 +173,9 @@ describe('Path Parser', () => {
       expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
       expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
       expect(property).toHaveBeenNthCalledWith(1, constant2); // we create a property using the 'value' constant
-      expect(property).toHaveBeenNthCalledWith(2, constant1); // we create a property using the 'obj' constant
+      expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value property' as name and the 'obj property' as context
-      expect(property).toHaveBeenNthCalledWith(3, property1, property2);
+      expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
       expect(result).toEqual({
         accum: [property3],
         text: '',
@@ -188,11 +188,11 @@ describe('Path Parser', () => {
       expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
       expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
       expect(constant).toHaveBeenNthCalledWith(3, 'prop'); // returns constant3
-      expect(property).toHaveBeenNthCalledWith(1, constant2); // we create a property using the 'value' constant
-      expect(property).toHaveBeenNthCalledWith(2, constant3, property1); // we create a property using the 'prop' constant and the value sub-context
-      expect(property).toHaveBeenNthCalledWith(3, constant1); // we create a property using the 'obj' constant
+      expect(property).toHaveBeenNthCalledWith(1, constant3); // we create a property using the 'value' constant
+      expect(property).toHaveBeenNthCalledWith(2, constant2, property1); // we create a property using the 'prop' constant and the value sub-context
+      expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
-      expect(property).toHaveBeenNthCalledWith(4, property2, property3);
+      expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
       expect(result).toEqual({
         accum: [property4],
         text: '',

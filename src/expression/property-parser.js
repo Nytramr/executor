@@ -51,10 +51,10 @@ function squareBracketsParser(match, accum) {
 export function propertyParser(match, accum) {
   const { text, accum: parts } = textParser(match[1], propertyParsers, propertyParsersLength, []);
 
-  let len = parts.length;
-  let path = property(parts[0]);
+  let i = parts.length - 1;
+  let path = property(parts[i]);
 
-  for (let i = 1; i < len; i++) {
+  for (i = i - 1; i >= 0; i--) {
     path = property(parts[i], path);
   }
 

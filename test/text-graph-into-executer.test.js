@@ -71,8 +71,8 @@ describe('Text Graph into Executers', () => {
 
       expect(constant).toHaveBeenCalledWith('obj');
       expect(constant).toHaveBeenCalledWith('prop1');
-      expect(property).toHaveBeenCalledWith(constant1);
-      expect(property).toHaveBeenCalledWith(constant2, property1);
+      expect(property).toHaveBeenCalledWith(constant2);
+      expect(property).toHaveBeenCalledWith(constant1, property1);
       expect(result).toEqual(property2);
     });
 
@@ -81,8 +81,8 @@ describe('Text Graph into Executers', () => {
 
       expect(constant).toHaveBeenCalledWith('obj');
       expect(constant).toHaveBeenCalledWith('prop1.name');
-      expect(property).toHaveBeenCalledWith(constant1);
-      expect(property).toHaveBeenCalledWith(constant2, property1);
+      expect(property).toHaveBeenCalledWith(constant2);
+      expect(property).toHaveBeenCalledWith(constant1, property1);
       expect(result).toEqual(property2);
     });
 
