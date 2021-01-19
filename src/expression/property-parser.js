@@ -10,6 +10,7 @@ const propertyParsers = [
   { regex: stringRegEx, parser: parseString },
   { regex: numberRegEx, parser: parseNormal },
   { regex: squareBracketsRegEx, parser: squareBracketsParser },
+  { regex: propertyRegEx, parser: propertyParser },
   { regex: anyOtherPartRegEx, parser: parseNormal },
 ];
 
