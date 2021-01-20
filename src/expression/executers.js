@@ -1,4 +1,15 @@
 /**
+ * Undefined executer
+ *
+ * It returns an executor that returns always the given value.
+ */
+export function undef() {
+  return function () {
+    return undefined;
+  };
+}
+
+/**
  * Constant executer
  *
  * It returns an executor that returns always the given value.
@@ -16,8 +27,10 @@ export function constant(value) {
  */
 
 export function property(name, getter) {
-  return function (context) {
-    return context && (getter ? getter(context[name]) : context[name]);
+  return function (subContext, context = subContext) {
+    return (
+      subContext && (getter && subContext ? getter(subContext[name(context)], context) : subContext[name(context)])
+    );
   };
 }
 
@@ -122,16 +135,15 @@ export function lessOrEqualsThan(oper1, oper2) {
 }
 
 export const executers = {
-  AN: and,
-  CT: constant,
-  EQ: equals,
-  GE: greaterOrEqualsThan,
-  GT: greaterThan,
-  LE: lessOrEqualsThan,
-  LT: lessThan,
-  NE: nonEquals,
-  NT: not,
-  OR: or,
+  'AN': and,
+  'EQ': equals,
+  'GE': greaterOrEqualsThan,
+  'GT': greaterThan,
+  'LE': lessOrEqualsThan,
+  'LT': lessThan,
+  'NE': nonEquals,
+  'NT': not,
+  'OR': or,
 };
 
-export const executerRegEx = /^(AN|CT|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the executer, second group: rest
+export const executerRegEx = /^(AN|EQ|GE|GT|LE|LT|NE|NT|OR)\(\s*(.*)/; //first group: the executer, second group: rest

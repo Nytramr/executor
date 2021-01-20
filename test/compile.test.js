@@ -1,45 +1,84 @@
-import {
-  and,
-  constant,
-  equals,
-  greaterOrEqualsThan,
-  greaterThan,
-  lessOrEqualsThan,
-  lessThan,
-  nonEquals,
-  not,
-  or,
-  property,
-} from '../src/expression/executers';
+import { compile } from '../src/index';
 
-describe('Executers', () => {
-  const firstProp = (obj) => obj.first;
-  const secondProp = (obj) => obj.second;
-
+describe('Compiler and executers', () => {
   describe('Constant', () => {
-    it('should return the given value regardless the argument', () => {
-      const executor = constant(10);
-      expect(executor()).toBe(10);
-      expect(executor({ unused: 'value' })).toBe(10);
+    describe('string', () => {
+      it('should return a constant, with the given double quotes string', () => {
+        const executer = compile('CT("someText")');
+
+        expect(executer({})).toEqual('someText');
+      });
+
+      it('should return a constant, with the given single quotes string', () => {
+        const executer = compile("CT('someText')");
+
+        expect(executer({})).toEqual('someText');
+      });
+
+      it('should return a constant, with an empty string', () => {
+        const executer = compile('CT("")');
+
+        expect(executer({})).toEqual('');
+      });
+    });
+
+    describe('numbers', () => {
+      it('should return a constant, with the given positive number', () => {
+        const executer = compile('CT(150)');
+
+        expect(executer({})).toEqual(150);
+      });
+
+      it('should return a constant, with 0', () => {
+        const executer = compile('CT(0)');
+
+        expect(executer({})).toEqual(0);
+      });
+
+      it('should return a constant, with the given negative number', () => {
+        const executer = compile('CT(-67)');
+
+        expect(executer({})).toEqual(-67);
+      });
+
+      it('should return a constant, with the given float number', () => {
+        const executer = compile('CT(0.890)');
+
+        expect(executer({})).toEqual(0.89);
+      });
+    });
+
+    describe('boolean', () => {
+      it('should return a constant, with a true value', () => {
+        const executer = compile('CT(true)');
+
+        expect(executer({})).toEqual(true);
+      });
+
+      it('should return a constant, with a false value', () => {
+        const executer = compile('CT(false)');
+
+        expect(executer({})).toEqual(false);
+      });
     });
   });
 
   describe('Property', () => {
     it('should return the property of the given object', () => {
-      const executor = property(constant('name'));
+      const executor = compile('PP(name)');
 
       expect(executor({ name: 'name' })).toBe('name');
       expect(executor({ name: 'another name' })).toBe('another name');
     });
 
     it('should return the index of the given array', () => {
-      const executor = property(constant('1'));
+      const executor = compile('PP(1)');
 
       expect(executor(['cero', 'uno', 'dos'])).toBe('uno');
     });
 
     it('should return the falsy value', () => {
-      const executor = property(constant('name'));
+      const executor = compile('PP(name)');
 
       expect(executor(0)).toBe(0);
       expect(executor(undefined)).toBe(undefined);
@@ -49,7 +88,7 @@ describe('Executers', () => {
     });
 
     it('should return the value of a complex property path of the given object', () => {
-      const executor = property(constant('body'), property(constant('name')));
+      const executor = compile('PP(body.name)');
 
       expect(executor({ body: { name: 'name' } })).toBe('name');
       expect(executor({ body: { name: 'another name' } })).toBe('another name');
@@ -57,7 +96,7 @@ describe('Executers', () => {
     });
 
     it('should return undefined', () => {
-      const executor = property(constant('body'), property(constant('name')));
+      const executor = compile('PP(body.name)');
 
       expect(executor({ body: { name: undefined } })).toBeUndefined();
       expect(executor({ body: {} })).toBeUndefined();
@@ -67,26 +106,43 @@ describe('Executers', () => {
 
     describe('using properties as indexes', () => {
       it('should return the value of the key obtained by a simple property', () => {
-        const executor = property(property(constant('key')));
+        const executor = compile('PP([key])');
 
         expect(executor({ value: 'name', key: 'value' })).toBe('name');
         expect(executor({ 'another.value': 'another name', key: 'another.value' })).toBe('another name');
         expect(executor({ value: 'name', keyNotFound: 'value' })).toBeUndefined();
         expect(executor({})).toBeUndefined();
+
+        const executor2 = compile('PP(PP(key))');
+
+        expect(executor2({ value: 'name', key: 'value' })).toBe('name');
+        expect(executor2({ 'another.value': 'another name', key: 'another.value' })).toBe('another name');
+        expect(executor2({ value: 'name', keyNotFound: 'value' })).toBeUndefined();
+        expect(executor2({})).toBeUndefined();
       });
 
       it('should return the value of the key obtained by a complex property', () => {
-        const executor = property(property(constant('key'), property(constant('sub-key'))));
+        const executor = compile('PP([key.sub-key])');
 
         expect(executor({ value: 'name', key: { 'sub-key': 'value' } })).toBe('name');
         expect(executor({ 'another value': 'another name', key: { 'sub-key': 'another value' } })).toBe('another name');
         expect(executor({ value: 'name', keyNotFound: { 'sub-key': 'value' } })).toBeUndefined();
         expect(executor({ value: 'name', key: { 'sub-keyNotFound': 'value' } })).toBeUndefined();
         expect(executor({})).toBeUndefined();
+
+        const executor2 = compile('PP(PP(key.sub-key))');
+
+        expect(executor2({ value: 'name', key: { 'sub-key': 'value' } })).toBe('name');
+        expect(executor2({ 'another value': 'another name', key: { 'sub-key': 'another value' } })).toBe(
+          'another name',
+        );
+        expect(executor2({ value: 'name', keyNotFound: { 'sub-key': 'value' } })).toBeUndefined();
+        expect(executor2({ value: 'name', key: { 'sub-keyNotFound': 'value' } })).toBeUndefined();
+        expect(executor2({})).toBeUndefined();
       });
 
       it('should return the value of the key obtained by a simple property once in a dipper property context', () => {
-        const executor = property(constant('context'), property(property(constant('key'))));
+        const executor = compile('PP(context[key])');
 
         expect(executor({ context: { value: 'name' }, key: 'value' })).toBe('name');
         expect(executor({ context: { 'another.value': 'another name' }, key: 'another.value' })).toBe('another name');
@@ -98,7 +154,8 @@ describe('Executers', () => {
 
   describe('Not', () => {
     it('should return true', () => {
-      const executor = not(firstProp);
+      const executor = compile('NT(PP(first))');
+
       expect(executor({ first: false })).toBe(true);
       expect(executor({ first: 0 })).toBe(true);
       expect(executor({ first: null })).toBe(true);
@@ -106,7 +163,8 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = not(firstProp);
+      const executor = compile('NT(PP(first))');
+
       expect(executor({ first: true })).toBe(false);
       expect(executor({ first: 1 })).toBe(false);
       expect(executor({ first: {} })).toBe(false);
@@ -115,92 +173,59 @@ describe('Executers', () => {
 
   describe('And', () => {
     it('should return true', () => {
-      const executor = and(firstProp, secondProp);
+      const executor = compile('AN(PP(first), PP(second))');
+
       expect(executor({ first: true, second: true })).toBe(true);
     });
 
     it('should return false', () => {
-      const executor = and(firstProp, secondProp);
+      const executor = compile('AN(PP(first), PP(second))');
+
       expect(executor({ first: true, second: false })).toBe(false);
       expect(executor({ first: false, second: true })).toBe(false);
       expect(executor({ first: false, second: false })).toBe(false);
     });
 
     it('should return falsy argument', () => {
-      const executor = and(firstProp, secondProp);
+      const executor = compile('AN(PP(first), PP(second))');
+
       expect(executor({ first: true, second: false })).toBe(false);
       expect(executor({ first: 0, second: false })).toBe(0);
       expect(executor({ first: null, second: false })).toBe(null);
       expect(executor({ first: '', second: false })).toBe('');
       expect(executor({ second: true })).toBeUndefined();
     });
-
-    it('should execute both arguments', () => {
-      const firstArg = jest.fn(() => true);
-      const secondArg = jest.fn(() => false);
-      const executor = and(firstArg, secondArg);
-      executor({});
-
-      expect(firstArg).toHaveBeenCalled();
-      expect(secondArg).toHaveBeenCalled();
-    });
-
-    it('should execute only the first argument', () => {
-      const firstArg = jest.fn(() => false);
-      const secondArg = jest.fn(() => false);
-      const executor = and(firstArg, secondArg);
-      executor({});
-
-      expect(firstArg).toHaveBeenCalled();
-      expect(secondArg).not.toHaveBeenCalled();
-    });
   });
 
   describe('Or', () => {
     it('should return true', () => {
-      const executor = or(firstProp, secondProp);
+      const executor = compile('OR(PP(first), PP(second))');
+
       expect(executor({ first: true, second: false })).toBe(true);
       expect(executor({ first: false, second: true })).toBe(true);
       expect(executor({ first: true, second: true })).toBe(true);
     });
 
     it('should return false', () => {
-      const executor = or(firstProp, secondProp);
+      const executor = compile('OR(PP(first), PP(second))');
+
       expect(executor({ first: false, second: false })).toBe(false);
     });
 
     it('should return truthy argument', () => {
-      const executor = or(firstProp, secondProp);
+      const executor = compile('OR(PP(first), PP(second))');
+
       expect(executor({ first: true, second: false })).toBe(true);
       expect(executor({ first: 10, second: false })).toBe(10);
       expect(executor({ first: false, second: ['value1', 'value2'] })).toEqual(['value1', 'value2']);
       expect(executor({ second: true })).toBe(true);
     });
-
-    it('should execute both arguments', () => {
-      const firstArg = jest.fn(() => false);
-      const secondArg = jest.fn(() => true);
-      const executor = or(firstArg, secondArg);
-      executor({});
-
-      expect(firstArg).toHaveBeenCalled();
-      expect(secondArg).toHaveBeenCalled();
-    });
-
-    it('should execute only the first argument', () => {
-      const firstArg = jest.fn(() => true);
-      const secondArg = jest.fn(() => true);
-      const executor = or(firstArg, secondArg);
-      executor({});
-
-      expect(firstArg).toHaveBeenCalled();
-      expect(secondArg).not.toHaveBeenCalled();
-    });
   });
 
   describe('Equals', () => {
     it('should return true', () => {
-      const executor = equals(firstProp, secondProp);
+      const executor = compile('EQ(PP(first), PP(second))');
+
       expect(executor({ first: 10, second: 10 })).toBe(true);
       expect(executor({ first: '10', second: '10' })).toBe(true);
       expect(executor({ first: true, second: true })).toBe(true);
@@ -208,7 +233,8 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = equals(firstProp, secondProp);
+      const executor = compile('EQ(PP(first), PP(second))');
+
       expect(executor({ first: 10, second: '10' })).toBe(false);
       expect(executor({ first: false, second: true })).toBe(false);
       expect(executor({ first: false, second: undefined })).toBe(false);
@@ -218,7 +244,7 @@ describe('Executers', () => {
 
   describe('Not Equals', () => {
     it('should return true', () => {
-      const executor = nonEquals(firstProp, secondProp);
+      const executor = compile('NE(PP(first), PP(second))');
       expect(executor({ first: 10, second: '10' })).toBe(true);
       expect(executor({ first: false, second: true })).toBe(true);
       expect(executor({ first: false, second: undefined })).toBe(true);
@@ -226,7 +252,7 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = nonEquals(firstProp, secondProp);
+      const executor = compile('NE(PP(first), PP(second))');
       expect(executor({ first: 10, second: 10 })).toBe(false);
       expect(executor({ first: '10', second: '10' })).toBe(false);
       expect(executor({ first: true, second: true })).toBe(false);
@@ -236,7 +262,8 @@ describe('Executers', () => {
 
   describe('Greater', () => {
     it('should return true', () => {
-      const executor = greaterThan(firstProp, secondProp);
+      const executor = compile('GT(PP(first), PP(second))');
+
       expect(executor({ first: 10, second: 5 })).toBe(true);
       expect(executor({ first: -1, second: -12 })).toBe(true);
       expect(executor({ first: 'b', second: 'a' })).toBe(true);
@@ -244,7 +271,8 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = greaterThan(firstProp, secondProp);
+      const executor = compile('GT(PP(first), PP(second))');
+
       expect(executor({ first: 10, second: 10 })).toBe(false);
       expect(executor({ first: -10, second: 10 })).toBe(false);
       expect(executor({ first: 'a', second: 'b' })).toBe(false);
@@ -254,7 +282,8 @@ describe('Executers', () => {
 
   describe('Greater or Equals', () => {
     it('should return true', () => {
-      const executor = greaterOrEqualsThan(firstProp, secondProp);
+      const executor = compile('GE(PP(first), PP(second))');
+
       expect(executor({ first: 10, second: 10 })).toBe(true);
       expect(executor({ first: 10, second: 5 })).toBe(true);
       expect(executor({ first: -1, second: -12 })).toBe(true);
@@ -263,7 +292,8 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = greaterOrEqualsThan(firstProp, secondProp);
+      const executor = compile('GE(PP(first), PP(second))');
+
       expect(executor({ first: -10, second: 10 })).toBe(false);
       expect(executor({ first: 'a', second: 'b' })).toBe(false);
       expect(executor({})).toBe(false);
@@ -272,7 +302,7 @@ describe('Executers', () => {
 
   describe('Less', () => {
     it('should return true', () => {
-      const executor = lessThan(firstProp, secondProp);
+      const executor = compile('LT(PP(first), PP(second))');
       expect(executor({ first: 5, second: 6 })).toBe(true);
       expect(executor({ first: -2, second: 0 })).toBe(true);
       expect(executor({ first: 'a', second: 'b' })).toBe(true);
@@ -280,7 +310,7 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = lessThan(firstProp, secondProp);
+      const executor = compile('LT(PP(first), PP(second))');
       expect(executor({ first: 10, second: 10 })).toBe(false);
       expect(executor({ first: 10, second: -10 })).toBe(false);
       expect(executor({ first: 'b', second: 'a' })).toBe(false);
@@ -290,7 +320,7 @@ describe('Executers', () => {
 
   describe('Less or Equals', () => {
     it('should return true', () => {
-      const executor = lessOrEqualsThan(firstProp, secondProp);
+      const executor = compile('LE(PP(first), PP(second))');
       expect(executor({ first: 10, second: 10 })).toBe(true);
       expect(executor({ first: 5, second: 10 })).toBe(true);
       expect(executor({ first: -1, second: 0 })).toBe(true);
@@ -299,7 +329,7 @@ describe('Executers', () => {
     });
 
     it('should return false', () => {
-      const executor = lessOrEqualsThan(firstProp, secondProp);
+      const executor = compile('LE(PP(first), PP(second))');
       expect(executor({ first: 10, second: -10 })).toBe(false);
       expect(executor({ first: 'b', second: 'a' })).toBe(false);
       expect(executor({})).toBe(false);

@@ -8,7 +8,7 @@ export default {
     name: '@nytramr/executor',
     file: 'build/index.js',
     format: 'umd',
-    plugins: [terser()],
+    plugins: [terser({ mangle: { properties: { keep_quoted: true } } })],
   },
   plugins: [resolve(), babel({ babelHelpers: 'bundled' })],
 };

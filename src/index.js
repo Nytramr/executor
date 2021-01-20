@@ -1,9 +1,3 @@
-import { textGraphIntoStructureGraph } from './expression/text-graph-into-structured-graph';
-export { graphIntoExecuter } from './expression/graph-into-executer';
+import { textGraphIntoExecuter } from './expression/text-graph-into-executer';
 
-export const textIntoGraph = textGraphIntoStructureGraph;
-
-export function textIntoExecuter(text) {
-  const graph = textIntoGraph(text);
-  return graphIntoExecuter(graph);
-}
+export const compile = textGraphIntoExecuter;
