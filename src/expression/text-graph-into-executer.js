@@ -4,6 +4,17 @@ import { propertyRegEx, constantRegEx } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
+const parseExecuter = (match, accum) => {
+  const executer = executers[match[1]];
+  if (!executer) {
+    throw new Error(`Executer ${match[1]} wasn't recognized`);
+  }
+
+  const args = textParser(match[2], instructionParsers, instructionParsersLength, []);
+
+  return textParser(args.text, instructionParsers, instructionParsersLength, accum.concat(executer(...args.accum)));
+};
+
 // Instructions
 const instructionParsers = [
   { regex: executerRegEx, parser: parseExecuter },
@@ -13,18 +24,7 @@ const instructionParsers = [
 
 const instructionParsersLength = instructionParsers.length;
 
-function parseExecuter(match, accum) {
-  const executer = executers[match[1]];
-  if (!executer) {
-    throw new Error(`Executer ${match[1]} wasn't recognized`);
-  }
-
-  const args = textParser(match[2], instructionParsers, instructionParsersLength, []);
-
-  return textParser(args.text, instructionParsers, instructionParsersLength, accum.concat(executer(...args.accum)));
-}
-
-export function textGraphIntoExecuter(text) {
+export const textGraphIntoExecuter = (text) => {
   if (text === '') {
     return undef('');
   }
@@ -36,4 +36,4 @@ export function textGraphIntoExecuter(text) {
   }
 
   return result.accum[0];
-}
+};
