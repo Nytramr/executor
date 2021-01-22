@@ -1,6 +1,6 @@
 import { endOfFunction } from './regexs';
 
-export function parseNextPart(text, parsers, parsersLength, accum) {
+export const parseNextPart = (text, parsers, parsersLength, accum) => {
   for (let i = 0; i < parsersLength; i++) {
     const match = parsers[i].regex.exec(text);
     if (match) {
@@ -9,9 +9,9 @@ export function parseNextPart(text, parsers, parsersLength, accum) {
   }
 
   throw new Error(`Token unrecognized near to ${text}`);
-}
+};
 
-export function textParser(text, parsers, parsersLength, accum) {
+export const textParser = (text, parsers, parsersLength, accum) => {
   let _text = text;
   let _accum = accum;
 
@@ -25,4 +25,4 @@ export function textParser(text, parsers, parsersLength, accum) {
     accum: _accum,
     text: _text.replace(endOfFunction, ''),
   };
-}
+};

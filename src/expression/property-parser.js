@@ -6,6 +6,29 @@ import { constantRegEx, elseRegEx, endOfFunction, stringRegEx, numberRegEx, prop
 const squareBracketsRegEx = /^\[\s*(.*)/; // square brackets path part, first group: part, second group: rest.
 const anyOtherPartRegEx = /^([\w][\w-\d_]*)\.?\s*(.*)/; // path part, first group: part name, second group: rest.
 
+const parseNormal = (match, accum) => {
+  return {
+    accum: accum.concat(constant(match[1])),
+    text: match[2],
+  };
+};
+
+const parseString = (match, accum) => {
+  return {
+    accum: accum.concat(constant(match[1] || match[2])),
+    text: match[3],
+  };
+};
+
+const squareBracketsParser = (match, accum) => {
+  const result = parseNextPart(match[1], squareBracketsParsers, squareBracketsParsersLength, []);
+
+  return {
+    accum: accum.concat(result.accum),
+    text: result.text.replace(endOfFunction, ''),
+  };
+};
+
 const propertyParsers = [
   { regex: stringRegEx, parser: parseString },
   { regex: numberRegEx, parser: parseNormal },
@@ -26,41 +49,19 @@ const squareBracketsParsers = [
 
 const squareBracketsParsersLength = squareBracketsParsers.length;
 
-function parseNormal(match, accum) {
-  return {
-    accum: accum.concat(constant(match[1])),
-    text: match[2],
-  };
-}
-
-function parseString(match, accum) {
-  return {
-    accum: accum.concat(constant(match[1] || match[2])),
-    text: match[3],
-  };
-}
-
-function squareBracketsParser(match, accum) {
-  const { text, accum: value } = parseNextPart(match[1], squareBracketsParsers, squareBracketsParsersLength, []);
-
-  return {
-    accum: accum.concat(value),
-    text: text.replace(endOfFunction, ''),
-  };
-}
-
 export function propertyParser(match, accum) {
-  const { text, accum: parts } = textParser(match[1], propertyParsers, propertyParsersLength, []);
+  // const { text, accum: parts } = textParser(match[1], propertyParsers, propertyParsersLength, []);
+  const result = textParser(match[1], propertyParsers, propertyParsersLength, []);
 
-  let i = parts.length - 1;
-  let path = property(parts[i]);
+  let i = result.accum.length - 1;
+  let path = property(result.accum[i]);
 
   for (i = i - 1; i >= 0; i--) {
-    path = property(parts[i], path);
+    path = property(result.accum[i], path);
   }
 
   return {
     accum: accum.concat(path),
-    text,
+    text: result.text,
   };
 }
