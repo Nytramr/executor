@@ -133,15 +133,3 @@ export const lessOrEqualsThan = (oper1, oper2) => {
     return oper1(context) <= oper2(context);
   };
 };
-
-export const executers = {
-  'AN': and,
-  'EQ': equals,
-  'GE': greaterOrEqualsThan,
-  'GT': greaterThan,
-  'LE': lessOrEqualsThan,
-  'LT': lessThan,
-  'NE': nonEquals,
-  'NT': not,
-  'OR': or,
-};

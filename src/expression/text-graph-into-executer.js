@@ -1,6 +1,17 @@
 import { constantParser } from './constant-parser';
-import { undef, executers } from './executers';
-import { executerRegEx, propertyRegEx, constantRegEx } from './regexs';
+import {
+  and,
+  equals,
+  greaterOrEqualsThan,
+  greaterThan,
+  lessOrEqualsThan,
+  lessThan,
+  nonEquals,
+  not,
+  or,
+  undef,
+} from './executers';
+import { propertyRegEx, constantRegEx, executerRegExFactory } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
@@ -8,15 +19,26 @@ const instructionParsersLength_ = Symbol();
 const instructionParsers_ = Symbol();
 const parseExecuter_ = Symbol();
 const textParser_ = Symbol();
-// const instructions_ = Symbol();
+const executers_ = Symbol();
 export class Engine {
   constructor() {
+    this[executers_] = {
+      'AN': and,
+      'EQ': equals,
+      'GE': greaterOrEqualsThan,
+      'GT': greaterThan,
+      'LE': lessOrEqualsThan,
+      'LT': lessThan,
+      'NE': nonEquals,
+      'NT': not,
+      'OR': or,
+    };
     this[textParser_] = (text, accum) => {
-      return textParser(text, this[instructionParsers_], this[instructionParsersLength_], accum);
+      return textParser(text, this[instructionParsers_], 3, accum);
     };
 
     this[parseExecuter_] = (match, accum) => {
-      const executer = executers[match[1]];
+      const executer = this[executers_][match[1]];
       if (!executer) {
         throw new Error(`Executer ${match[1]} wasn't recognized`);
       }
@@ -27,12 +49,10 @@ export class Engine {
     };
 
     this[instructionParsers_] = [
-      { regex: executerRegEx, parser: this[parseExecuter_] },
+      { regex: executerRegExFactory(Object.keys(this[executers_])), parser: this[parseExecuter_] },
       { regex: propertyRegEx, parser: propertyParser },
       { regex: constantRegEx, parser: constantParser },
     ];
-
-    this[instructionParsersLength_] = this[instructionParsers_].length;
   }
 
   compile(text) {
