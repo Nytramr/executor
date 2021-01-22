@@ -1,8 +1,16 @@
-import { Engine } from '../src/index';
+import { Engine } from '../src/expression/text-graph-into-executer';
 
 describe('Engine', () => {
   describe('Compiler and executers', () => {
     const engine = new Engine();
+    describe('Empty', () => {
+      it('should return undefined', () => {
+        const executer = engine.compile('');
+
+        expect(executer({})).toBeUndefined();
+      });
+    });
+
     describe('Constant', () => {
       describe('string', () => {
         it('should return a constant, with the given double quotes string', () => {

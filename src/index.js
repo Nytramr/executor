@@ -1,7 +1,5 @@
-import { textGraphIntoExecuter } from './expression/text-graph-into-executer';
+import { Engine } from './expression/text-graph-into-executer';
 
-export class Engine {
-  compile(code) {
-    return textGraphIntoExecuter(code);
-  }
-}
+export default {
+  'Engine': Engine,
+};
