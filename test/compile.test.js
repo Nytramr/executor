@@ -1,4 +1,4 @@
-import { Engine } from '../src/expression/text-graph-into-executer';
+import { Engine } from '../src/expression/engine';
 
 describe('Engine', () => {
   describe('Compiler and executers', () => {
