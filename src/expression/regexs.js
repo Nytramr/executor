@@ -1,5 +1,5 @@
 export const executerRegExFactory = (commands) => {
-  return new RegExp('^(' + commands.join('|') + ')\\(s*(.*)');
+  return new RegExp(`^(${commands.join('|')})\\(s*(.*)`);
 };
 export const numberRegEx = /^(-?\d+(?:\.\d+)?)\.?\s*(.*)/;
 export const stringRegEx = /^(?:"([^"]*)"|'([^']*)')\.?\s*(.*)/; // string, first group: double quotes part, second group: single quotes part, third group: rest.

@@ -15,7 +15,6 @@ import { propertyRegEx, constantRegEx, executerRegExFactory } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
-const instructionParsersLength_ = Symbol();
 const instructionParsers_ = Symbol();
 const parseExecuter_ = Symbol();
 const textParser_ = Symbol();
