@@ -21,7 +21,7 @@ const parseString = (match, accum) => {
 };
 
 const squareBracketsParser = (match, accum) => {
-  const result = parseNextPart(match[1], squareBracketsParsers, squareBracketsParsersLength, []);
+  const result = parseNextPart(match[1], squareBracketsParsers, 5, []);
 
   return {
     accum: accum.concat(result.accum),
@@ -29,29 +29,8 @@ const squareBracketsParser = (match, accum) => {
   };
 };
 
-const propertyParsers = [
-  { regex: stringRegEx, parser: parseString },
-  { regex: numberRegEx, parser: parseNormal },
-  { regex: squareBracketsRegEx, parser: squareBracketsParser },
-  { regex: propertyRegEx, parser: propertyParser },
-  { regex: anyOtherPartRegEx, parser: parseNormal },
-];
-
-const propertyParsersLength = propertyParsers.length;
-
-const squareBracketsParsers = [
-  { regex: stringRegEx, parser: parseString },
-  { regex: numberRegEx, parser: parseNormal },
-  { regex: constantRegEx, parser: constantParser },
-  { regex: propertyRegEx, parser: propertyParser },
-  { regex: elseRegEx, parser: propertyParser },
-];
-
-const squareBracketsParsersLength = squareBracketsParsers.length;
-
-export function propertyParser(match, accum) {
-  // const { text, accum: parts } = textParser(match[1], propertyParsers, propertyParsersLength, []);
-  const result = textParser(match[1], propertyParsers, propertyParsersLength, []);
+export const propertyParser = (match, accum) => {
+  const result = textParser(match[1], propertyParsers, 5, []);
 
   let i = result.accum.length - 1;
   let path = property(result.accum[i]);
@@ -64,4 +43,20 @@ export function propertyParser(match, accum) {
     accum: accum.concat(path),
     text: result.text,
   };
-}
+};
+
+const propertyParsers = [
+  { regex: stringRegEx, parser: parseString },
+  { regex: numberRegEx, parser: parseNormal },
+  { regex: squareBracketsRegEx, parser: squareBracketsParser },
+  { regex: propertyRegEx, parser: propertyParser },
+  { regex: anyOtherPartRegEx, parser: parseNormal },
+];
+
+const squareBracketsParsers = [
+  { regex: stringRegEx, parser: parseString },
+  { regex: numberRegEx, parser: parseNormal },
+  { regex: constantRegEx, parser: constantParser },
+  { regex: propertyRegEx, parser: propertyParser },
+  { regex: elseRegEx, parser: propertyParser },
+];

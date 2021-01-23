@@ -1,3 +1,5 @@
-import { textGraphIntoExecuter } from './expression/text-graph-into-executer';
+import { Engine } from './expression/engine';
 
-export const compile = textGraphIntoExecuter;
+export default {
+  'Engine': Engine,
+};
