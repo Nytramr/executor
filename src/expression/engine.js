@@ -32,6 +32,7 @@ export class Engine {
       'NT': not,
       'OR': or,
     };
+
     this[textParser_] = (text, accum) => {
       return textParser(text, this[instructionParsers_], 3, accum);
     };
@@ -54,15 +55,28 @@ export class Engine {
     ];
   }
 
-  compile(text) {
-    if (!text) {
+  define(command, executer) {
+    this[executers_][command] = executer;
+
+    this[instructionParsers_][0].regex = executerRegExFactory(Object.keys(this[executers_]));
+  }
+
+  /**
+   * Compile will create an executer function based on the code passed by parameter.
+   *
+   * @param {string} code A code like string to be compiled into an executer
+   *
+   * @returns executer function
+   */
+  compile(code) {
+    if (!code) {
       return undef();
     }
 
-    const result = this[textParser_](text, []);
+    const result = this[textParser_](code, []);
 
     if (result.accum.length > 1) {
-      throw new Error(`The expression ${text} has more than a main executer`);
+      throw new Error(`The expression ${code} has more than a main executer`);
     }
 
     return result.accum[0];
