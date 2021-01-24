@@ -1,12 +1,12 @@
 import { Engine } from '../src/expression/engine';
 
 describe('Engine', () => {
-  describe('Define', () => {
+  describe('Define Operator', () => {
     const engine = new Engine();
 
     describe('Adding a new operation', () => {
       const operation = jest.fn((something) => () => something());
-      engine.define('CC', operation);
+      engine.defineOperator('CC', operation);
 
       afterEach(() => {
         jest.clearAllMocks();

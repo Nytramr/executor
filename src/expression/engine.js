@@ -55,7 +55,7 @@ export class Engine {
     ];
   }
 
-  define(command, executer) {
+  defineOperator(command, executer) {
     this[executers_][command] = executer;
 
     this[instructionParsers_][0].regex = executerRegExFactory(Object.keys(this[executers_]));
