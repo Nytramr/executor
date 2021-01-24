@@ -32,7 +32,6 @@ export class Engine {
       'NT': not,
       'OR': or,
     };
-
     this[textParser_] = (text, accum) => {
       return textParser(text, this[instructionParsers_], 3, accum);
     };
