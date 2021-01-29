@@ -54,10 +54,18 @@ export class Engine {
     ];
   }
 
-  defineOperator(command, executer) {
+  /**
+   * This method allows the user to extend the built in operators with custom operators provided by the user.
+   *
+   * @param {string} command The string to identify the operator
+   * @param {function} executer The executer like function to be used every time the operator is compiled.
+   */
+  define(command, executer) {
     this[executers_][command] = executer;
 
     this[instructionParsers_][0].regex = executerRegExFactory(Object.keys(this[executers_]));
+
+    return;
   }
 
   /**
