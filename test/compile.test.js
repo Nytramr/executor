@@ -198,6 +198,14 @@ describe('Engine', () => {
         expect(executor({ first: false, second: false })).toBe(false);
       });
 
+      it('should returns second argument', () => {
+        const executor = engine.compile('AN(PP(first), PP(second))');
+
+        expect(executor({ first: true, second: true })).toBe(true);
+        expect(executor({ first: 10, second: true })).toBe(true);
+        expect(executor({ first: true, second: 10 })).toBe(10);
+      });
+
       it('should return falsy argument', () => {
         const executor = engine.compile('AN(PP(first), PP(second))');
 
