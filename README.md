@@ -94,6 +94,209 @@ executer({ value: 0 }); // prints "false"
 executer({}); // prints "false"
 ```
 
+## Language
+
+### AN(condition1, condition2)
+
+It will return `true` or `false` depending of the **and** evaluation of `condition1` and `condition2`.
+
+The execution is lazy, therefore in case the first condition returns falsy value, the second condition is not evaluated.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('AN(PP(first), PP(second))');
+executor({ first: true, second: true }); // returns true
+executor({ first: true, second: 10 }); // returns 10
+executor({ first: true, second: 'true' }); // returns "true"
+executor({ first: false, second: true }); // returns false
+executor({ first: false, second: false }); // returns false
+executor({ first: true, second: false }); // returns false
+executor({ first: 0, second: false }); // returns 0
+executor({ first: null, second: false }); // returns null
+executor({ first: '', second: false }); // returns ''
+executor({ second: true }); // returns Undefined
+```
+
+### CT(value)
+
+It will return an executor that always returns `value`. Is the way we can define literals.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('CT("someText")');
+executer({}); // returns "someText"
+executor({ first: 10, second: '10' }); // returns "someText"
+```
+
+### EQ(value1, value2)
+
+It will return `true` when both values are equals, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('EQ(PP(first), PP(second))');
+executor({ first: 10, second: 10 }); // returns true
+executor({ first: '10', second: '10' }); // returns true
+executor({ first: true, second: true }); // returns true
+executor({}); // returns true
+executor({ first: 10, second: '10' }); // returns false
+executor({ first: false, second: true }); // returns false
+executor({ first: false, second: undefined }); // returns false
+executor({ first: false, second: 0 }); // returns false
+```
+
+### GE(value1, value2)
+
+It will return `true` when the first value is greater or equals than the second value, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('GE(PP(first), PP(second))');
+executor({ first: 10, second: 5 }); // returns true
+executor({ first: -1, second: -12 }); // returns true
+executor({ first: 'b', second: 'a' }); // returns true
+executor({ first: 'a', second: 'A' }); // returns true
+executor({ first: 10, second: 10 }); // returns false
+executor({ first: -10, second: 10 }); // returns false
+executor({ first: 'a', second: 'b' }); // returns false
+executor({}); // returns false
+```
+
+### GT(value1, value2)
+
+It will return `true` when the first value is greater than the second value, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('GT(PP(first), PP(second))');
+executor({ first: 10, second: 5 }); // returns true
+executor({ first: -1, second: -12 }); // returns true
+executor({ first: 'b', second: 'a' }); // returns true
+executor({ first: 'a', second: 'A' }); // returns true
+executor({ first: 10, second: 10 }); // returns false
+executor({ first: -10, second: 10 }); // returns false
+executor({ first: 'a', second: 'b' }); // returns false
+executor({}); // returns false
+```
+
+### LE(value1, value2)
+
+It will return `true` when the first value is less or equals than the second value, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('LE(PP(first), PP(second))');
+executor({ first: 10, second: 10 }); // returns true
+executor({ first: 5, second: 10 }); // returns true
+executor({ first: -1, second: 0 }); // returns true
+executor({ first: 'a', second: 'b' }); // returns true
+executor({ first: 'A', second: 'a' }); // returns true
+executor({ first: 10, second: -10 }); // returns false
+executor({ first: 'b', second: 'a' }); // returns false
+executor({}); // returns false
+```
+
+### LT(value1, value2)
+
+It will return `true` when the first value is less than the second value, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('LT(PP(first), PP(second))');
+executor({ first: 5, second: 6 }); // returns true
+executor({ first: -2, second: 0 }); // returns true
+executor({ first: 'a', second: 'b' }); // returns true
+executor({ first: 'A', second: 'a' }); // returns true
+executor({ first: 10, second: 10 }); // returns false
+executor({ first: 10, second: -10 }); // returns false
+executor({ first: 'b', second: 'a' }); // returns false
+executor({}); // returns false
+```
+
+### NE(value1, value2)
+
+It will return `true` when both values are different, returns `false` otherwise.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('EQ(PP(first), PP(second))');
+executor({ first: 10, second: 10 }); // returns false
+executor({ first: '10', second: '10' }); // returns false
+executor({ first: true, second: true }); // returns false
+executor({}); // returns false
+executor({ first: 10, second: '10' }); // returns true
+executor({ first: false, second: true }); // returns true
+executor({ first: false, second: undefined }); // returns true
+executor({ first: false, second: 0 }); // returns true
+```
+
+### NT(condition)
+
+It will return `true` when the condition is `false` or `false` when the condition is `true`.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('NT(PP(first))');
+executor({ first: false }); // returns true
+executor({ first: 0 }); // returns true
+executor({ first: null }); // returns true
+executor({}); // returns true
+executor({ first: true }); // returns false
+executor({ first: 1 }); // returns false
+executor({ first: {} }); // returns false
+```
+
+### OR(condition1, condition2)
+
+It will return `true` or `false` depending of the **or** evaluation of `condition1` and `condition2`.
+
+The execution is lazy, therefore in case the first condition returns a truly value, the second condition is not evaluated.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('OR(PP(first), PP(second))');
+executor({ first: true, second: true }); // returns true
+executor({ first: true, second: false }); // returns true
+executor({ first: false, second: true }); // returns true
+executor({ first: false, second: false }); // returns false
+executor({ first: 'true', second: true }); // returns "true"
+executor({ first: 10, second: false }); // returns 10
+executor({ first: 0, second: false }); // returns 0
+executor({ first: false, second: null }); // returns null
+executor({ first: false, second: '' }); // returns ''
+executor({ second: true }); // returns true
+```
+
 ## Dev Setup
 
 ### Prerequisites
