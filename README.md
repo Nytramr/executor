@@ -111,7 +111,7 @@ Overall
 
 The `path` is a divided by dots (`'.'`) string like property and can be expressed the same way that any object is accessed programmatically.
 
-</td><tr>
+</td></tr>
 <tr><td>
 
 Special Chars
@@ -120,25 +120,24 @@ Special Chars
 
 There is also the possibility to use a path-like string between quotes to access to a property which contains non allowed chars like `.`, `-`, etc.
 
-</td><tr>
+</td></tr>
 <tr><td>
 
 Dynamic Access
 
 </td><td>
 
-The use of squarebrackets allows using literals or other paths to the same context as part of the `path`.
+The use of squarebrackets allows using literals or other values of the same context as part of the `path`.
 
-</td><tr>
+</td></tr>
 </table>
 
 #### examples
 
 <table>
 <tr><td>
-<tr><td>
 
-Special Chars
+Simplest use
 
 </td><td>
 
@@ -155,7 +154,47 @@ executor({ name: 'John' }); // returns "John"
 executor({ name: 'Paul' }); // returns "Paul"
 ```
 
-</td><tr>
+</td></tr>
+<tr><td>
+
+Navigate in the object
+
+</td><td>
+
+It should return the value of the property `name` of the object `user`
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('PP(user.name)');
+
+executor({ user: { name: 'John' } }); // returns "John"
+executor({ user: { name: 'Paul' } }); // returns "Paul"
+```
+
+</td></tr>
+<tr><td>
+
+Index in array
+
+</td><td>
+
+It should return the value of second value of the array
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('PP(1)');
+
+executor(['cero', 'uno', 'dos']); // returns "uno"
+executor([20, 30, 40]); // returns 30
+```
+
+</td></tr>
 </table>
 
 ### AN(condition1, condition2)
