@@ -96,6 +96,68 @@ executer({}); // prints "false"
 
 ## Language
 
+### PP(path)
+
+It will return the part of the context object according to the given `path`. If at any point of the `path` a value cannot be resolved, it returns `undefined`.
+
+#### path
+
+<table>
+<tr><td>
+
+Overall
+
+</td><td>
+
+The `path` is a divided by dots (`'.'`) string like property and can be expressed the same way that any object is accessed programmatically.
+
+</td><tr>
+<tr><td>
+
+Special Chars
+
+</td><td>
+
+There is also the possibility to use a path-like string between quotes to access to a property which contains non allowed chars like `.`, `-`, etc.
+
+</td><tr>
+<tr><td>
+
+Dynamic Access
+
+</td><td>
+
+The use of squarebrackets allows using literals or other paths to the same context as part of the `path`.
+
+</td><tr>
+</table>
+
+#### examples
+
+<table>
+<tr><td>
+<tr><td>
+
+Special Chars
+
+</td><td>
+
+It should return the value of the property `name`
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('PP(name)');
+
+executor({ name: 'John' }); // returns "John"
+executor({ name: 'Paul' }); // returns "Paul"
+```
+
+</td><tr>
+</table>
+
 ### AN(condition1, condition2)
 
 It will return `true` or `false` depending of the **and** evaluation of `condition1` and `condition2`.
@@ -301,7 +363,7 @@ executor({ second: true }); // returns true
 
 ### Prerequisites
 
-In order to checkout project and run it locally you need to meet the following requirements:
+In order to checkout project and build and run tests locally you need to meet the following requirements:
 
 - Node.js version >= 13.14.0, you can get the latest version of Node.js from [http://nodejs.org/](http://nodejs.org/),
 - git, you can get git from [http://git-scm.com/](http://git-scm.com/),
