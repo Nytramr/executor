@@ -6,7 +6,7 @@ describe('Engine', () => {
 
     describe('Adding a new operation', () => {
       const operation = jest.fn((something) => () => something());
-      engine.defineOperator('CC', operation);
+      engine.define('CC', operation);
 
       afterEach(() => {
         jest.clearAllMocks();
