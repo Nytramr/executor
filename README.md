@@ -94,6 +94,75 @@ executer({ value: 0 }); // prints "false"
 executer({}); // prints "false"
 ```
 
+#### Recipes
+
+<table>
+<tr><th>
+Name
+</th><th>
+Implementation
+</th><th>
+Use
+</th></tr>
+<tr><td>
+
+conditional (if-else)
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+engine.define('IF', (pred, trueResult, falseResult) => (context) =>
+  pred(context) ? trueResult(context) : falseResult(context),
+);
+```
+
+or
+
+```javascript
+const engine = new Engine();
+
+engine.define('IF', (pred, trueResult, falseResult) => (context) =>
+  (pred(context) && trueResult(context)) || falseResult(context),
+);
+```
+
+</td><td>
+
+```javascript
+var executer = engine.compile('IF(PP(value), CT("true")), CL(CT("false"))');
+```
+
+</td></tr>
+<tr><td>
+
+console log
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+engine.define('CL', (valueGetter) => (context) => console.log(valueGetter(context)));
+```
+
+</td></tr>
+<tr><td>
+
+join
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+engine.define('JN', (arrayGetter, char) => (context) => arrayGetter(context).join(char(context)));
+```
+
+</td></tr>
+</table>
+
 ## Language
 
 ### PP(path)
@@ -181,7 +250,7 @@ Index in array
 
 </td><td>
 
-It should return the value of second value of the array
+It should return the value of second position in the array
 
 </td><td>
 
@@ -192,6 +261,70 @@ const executer = engine.compile('PP(1)');
 
 executor(['cero', 'uno', 'dos']); // returns "uno"
 executor([20, 30, 40]); // returns 30
+```
+
+</td></tr>
+<tr><td>
+
+Use a property as a key
+
+</td><td>
+
+It should return the value of the property specified by the property `key`
+
+</td><td>
+
+```javascript
+const executor = engine.compile('PP([key])');
+
+executor({ value: 'name', key: 'value' }); // returns "name"
+executor({ 'another.value': 'another name', key: 'another.value' }); // returns "another name"
+executor({ value: 'name', keyNotFound: 'value' }); // returns undefined
+executor({}); // returns undefined
+```
+
+or
+
+```javascript
+const executor = engine.compile('PP(PP(key))');
+
+executor({ value: 'name', key: 'value' }); // returns "name"
+executor({ 'another.value': 'another name', key: 'another.value' }); // returns "another name"
+executor({ value: 'name', keyNotFound: 'value' }); // returns undefined
+executor({}); // returns undefined
+```
+
+</td></tr>
+<tr><td>
+
+Use a property path as a key
+
+</td><td>
+
+It should return the value of the property specified by the property `sub-key` of `key`
+
+</td><td>
+
+```javascript
+const executor = engine.compile('PP([key.sub-key])');
+
+executor({ value: 'name', key: { 'sub-key': 'value' } }); // returns "name"
+executor({ 'another value': 'another name', key: { 'sub-key': 'another value' } }); // returns "another name"
+executor({ value: 'name', keyNotFound: { 'sub-key': 'value' } }); // returns undefined
+executor({ value: 'name', key: { 'sub-keyNotFound': 'value' } }); // returns undefined
+executor({}); // returns undefined
+```
+
+or
+
+```javascript
+const executor2 = engine.compile('PP(PP(key.sub-key))');
+
+executor2({ value: 'name', key: { 'sub-key': 'value' } }); // returns "name"
+executor2({ 'another value': 'another name', key: { 'sub-key': 'another value' } }); // returns "another name"
+executor2({ value: 'name', keyNotFound: { 'sub-key': 'value' } }); // returns undefined
+executor2({ value: 'name', key: { 'sub-keyNotFound': 'value' } }); // returns undefined
+executor2({}); // returns undefined
 ```
 
 </td></tr>
