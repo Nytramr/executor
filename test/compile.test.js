@@ -11,6 +11,31 @@ describe('Engine', () => {
       });
     });
 
+    describe('Self', () => {
+      it('should return the entire context', () => {
+        const executer = engine.compile('SL()');
+
+        expect(executer({})).toEqual({});
+        expect(executer({ name: 'John' })).toEqual({ name: 'John' });
+      });
+
+      it('should return the given property of the context', () => {
+        const executer = engine.compile('SL(PP(name))');
+
+        expect(executer({})).toBeUndefined();
+        expect(executer({ name: 'John' })).toEqual('John');
+        expect(executer({ name: 'Paul' })).toEqual('Paul');
+      });
+
+      it('should return the given complex property of the context', () => {
+        const executer = engine.compile('SL(PP(body.name))');
+
+        expect(executer({})).toBeUndefined();
+        expect(executer({ body: { name: 'John' } })).toEqual('John');
+        expect(executer({ body: { name: 'Paul' } })).toEqual('Paul');
+      });
+    });
+
     describe('Constant', () => {
       describe('string', () => {
         it('should return a constant, with the given double quotes string', () => {
