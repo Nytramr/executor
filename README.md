@@ -96,6 +96,8 @@ executer({}); // prints "false"
 
 #### Recipes
 
+Please consider be exception free, if your new component can throw and exception, try to avoid it as much as possible.
+
 <table>
 <tr><th>
 Name
@@ -147,6 +149,12 @@ const engine = new Engine();
 engine.define('CL', (valueGetter) => (context) => console.log(valueGetter(context)));
 ```
 
+</td><td>
+
+```javascript
+var executer = engine.compile('CL(PP(value))');
+```
+
 </td></tr>
 <tr><td>
 
@@ -157,7 +165,63 @@ join
 ```javascript
 const engine = new Engine();
 
-engine.define('JN', (arrayGetter, char) => (context) => arrayGetter(context).join(char(context)));
+engine.define('JN', (arrayGetter, string) => (context) => {
+  const array = arrayGetter(context);
+  if (Array.isArray(array)) return array.join(string(context));
+  return ''; // you may choice to return undefined instead.
+});
+```
+
+</td><td>
+
+```javascript
+var executer = engine.compile('JN(PP("myArray"), CT(","))');
+```
+
+</td></tr>
+<tr><td>
+
+find
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+engine.define('FD', (arrayGetter, string) => (context) => {
+  const array = arrayGetter(context);
+  if (Array.isArray(array)) return array.find((element) => predicate(context, subContext, element));
+  return undefined;
+});
+```
+
+</td><td>
+
+```javascript
+var executer = engine.compile('FN(PP("singers"), EQ(SL(PP("name")), CT("John")))');
+```
+
+</td></tr>
+<tr><td>
+
+filter
+
+</td><td>
+
+```javascript
+const engine = new Engine();
+
+engine.define('FT', (arrayGetter, string) => (context) => {
+  const array = arrayGetter(context);
+  if (Array.isArray(array)) return array.filter((element) => predicate(context, subContext, element));
+  return []; // you may choice to return undefined instead.
+});
+```
+
+</td><td>
+
+```javascript
+var executer = engine.compile('FT(PP("singers"), EQ(SL(PP("band")), CT("The Beatles")))');
 ```
 
 </td></tr>

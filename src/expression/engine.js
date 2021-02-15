@@ -9,6 +9,7 @@ import {
   nonEquals,
   not,
   or,
+  self,
   undef,
 } from './executers';
 import { propertyRegEx, constantRegEx, executerRegExFactory } from './regexs';
@@ -31,6 +32,7 @@ export class Engine {
       'NE': nonEquals,
       'NT': not,
       'OR': or,
+      'SL': self,
     };
     this[textParser_] = (text, accum) => {
       return textParser(text, this[instructionParsers_], 3, accum);
