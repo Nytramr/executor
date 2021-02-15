@@ -1,6 +1,38 @@
 import { Engine } from '../src/expression/engine';
 
 describe('Engine', () => {
+  describe('Getter and setter', () => {
+    it('should set and get a value', () => {
+      const engine = new Engine();
+
+      const setExecuter = engine.compile('SET(CT("name"), CT("John"))');
+      const getExecuter = engine.compile('GET(CT("name"))');
+
+      setExecuter({});
+      expect(getExecuter({})).toEqual('John');
+    });
+
+    it('should set a value from the context', () => {
+      const engine = new Engine();
+
+      const setExecuter = engine.compile('SET(CT("name"), PP("name"))');
+      const getExecuter = engine.compile('GET(CT("name"))');
+
+      setExecuter({ name: 'John' });
+      expect(getExecuter({})).toEqual('John');
+    });
+
+    it('should set a value, taking the name from the context', () => {
+      const engine = new Engine();
+
+      const setExecuter = engine.compile('SET(PP("valueName"), CT("John"))');
+      const getExecuter = engine.compile('GET(PP("valueName"))');
+
+      setExecuter({ valueName: 'name' });
+      expect(getExecuter({ valueName: 'name' })).toEqual('John');
+    });
+  });
+
   describe('Compiler and executers', () => {
     const engine = new Engine();
     describe('Empty', () => {
