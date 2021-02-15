@@ -20,8 +20,33 @@ const instructionParsers_ = Symbol();
 const parseExecuter_ = Symbol();
 const textParser_ = Symbol();
 const executers_ = Symbol();
+const scope_ = Symbol();
 export class Engine {
   constructor() {
+    /**
+     * Getter executer
+     *
+     * It returns an executor that retrieves a value stored under the name obtained by name.
+     */
+
+    const getter = (name) => {
+      return (...context) => {
+        return this.getVariable(name(...context));
+      };
+    };
+
+    /**
+     * Setter executer
+     *
+     * It returns an executor that stores a value, obtained by getter and stored under the name obtained by name.
+     */
+
+    const setter = (name, getter) => {
+      return (...context) => {
+        this.setVariable(name(...context), getter(...context));
+      };
+    };
+
     this[executers_] = {
       'AN': and,
       'EQ': equals,
@@ -33,7 +58,10 @@ export class Engine {
       'NT': not,
       'OR': or,
       'SL': self,
+      'GET': getter,
+      'SET': setter,
     };
+
     this[textParser_] = (text, accum) => {
       return textParser(text, this[instructionParsers_], 3, accum);
     };
@@ -54,6 +82,8 @@ export class Engine {
       { regex: propertyRegEx, parser: propertyParser },
       { regex: constantRegEx, parser: constantParser },
     ];
+
+    this[scope_] = {};
   }
 
   /**
@@ -89,5 +119,26 @@ export class Engine {
     }
 
     return result.accum[0];
+  }
+
+  /**
+   * getVariable returns the value stored in the scope, under the property represented by the given `name`
+   *
+   * @param {string} name Name of the value to be retrieved
+   *
+   * @returns the stored value or undefined if the variable name doesn't exist
+   */
+  getVariable(name) {
+    return this[scope_][name];
+  }
+
+  /**
+   * setVariable stores a given value in the engine scope, in a property defined by name.
+   *
+   * @param {string} name the name under the value is stored
+   * @param {any} value the value to be stored
+   */
+  setVariable(name, value) {
+    this[scope_][name] = value;
   }
 }
