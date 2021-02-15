@@ -1,11 +1,15 @@
 {
   "name": "@nytramr/executor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small library to 'compile' and execute simple expressions scripts.",
   "main": "build/index.js",
-  "author": "Martin Rubinsztein",
   "license": "MIT",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Nytramr/executor.git"
+  },
+  "author": "Martin Rubinsztein <martin.rubinsztein@gmail.com>",
   "scripts": {
     "build": "npx rollup -c",
     "test": "npx jest"
