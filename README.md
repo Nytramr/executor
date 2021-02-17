@@ -227,6 +227,55 @@ var executer = engine.compile('FT(PP("singers"), EQ(SL(PP("band")), CT("The Beat
 </td></tr>
 </table>
 
+### getVariable
+
+#### Syntax
+
+`getVariable(_name_);`
+
+#### Parameters
+
+| name   | description                            |
+| ------ | -------------------------------------- |
+| `name` | The name of the value to be retrieved. |
+
+#### Return value
+
+`undefined`
+
+#### Example
+
+```javascript
+const engine = new Engine();
+
+const value = engine.getVariable('variableName');
+```
+
+### setVariable
+
+#### Syntax
+
+`setVariable(_name_, _value_);`
+
+#### Parameters
+
+| name    | description                                     |
+| ------- | ----------------------------------------------- |
+| `name`  | The name under the value is going to be stored. |
+| `value` | The value to be stored.                         |
+
+#### Return value
+
+`undefined`
+
+#### Example
+
+```javascript
+const engine = new Engine();
+
+engine.setVariable('variableName', 'value of the variable');
+```
+
 ## Language
 
 ### PP(path)
@@ -420,7 +469,7 @@ executor({ second: true }); // returns Undefined
 
 ### CT(value)
 
-It will return an executor that always returns `value`. Is the way we can define literals.
+It will return an executor that always returns _value_. Is the way we can define literals.
 
 #### example
 
@@ -470,6 +519,19 @@ executor({ first: 10, second: 10 }); // returns false
 executor({ first: -10, second: 10 }); // returns false
 executor({ first: 'a', second: 'b' }); // returns false
 executor({}); // returns false
+```
+
+### GET(valueName)
+
+It will return the stored value under the name _valueName_.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('GET(CT("someText"))');
+executer({}); // returns any previously stored valued under the name "someText"
 ```
 
 ### GT(value1, value2)
@@ -593,6 +655,19 @@ executor({ first: 0, second: false }); // returns 0
 executor({ first: false, second: null }); // returns null
 executor({ first: false, second: '' }); // returns ''
 executor({ second: true }); // returns true
+```
+
+### SET(valueName, value)
+
+It will store the _value_ under the name _valueName_.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executer = engine.compile('GET(CT("someText"))');
+executer({}); // returns any previously stored valued under the name "someText"
 ```
 
 ## Dev Setup
