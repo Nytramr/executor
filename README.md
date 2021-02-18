@@ -666,7 +666,7 @@ It will store the _value_ under the name _valueName_.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('GET(PP(name), CT("artistName"))');
+const executer = engine.compile('SET(PP(name), CT("artistName"))');
 executer({name: 'John'}); // will store "John" under the key "artistName"
 ```
 
