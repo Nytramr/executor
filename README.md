@@ -666,8 +666,8 @@ It will store the _value_ under the name _valueName_.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('GET(CT("someText"))');
-executer({}); // returns any previously stored valued under the name "someText"
+const executer = engine.compile('GET(PP(name), CT("artistName"))');
+executer({name: 'John'}); // will store "John" under the key "artistName"
 ```
 
 ## Dev Setup
