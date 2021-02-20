@@ -6,20 +6,24 @@ describe('Path Parser', () => {
   const constant1 = jest.fn();
   const constant2 = jest.fn();
   const constant3 = jest.fn();
+  const constant4 = jest.fn();
   const property = jest.spyOn(executers, 'property');
   const property1 = jest.fn();
   const property2 = jest.fn();
   const property3 = jest.fn();
   const property4 = jest.fn();
+  const property5 = jest.fn();
 
   beforeEach(() => {
     constant.mockReturnValueOnce(constant1);
     constant.mockReturnValueOnce(constant2);
     constant.mockReturnValueOnce(constant3);
+    constant.mockReturnValueOnce(constant4);
     property.mockReturnValueOnce(property1);
     property.mockReturnValueOnce(property2);
     property.mockReturnValueOnce(property3);
     property.mockReturnValueOnce(property4);
+    property.mockReturnValueOnce(property5);
   });
 
   afterEach(() => {
@@ -151,6 +155,23 @@ describe('Path Parser', () => {
         });
       });
 
+      it('should compile a new complex property, and use it to retrieve the property name', () => {
+        const result = propertyParser([, 'obj[PP(value.prop)])'], []);
+
+        expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
+        expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
+        expect(constant).toHaveBeenNthCalledWith(3, 'prop'); // returns constant3
+        expect(property).toHaveBeenNthCalledWith(1, constant3); // we create a property using the 'value' constant
+        expect(property).toHaveBeenNthCalledWith(2, constant2, property1); // we create a property using the 'prop' constant and the value sub-context
+        expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
+        // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
+        expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
+        expect(result).toEqual({
+          accum: [property4],
+          text: '',
+        });
+      });
+
       it('should compile a new property between quotes, and use it to retrieve the property name', () => {
         const result = propertyParser([, "obj[PP('value.prop')])"], []);
 
@@ -195,6 +216,25 @@ describe('Path Parser', () => {
       expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
       expect(result).toEqual({
         accum: [property4],
+        text: '',
+      });
+    });
+
+    it('should compile a non quoted text with numbers as a new complex property and use it to retrieve the property name', () => {
+      const result = propertyParser([, 'obj[value.4.prop])'], []);
+
+      expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
+      expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
+      expect(constant).toHaveBeenNthCalledWith(3, 4); // returns constant3
+      expect(constant).toHaveBeenNthCalledWith(4, 'prop'); // returns constant4
+      expect(property).toHaveBeenNthCalledWith(1, constant4); // we create a property using the 'value' constant
+      expect(property).toHaveBeenNthCalledWith(2, constant3, property1); // we create a property using the 'prop' constant and the value sub-context
+      expect(property).toHaveBeenNthCalledWith(3, constant2, property2); // we create a property using the 'prop' constant and the value sub-context
+      expect(property).toHaveBeenNthCalledWith(4, property3); // we create a property using the 'obj' constant
+      // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
+      expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
+      expect(result).toEqual({
+        accum: [property5],
         text: '',
       });
     });

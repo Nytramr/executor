@@ -292,6 +292,14 @@ describe('Engine', () => {
         expect(executor({ first: '', second: false })).toBe('');
         expect(executor({ second: true })).toBeUndefined();
       });
+
+      it('should return false using 2 constants', () => {
+        const executor = engine.compile('AN(true false)');
+        expect(executor({})).toBe(false);
+
+        const executor2 = engine.compile('AN(true,false)');
+        expect(executor2({})).toBe(false);
+      });
     });
 
     describe('Or', () => {

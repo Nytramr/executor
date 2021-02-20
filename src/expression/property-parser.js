@@ -1,10 +1,10 @@
 import { constant, property } from './executers';
 import { constantParser, literalParser } from './constant-parser';
 import { textParser, parseNextPart } from './parser';
-import { constantRegEx, elseRegEx, endOfFunction, propertyRegEx, literalRegEx } from './regexs';
+import { constantRegEx, elseRegEx, endOfFunction, propertyPartsSeparator, propertyRegEx, literalRegEx } from './regexs';
 
 const squareBracketsRegEx = /^\[\s*(.*)/; // square brackets path part, first group: part, second group: rest.
-const anyOtherPartRegEx = /^([\w][\w-\d_]*)\.?\s*(.*)/; // path part, first group: part name, second group: rest.
+const anyOtherPartRegEx = /^([\w][\w-\d_]*)(.*)/; // path part, first group: part name, second group: rest.
 
 const parseNormal = (match, accum) => {
   return {
@@ -23,7 +23,7 @@ const squareBracketsParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const result = textParser(match[1], propertyParsers, 4, []);
+  const result = textParser(match[1], propertyParsers, 4, propertyPartsSeparator, endOfFunction, []);
 
   let i = result.accum.length - 1;
   let path = property(result.accum[i]);

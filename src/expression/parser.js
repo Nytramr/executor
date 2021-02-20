@@ -11,18 +11,18 @@ export const parseNextPart = (text, parsers, parsersLength, accum) => {
   throw new Error(`Token unrecognized near to ${text}`);
 };
 
-export const textParser = (text, parsers, parsersLength, accum) => {
+export const textParser = (text, parsers, parsersLength, intermediateCheck, endOfText, accum) => {
   let _text = text;
   let _accum = accum;
 
-  while (_text && !endOfFunction.test(_text)) {
+  while (_text && !endOfText.test(_text)) {
     const next = parseNextPart(_text, parsers, parsersLength, _accum);
     _accum = next.accum;
-    _text = next.text;
+    _text = next.text.replace(intermediateCheck, '');
   }
 
   return {
     accum: _accum,
-    text: _text.replace(endOfFunction, ''),
+    text: _text.replace(endOfText, ''),
   };
 };

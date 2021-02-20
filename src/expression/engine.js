@@ -12,7 +12,14 @@ import {
   self,
   undef,
 } from './executers';
-import { propertyRegEx, constantRegEx, executerRegExFactory, literalRegEx } from './regexs';
+import {
+  propertyRegEx,
+  constantRegEx,
+  executerRegExFactory,
+  functionPartsSeparator,
+  literalRegEx,
+  endOfFunction,
+} from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
@@ -63,7 +70,7 @@ export class Engine {
     };
 
     this[textParser_] = (text, accum) => {
-      return textParser(text, this[instructionParsers_], 4, accum);
+      return textParser(text, this[instructionParsers_], 4, functionPartsSeparator, endOfFunction, accum);
     };
 
     this[parseExecuter_] = (match, accum) => {
@@ -71,10 +78,12 @@ export class Engine {
       if (!executer) {
         throw new Error(`Executer ${match[1]} wasn't recognized`);
       }
-
       const args = this[textParser_](match[2], []);
 
-      return this[textParser_](args.text, accum.concat(executer(...args.accum)));
+      return {
+        text: args.text,
+        accum: accum.concat(executer(...args.accum)),
+      };
     };
 
     this[instructionParsers_] = [

@@ -18,7 +18,7 @@ describe('Constant Parser', () => {
 
     expect(result).toEqual({
       accum: [constant1],
-      text: 'some more text to be parsed',
+      text: ', some more text to be parsed',
     });
   });
 
