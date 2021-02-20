@@ -12,14 +12,14 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return the join of the given array', () => {
-      const executer = engine.compile('JN(SL(), CT(","))');
+      const executer = engine.compile('JN(SL(), ",")');
 
       expect(executer([1, 2, 3, 4, 5])).toEqual('1,2,3,4,5');
       expect(executer(['1', '2', '3', '4', '5'])).toEqual('1,2,3,4,5');
     });
 
     it('should return the join of the array retrieved by the property', () => {
-      const executer = engine.compile('JN(PP("myArray"), CT(","))');
+      const executer = engine.compile('JN(PP("myArray"), ",")');
 
       expect(executer({ myArray: [1, 2, 3, 4, 5] })).toEqual('1,2,3,4,5');
       expect(executer({ myArray: ['1', '2', '3', '4', '5'] })).toEqual('1,2,3,4,5');
@@ -52,13 +52,13 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return every number grater or equals to 3', () => {
-      const executer = engine.compile('filter(SL(), GE(SL(), CT(3))');
+      const executer = engine.compile('filter(SL(), GE(SL(), 3)');
 
       expect(executer([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
     });
 
     it('should return every element of the array retrieved by the property', () => {
-      const executer = engine.compile('filter(PP("myArray"), CT(true))');
+      const executer = engine.compile('filter(PP("myArray"), true)');
 
       expect(executer({ myArray: [1, 2, 3, 4, 5] })).toEqual([1, 2, 3, 4, 5]);
     });

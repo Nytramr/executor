@@ -1,4 +1,4 @@
-import { constantParser } from './constant-parser';
+import { constantParser, literalParser } from './constant-parser';
 import {
   and,
   equals,
@@ -12,7 +12,7 @@ import {
   self,
   undef,
 } from './executers';
-import { propertyRegEx, constantRegEx, executerRegExFactory } from './regexs';
+import { propertyRegEx, constantRegEx, executerRegExFactory, literalRegEx } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
@@ -63,7 +63,7 @@ export class Engine {
     };
 
     this[textParser_] = (text, accum) => {
-      return textParser(text, this[instructionParsers_], 3, accum);
+      return textParser(text, this[instructionParsers_], 4, accum);
     };
 
     this[parseExecuter_] = (match, accum) => {
@@ -81,6 +81,7 @@ export class Engine {
       { regex: executerRegExFactory(Object.keys(this[executers_])), parser: this[parseExecuter_] },
       { regex: propertyRegEx, parser: propertyParser },
       { regex: constantRegEx, parser: constantParser },
+      { regex: literalRegEx, parser: literalParser },
     ];
 
     this[scope_] = {};

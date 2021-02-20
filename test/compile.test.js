@@ -69,7 +69,7 @@ describe('Engine', () => {
     });
 
     describe('Constant', () => {
-      describe('string', () => {
+      describe('string using CT', () => {
         it('should return a constant, with the given double quotes string', () => {
           const executer = engine.compile('CT("someText")');
 
@@ -84,6 +84,26 @@ describe('Engine', () => {
 
         it('should return a constant, with an empty string', () => {
           const executer = engine.compile('CT("")');
+
+          expect(executer({})).toEqual('');
+        });
+      });
+
+      describe('string', () => {
+        it('should return a constant, with the given double quotes string', () => {
+          const executer = engine.compile('"someText"');
+
+          expect(executer({})).toEqual('someText');
+        });
+
+        it('should return a constant, with the given single quotes string', () => {
+          const executer = engine.compile("'someText'");
+
+          expect(executer({})).toEqual('someText');
+        });
+
+        it('should return a constant, with an empty string', () => {
+          const executer = engine.compile('""');
 
           expect(executer({})).toEqual('');
         });

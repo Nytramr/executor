@@ -64,7 +64,7 @@ describe('Path Parser', () => {
   it('should compile a number property', () => {
     const result = propertyParser([, '2)'], []);
 
-    expect(constant).toHaveBeenCalledWith('2');
+    expect(constant).toHaveBeenCalledWith(2);
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
@@ -109,7 +109,7 @@ describe('Path Parser', () => {
       const result = propertyParser([, 'obj[2])'], []);
 
       expect(constant).toHaveBeenNthCalledWith(1, 'obj');
-      expect(constant).toHaveBeenNthCalledWith(2, '2');
+      expect(constant).toHaveBeenNthCalledWith(2, 2);
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
