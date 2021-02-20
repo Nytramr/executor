@@ -23,11 +23,8 @@ import {
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
-const instructionParsers_ = Symbol();
 const parseExecuter_ = Symbol();
-const textParser_ = Symbol();
-const executers_ = Symbol();
-const scope_ = Symbol();
+
 export class Engine {
   constructor() {
     /**
@@ -54,7 +51,7 @@ export class Engine {
       };
     };
 
-    this[executers_] = {
+    this._executers_ = {
       'AN': and,
       'EQ': equals,
       'GE': greaterOrEqualsThan,
@@ -69,16 +66,15 @@ export class Engine {
       'SET': setter,
     };
 
-    this[textParser_] = (text, accum) => {
-      return textParser(text, this[instructionParsers_], 4, functionPartsSeparator, endOfFunction, accum);
-    };
+    this._textParser_ = (text, accum) =>
+      textParser(text, this._instructionParsers_, 4, functionPartsSeparator, endOfFunction, accum);
 
-    this[parseExecuter_] = (match, accum) => {
-      const executer = this[executers_][match[1]];
+    this._parseExecuter_ = (match, accum) => {
+      const executer = this._executers_[match[1]];
       if (!executer) {
         throw new Error(`Executer ${match[1]} wasn't recognized`);
       }
-      const args = this[textParser_](match[2], []);
+      const args = this._textParser_(match[2], []);
 
       return {
         text: args.text,
@@ -86,14 +82,14 @@ export class Engine {
       };
     };
 
-    this[instructionParsers_] = [
-      { regex: executerRegExFactory(Object.keys(this[executers_])), parser: this[parseExecuter_] },
+    this._instructionParsers_ = [
+      { regex: executerRegExFactory(Object.keys(this._executers_)), parser: this._parseExecuter_ },
       { regex: propertyRegEx, parser: propertyParser },
       { regex: constantRegEx, parser: constantParser },
       { regex: literalRegEx, parser: literalParser },
     ];
 
-    this[scope_] = {};
+    this._scope_ = {};
   }
 
   /**
@@ -103,9 +99,9 @@ export class Engine {
    * @param {function} executer The executer like function to be used every time the operator is compiled.
    */
   define(command, executer) {
-    this[executers_][command] = executer;
+    this._executers_[command] = executer;
 
-    this[instructionParsers_][0].regex = executerRegExFactory(Object.keys(this[executers_]));
+    this._instructionParsers_[0].regex = executerRegExFactory(Object.keys(this._executers_));
 
     return;
   }
@@ -122,7 +118,7 @@ export class Engine {
       return undef();
     }
 
-    const result = this[textParser_](code, []);
+    const result = this._textParser_(code, []);
 
     if (result.accum.length > 1) {
       throw new Error(`The expression ${code} has more than a main executer`);
@@ -139,7 +135,7 @@ export class Engine {
    * @returns the stored value or undefined if the variable name doesn't exist
    */
   getVariable(name) {
-    return this[scope_][name];
+    return this._scope_[name];
   }
 
   /**
@@ -149,6 +145,6 @@ export class Engine {
    * @param {any} value the value to be stored
    */
   setVariable(name, value) {
-    this[scope_][name] = value;
+    this._scope_[name] = value;
   }
 }
