@@ -23,8 +23,6 @@ import {
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
-const parseExecuter_ = Symbol();
-
 export class Engine {
   constructor() {
     /**
