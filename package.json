@@ -1,6 +1,6 @@
 {
   "name": "@nytramr/executor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A small library to 'compile' and execute simple expressions scripts.",
   "main": "build/index.js",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "author": "Martin Rubinsztein <martin.rubinsztein@gmail.com>",
   "scripts": {
     "build": "npx rollup -c",
+    "deploy": "yarn build && npm publish",
     "test": "npx jest"
   },
   "devDependencies": {
