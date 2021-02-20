@@ -12,14 +12,7 @@ import {
   self,
   undef,
 } from './executers';
-import {
-  propertyRegEx,
-  constantRegEx,
-  executerRegExFactory,
-  functionPartsSeparator,
-  literalRegEx,
-  endOfFunction,
-} from './regexs';
+import { propertyRegEx, constantRegEx, executerRegExFactory, functionPartsSeparator, literalRegEx } from './regexs';
 import { textParser } from './parser';
 import { propertyParser } from './property-parser';
 
