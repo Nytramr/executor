@@ -77,9 +77,9 @@ describe('Path Parser', () => {
   });
 
   it('should return any extra text after the match', () => {
-    const result = propertyParser([, "'prop1.name') and more text after the final parenthesis"], []);
+    const result = propertyParser([, "'prop1.name'), and more text after the final parenthesis"], []);
 
-    expect(result.text).toEqual('and more text after the final parenthesis');
+    expect(result.text).toEqual(', and more text after the final parenthesis');
   });
 
   describe('between square brackets', () => {

@@ -64,8 +64,7 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) =>
-      textParser(text, this._instructionParsers_, 4, functionPartsSeparator, endOfFunction, accum);
+    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 4, functionPartsSeparator, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];

@@ -23,7 +23,7 @@ const squareBracketsParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const result = textParser(match[1], propertyParsers, 4, propertyPartsSeparator, endOfFunction, []);
+  const result = textParser(match[1], propertyParsers, 4, propertyPartsSeparator, []);
 
   let i = result.accum.length - 1;
   let path = property(result.accum[i]);
