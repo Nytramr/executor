@@ -1,0 +1,13 @@
+{
+  "name": "executor-docs",
+  "version": "1.0.0",
+  "description": "Github pages for the executor project",
+  "main": "index.js",
+  "repository": "https://github.com/Nytramr/executor.git",
+  "author": "Martin Rubinsztein <martin.rubinsztein@rokt.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
+}
