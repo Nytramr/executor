@@ -26,7 +26,7 @@ export class Engine {
 
     const getter = (name) => {
       return (...context) => {
-        return this.getVariable(name(...context));
+        return name && this.getVariable(name(...context));
       };
     };
 
@@ -38,7 +38,7 @@ export class Engine {
 
     const setter = (name, getter) => {
       return (...context) => {
-        this.setVariable(name(...context), getter(...context));
+        name && getter && this.setVariable(name(...context), getter(...context));
       };
     };
 
