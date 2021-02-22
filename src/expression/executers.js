@@ -34,7 +34,9 @@ export const constant = (value) => {
 export const property = (name, getter) => {
   return (subContext, context = subContext) => {
     return (
-      subContext && (getter && subContext ? getter(subContext[name(context)], context) : subContext[name(context)])
+      name &&
+      subContext &&
+      (getter && subContext ? getter(subContext[name(context)], context) : subContext[name(context)])
     );
   };
 };
@@ -47,7 +49,7 @@ export const property = (name, getter) => {
 
 export const not = (arg) => {
   return (...context) => {
-    return !arg(...context);
+    return arg && !arg(...context);
   };
 };
 
@@ -58,7 +60,7 @@ export const not = (arg) => {
  */
 export const and = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) && oper2(...context);
+    return oper1 && oper1(...context) && oper2 && oper2(...context);
   };
 };
 
@@ -69,7 +71,7 @@ export const and = (oper1, oper2) => {
  */
 export const or = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) || oper2(...context);
+    return (oper1 && oper1(...context)) || (oper2 && oper2(...context));
   };
 };
 
@@ -80,7 +82,7 @@ export const or = (oper1, oper2) => {
  */
 export const equals = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) === oper2(...context);
+    return (oper1 && oper1(...context)) === (oper2 && oper2(...context));
   };
 };
 
@@ -91,7 +93,7 @@ export const equals = (oper1, oper2) => {
  */
 export const nonEquals = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) !== oper2(...context);
+    return (oper1 && oper1(...context)) !== (oper2 && oper2(...context));
   };
 };
 
@@ -102,7 +104,7 @@ export const nonEquals = (oper1, oper2) => {
  */
 export const greaterThan = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) > oper2(...context);
+    return (oper2 && oper1(...context)) > (oper2 && oper2(...context));
   };
 };
 
@@ -113,7 +115,7 @@ export const greaterThan = (oper1, oper2) => {
  */
 export const greaterOrEqualsThan = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) >= oper2(...context);
+    return (oper1 && oper1(...context)) >= (oper2 && oper2(...context));
   };
 };
 
@@ -124,7 +126,7 @@ export const greaterOrEqualsThan = (oper1, oper2) => {
  */
 export const lessThan = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) < oper2(...context);
+    return (oper1 && oper1(...context)) < (oper2 && oper2(...context));
   };
 };
 
@@ -135,6 +137,6 @@ export const lessThan = (oper1, oper2) => {
  */
 export const lessOrEqualsThan = (oper1, oper2) => {
   return (...context) => {
-    return oper1(...context) <= oper2(...context);
+    return (oper1 && oper1(...context)) <= (oper2 && oper2(...context));
   };
 };
