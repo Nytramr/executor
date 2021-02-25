@@ -17,9 +17,15 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/',
-          activeBasePath: 'docs',
+          to: 'docs/docs1/doc1',
+          activeBasePath: 'docs/docs1',
           label: 'Docs',
+          position: 'left',
+        },
+        {
+          to: 'docs/docs2/doc-2',
+          activeBasePath: 'docs/docs2',
+          label: 'Docs2',
           position: 'left',
         },
         {
@@ -89,6 +95,11 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // Please change this to your repo.
+          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
+        },
+        docs2: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',

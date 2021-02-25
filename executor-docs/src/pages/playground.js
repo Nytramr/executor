@@ -26,7 +26,7 @@ function useExecutor(code) {
 function useExecutorResult(executor, data) {
   try {
     const dataObject = data && JSON.parse(data);
-    debugger;
+
     return executor && executor(dataObject);
   } catch (e) {
     return e.message;
@@ -66,7 +66,7 @@ function Sandbox({ executor }) {
           fontSize: '14px',
         }}
       >
-        <span>{result === undefined ? 'undefined' : result.toString()}</span>
+        <span>{result === undefined ? 'undefined' : result === null ? 'null' : result.toString()}</span>
       </div>
     </div>
   );
@@ -87,6 +87,7 @@ function Playground() {
           minHeight: 'calc(100vh - 60px)',
           alignItems: 'stretch',
           padding: '8px',
+          color: '#000000',
         }}
       >
         <div
