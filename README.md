@@ -188,7 +188,7 @@ find
 ```javascript
 const engine = new Engine();
 
-engine.define('FD', (arrayGetter, string) => (context) => {
+engine.define('FD', (arrayGetter, predicate) => (context) => {
   const array = arrayGetter(context);
   if (Array.isArray(array)) return array.find((element) => predicate(context, subContext, element));
   return undefined;
@@ -667,7 +667,7 @@ It will store the _value_ under the name _valueName_.
 const engine = new Engine();
 
 const executer = engine.compile('SET(PP(name), CT("artistName"))');
-executer({name: 'John'}); // will store "John" under the key "artistName"
+executer({ name: 'John' }); // will store "John" under the key "artistName"
 ```
 
 ## Dev Setup
