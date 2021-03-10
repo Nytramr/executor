@@ -10,6 +10,7 @@ import {
   not,
   or,
   self,
+  top,
   undef,
 } from './executers';
 import { propertyRegEx, constantRegEx, executerRegExFactory, functionPartsSeparator, literalRegEx } from './regexs';
@@ -53,6 +54,7 @@ export class Engine {
       'NT': not,
       'OR': or,
       'SL': self,
+      'TOP': top,
       'GET': getter,
       'SET': setter,
     };

@@ -43,16 +43,16 @@ describe('Engine', () => {
       });
     });
 
-    describe('Self', () => {
+    describe('Top', () => {
       it('should return the entire context', () => {
-        const executer = engine.compile('SL()');
+        const executer = engine.compile('TOP()');
 
         expect(executer({})).toEqual({});
         expect(executer({ name: 'John' })).toEqual({ name: 'John' });
       });
 
       it('should return the given property of the context', () => {
-        const executer = engine.compile('SL(PP(name))');
+        const executer = engine.compile('TOP(PP(name))');
 
         expect(executer({})).toBeUndefined();
         expect(executer({ name: 'John' })).toEqual('John');
@@ -60,7 +60,7 @@ describe('Engine', () => {
       });
 
       it('should return the given complex property of the context', () => {
-        const executer = engine.compile('SL(PP(body.name))');
+        const executer = engine.compile('TOP(PP(body.name))');
 
         expect(executer({})).toBeUndefined();
         expect(executer({ body: { name: 'John' } })).toEqual('John');

@@ -11,6 +11,7 @@ import {
   or,
   property,
   self,
+  top,
 } from '../src/expression/executers';
 
 describe('Executers', () => {
@@ -61,7 +62,7 @@ describe('Executers', () => {
 
     describe('improbable situations', () => {
       it('should reset the subContext to the context for the getter', () => {
-        const executor = property(property(constant('key'), self(property(constant('sub-key')))));
+        const executor = property(property(constant('key'), top(property(constant('sub-key')))));
 
         expect(executor({ value: 'name', value2: 'name 2', key: { 'sub-key': 'value' }, 'sub-key': 'value2' })).toBe(
           'name 2',
