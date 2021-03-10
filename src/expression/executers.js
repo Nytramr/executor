@@ -6,13 +6,21 @@
 export const undef = () => () => undefined;
 
 /**
+ * Top executer
+ *
+ * It returns an executor that changes the context to the top-level object.
+ */
+export const top = (getter) =>
+  getter
+    ? (context, topContext = context) => getter(topContext, topContext)
+    : (context, topContext = context) => topContext;
+
+/**
  * Self executer
  *
- * It returns an executor that changes the context.
+ * It returns an executor that pass through the context.
  */
-const sameValue = (subContext, context = subContext, selfContext = context) => selfContext;
-export const self = (getter) =>
-  getter ? (subContext, context = subContext, selfContext = context) => getter(selfContext, context) : sameValue;
+export const self = (getter) => (getter ? getter : (context) => context);
 
 /**
  * Constant executer
@@ -32,12 +40,8 @@ export const constant = (value) => {
  */
 
 export const property = (name, getter) => {
-  return (subContext, context = subContext) => {
-    return (
-      name &&
-      subContext &&
-      (getter && subContext ? getter(subContext[name(context)], context) : subContext[name(context)])
-    );
+  return (context, topContext = context) => {
+    return name && context && (getter ? getter(context[name(topContext)], topContext) : context[name(topContext)]);
   };
 };
 

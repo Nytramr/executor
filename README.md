@@ -165,9 +165,9 @@ join
 ```javascript
 const engine = new Engine();
 
-engine.define('JN', (arrayGetter, string) => (context) => {
-  const array = arrayGetter(context);
-  if (Array.isArray(array)) return array.join(string(context));
+engine.define('JN', (arrayGetter, string) => (context, topContext = context) => {
+  const array = arrayGetter(context, topContext);
+  if (Array.isArray(array)) return array.join(string(context, topContext));
   return ''; // you may choice to return undefined instead.
 });
 ```
@@ -188,9 +188,9 @@ find
 ```javascript
 const engine = new Engine();
 
-engine.define('FD', (arrayGetter, string) => (context) => {
-  const array = arrayGetter(context);
-  if (Array.isArray(array)) return array.find((element) => predicate(context, subContext, element));
+engine.define('find', (arrayGetter, predicate) => (context, topContext = context) => {
+  const array = arrayGetter(context, topContext);
+  if (Array.isArray(array)) return array.find((element) => predicate(element, topContext));
   return undefined;
 });
 ```
@@ -198,7 +198,7 @@ engine.define('FD', (arrayGetter, string) => (context) => {
 </td><td>
 
 ```javascript
-var executer = engine.compile('FN(PP("singers"), EQ(SL(PP("name")), CT("John")))');
+var executer = engine.compile('find(PP("singers"), EQ(SL(PP("name")), CT("John")))');
 ```
 
 </td></tr>
@@ -211,9 +211,9 @@ filter
 ```javascript
 const engine = new Engine();
 
-engine.define('FT', (arrayGetter, string) => (context) => {
-  const array = arrayGetter(context);
-  if (Array.isArray(array)) return array.filter((element) => predicate(context, subContext, element));
+engine.define('filter', (arrayGetter, predicate) => (context, topContext = context) => {
+  const array = arrayGetter(context, topContext);
+  if (Array.isArray(array)) return array.filter((element) => predicate(element, topContext));
   return []; // you may choice to return undefined instead.
 });
 ```
@@ -221,7 +221,7 @@ engine.define('FT', (arrayGetter, string) => (context) => {
 </td><td>
 
 ```javascript
-var executer = engine.compile('FT(PP("singers"), EQ(SL(PP("band")), CT("The Beatles")))');
+var executer = engine.compile('filter(PP("singers"), EQ(SL(PP("band")), CT("The Beatles")))');
 ```
 
 </td></tr>
@@ -667,7 +667,7 @@ It will store the _value_ under the name _valueName_.
 const engine = new Engine();
 
 const executer = engine.compile('SET(PP(name), CT("artistName"))');
-executer({name: 'John'}); // will store "John" under the key "artistName"
+executer({ name: 'John' }); // will store "John" under the key "artistName"
 ```
 
 ## Dev Setup

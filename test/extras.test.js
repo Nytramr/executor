@@ -4,15 +4,15 @@ describe('Extras, tests common functions not included in the current build', () 
   describe('Join', () => {
     const engine = new Engine();
     beforeAll(() => {
-      engine.define('JN', (arrayGetter, string) => (context) => {
-        const array = arrayGetter(context);
-        if (Array.isArray(array)) return array.join(string(context));
+      engine.define('JN', (arrayGetter, string) => (context, topContext=context) => {
+        const array = arrayGetter(context, topContext);
+        if (Array.isArray(array)) return array.join(string(context, topContext));
         return ''; // you may choice to return undefined instead.
       });
     });
 
     it('should return the join of the given array', () => {
-      const executer = engine.compile('JN(SL(), ",")');
+      const executer = engine.compile('JN(TOP(), ",")');
 
       expect(executer([1, 2, 3, 4, 5])).toEqual('1,2,3,4,5');
       expect(executer(['1', '2', '3', '4', '5'])).toEqual('1,2,3,4,5');
@@ -33,7 +33,7 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('JN(SL(), CT(","))');
+      const executer = engine.compile('JN(TOP(), CT(","))');
 
       expect(executer()).toEqual('');
       expect(executer('string')).toEqual('');
@@ -44,15 +44,15 @@ describe('Extras, tests common functions not included in the current build', () 
   describe('Filter', () => {
     const engine = new Engine();
     beforeAll(() => {
-      engine.define('filter', (arrayGetter, predicate) => (context, subContext) => {
-        const array = arrayGetter(context);
-        if (Array.isArray(array)) return array.filter((element) => predicate(context, subContext, element));
+      engine.define('filter', (arrayGetter, predicate) => (context, topContext=context) => {
+        const array = arrayGetter(context, topContext);
+        if (Array.isArray(array)) return array.filter((element) => predicate(element, topContext));
         return []; // you may choice to return undefined instead.
       });
     });
 
     it('should return every number grater or equals to 3', () => {
-      const executer = engine.compile('filter(SL(), GE(SL(), 3)');
+      const executer = engine.compile('filter(TOP(), GE(SL(), 3)');
 
       expect(executer([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
     });
@@ -64,7 +64,7 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return every "The Beatles" element of the given array, using properties in the predicate', () => {
-      const executer = engine.compile('filter(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
+      const executer = engine.compile('filter(PP("myArray"), EQ(PP("band"), TOP(PP("myBand"))))');
 
       expect(
         executer({
@@ -86,7 +86,7 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('filter(SL(), GE(SL(), CT(3))');
+      const executer = engine.compile('filter(TOP(), GE(SL(), CT(3))');
 
       expect(executer()).toEqual([]);
       expect(executer('string')).toEqual([]);
@@ -97,21 +97,21 @@ describe('Extras, tests common functions not included in the current build', () 
   describe('Find', () => {
     const engine = new Engine();
     beforeAll(() => {
-      engine.define('find', (arrayGetter, predicate) => (context, subContext) => {
-        const array = arrayGetter(context);
-        if (Array.isArray(array)) return array.find((element) => predicate(context, subContext, element));
+      engine.define('find', (arrayGetter, predicate) => (context, topContext=context) => {
+        const array = arrayGetter(context, topContext);
+        if (Array.isArray(array)) return array.find((element) => predicate(element, topContext));
         return undefined;
       });
     });
 
     it('should return the first number grater than 3', () => {
-      const executer = engine.compile('find(SL(), GE(SL(), CT(3))');
+      const executer = engine.compile('find(TOP(), GE(SL(), CT(3))');
 
       expect(executer([1, 2, 3, 4, 5])).toEqual(3);
     });
 
     it('should return the element for the given name, of the given array, using properties in the predicate', () => {
-      const executer = engine.compile('find(PP("myArray"), EQ(SL(PP("name")), PP("myName")))');
+      const executer = engine.compile('find(PP("myArray"), EQ(PP("name"), TOP(PP("myName"))))');
 
       expect(
         executer({
@@ -128,7 +128,7 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('find(SL(), GE(SL(), CT(3))');
+      const executer = engine.compile('find(TOP(), GE(SL(), CT(3))');
 
       expect(executer()).toBeUndefined();
       expect(executer('string')).toBeUndefined();
