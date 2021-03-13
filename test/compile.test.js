@@ -52,7 +52,7 @@ describe('Engine', () => {
       });
 
       it('should return the given property of the context', () => {
-        const executor = engine.compile('SL(PP(name))');
+        const executor = engine.compile('SL(name)');
 
         expect(executor({})).toBeUndefined();
         expect(executor({ name: 'John' })).toEqual('John');
@@ -60,7 +60,7 @@ describe('Engine', () => {
       });
 
       it('should return the given complex property of the context', () => {
-        const executor = engine.compile('SL(PP(body.name))');
+        const executor = engine.compile('SL(body.name)');
 
         expect(executor({})).toBeUndefined();
         expect(executor({ body: { name: 'John' } })).toEqual('John');
