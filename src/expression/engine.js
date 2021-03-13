@@ -12,9 +12,9 @@ import {
   self,
   undef,
 } from './executers';
-import { propertyRegEx, constantRegEx, executerRegExFactory, functionPartsSeparator, literalRegEx } from './regexs';
+import { propertyRegEx, constantRegEx, functionRegEx, functionPartsSeparator, literalRegEx, elseRegEx } from './regexs';
 import { textParser } from './parser';
-import { propertyParser } from './property-parser';
+import { propertyParser, propertyFunctionParser } from './property-parser';
 
 export class Engine {
   constructor() {
@@ -57,7 +57,7 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 4, functionPartsSeparator, accum);
+    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 5, functionPartsSeparator, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];
@@ -73,10 +73,11 @@ export class Engine {
     };
 
     this._instructionParsers_ = [
-      { regex: executerRegExFactory(Object.keys(this._executers_)), parser: this._parseExecuter_ },
-      { regex: propertyRegEx, parser: propertyParser },
+      { regex: propertyRegEx, parser: propertyFunctionParser },
       { regex: constantRegEx, parser: constantParser },
+      { regex: functionRegEx, parser: this._parseExecuter_ },
       { regex: literalRegEx, parser: literalParser },
+      { regex: elseRegEx, parser: propertyParser },
     ];
 
     this._scope_ = {};
@@ -90,9 +91,6 @@ export class Engine {
    */
   define(command, executer) {
     this._executers_[command] = executer;
-
-    this._instructionParsers_[0].regex = executerRegExFactory(Object.keys(this._executers_));
-
     return;
   }
 

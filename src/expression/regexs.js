@@ -1,12 +1,11 @@
-export const executerRegExFactory = (commands) => {
-  return new RegExp(`^(${commands.join('|')})\\(s*(.*)`);
-};
+export const functionRegEx = /^(\w[\w\d]*)\s*\(\s*(.*)/i;
 export const endOfFunction = /^[\]\)]\s*/;
-export const propertyPartsSeparator = /^\.?/;
 export const functionPartsSeparator = /^,\s*/;
 export const propertyRegEx = /^PP\(\s*(.*)/; //only group: rest
 export const constantRegEx = /^CT\(\s*(.*)/; //only group: rest
 export const elseRegEx = /^\s*(.*)/; //only group: rest
+
+export const identifierRegEx = /^(\w[\w\d\-]*)(.*)/i;
 
 /*
  * Literal regex

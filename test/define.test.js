@@ -25,7 +25,7 @@ describe('Engine', () => {
 
       it('should not exist in other engines', () => {
         const anotherEngine = new Engine();
-        expect(() => anotherEngine.compile('CC(CT("hello"))')).toThrow('Token unrecognized near to CC(CT("hello"))');
+        expect(() => anotherEngine.compile('CC(CT("hello"))')).toThrow("Executer CC wasn't recognized");
       });
     });
   });

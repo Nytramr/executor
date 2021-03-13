@@ -26,3 +26,19 @@ export const textParser = (text, parsers, parsersLength, intermediateCheck, accu
     text: _text.replace(endOfFunction, ''),
   };
 };
+
+export const textParser2 = (text, parsers, parsersLength, endOfSequence, accum) => {
+  let _text = text;
+  let _accum = accum;
+
+  while (_text && !endOfSequence.test(_text)) {
+    const next = parseNextPart(_text, parsers, parsersLength, _accum);
+    _accum = next.accum;
+    _text = next.text;
+  }
+
+  return {
+    accum: _accum,
+    text: _text,
+  };
+};
