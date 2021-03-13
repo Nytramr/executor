@@ -1,4 +1,5 @@
-import { constantParser, literalParser } from './constant-parser';
+import endOfFunction from './end-of-function';
+import { literalAction, constantAction } from './constant-parser';
 import {
   and,
   equals,
@@ -12,17 +13,9 @@ import {
   self,
   undef,
 } from './executers';
-import {
-  constantRegEx,
-  elseRegEx,
-  endOfFunction,
-  functionPartsSeparator,
-  functionRegEx,
-  literalRegEx,
-  propertyRegEx,
-} from './regexs';
+import { functionPartsSeparator, functionRegEx } from './regexs';
 import { textParser, removeMatch } from './parser';
-import { propertyParser, propertyFunctionParser } from './property-parser';
+import { propertyParserAction, propertyFunctionAction } from './property-parser';
 
 export class Engine {
   constructor() {
@@ -75,18 +68,18 @@ export class Engine {
       const args = this._textParser_(match[2], []);
 
       return {
-        text: args.text.replace(endOfFunction, ''),
+        text: endOfFunction.remove(args.text),
         accum: accum.concat(executer(...args.accum)),
       };
     };
 
     this._instructionParsers_ = [
-      { regex: propertyRegEx, parser: propertyFunctionParser },
-      { regex: constantRegEx, parser: constantParser },
+      propertyFunctionAction,
+      constantAction,
       { regex: functionRegEx, parser: this._parseExecuter_ },
-      { regex: literalRegEx, parser: literalParser },
+      literalAction,
       { regex: functionPartsSeparator, parser: removeMatch },
-      { regex: elseRegEx, parser: propertyParser },
+      propertyParserAction,
     ];
 
     this._scope_ = {};

@@ -1,4 +1,3 @@
-import { endOfFunction } from './regexs';
 import { constant } from './executers';
 
 export const parseNormal = (match, accum) => {

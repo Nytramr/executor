@@ -1,19 +1,21 @@
+import endOfFunction from './end-of-function';
 import { property } from './executers';
-import { constantParser, literalParser } from './constant-parser';
+import { constantAction, literalAction } from './constant-parser';
 import { parseNormal, removeMatch, textParser, parseNextPart } from './parser';
-import { constantRegEx, elseRegEx, endOfFunction, identifierRegEx, propertyRegEx, literalRegEx } from './regexs';
-
-const squareBracketsRegEx = /^\[\s*(.*)/; // square brackets path part, first group: part, second group: rest.
-const anyOtherPartRegEx = /^([\w][\w-\d_]*)(.*)/; // path part, first group: part name, second group: rest.
-
-const endOfPropertyRegEx = /^[\)\], ]/; // possible end of properties
-const propertySeparatorRegEx = /^(\.(?!\[))(.*)/;
+import {
+  elseRegEx,
+  endOfPropertyRegEx,
+  identifierRegEx,
+  propertyRegEx,
+  propertySeparatorRegEx,
+  squareBracketsRegEx,
+} from './regexs';
 
 const squareBracketsParser = (match, accum) => {
   const result = parseNextPart(match[1], squareBracketsParsers, 4, []);
   return {
     accum: accum.concat(result.accum),
-    text: result.text.replace(endOfFunction, ''),
+    text: endOfFunction.remove(result.text),
   };
 };
 
@@ -21,7 +23,7 @@ export const propertyFunctionParser = (match, accum) => {
   const result = propertyParser(match, accum);
   return {
     accum: result.accum,
-    text: result.text.replace(endOfFunction, ''),
+    text: endOfFunction.remove(result.text),
   };
 };
 
@@ -40,17 +42,15 @@ export const propertyParser = (match, accum) => {
   };
 };
 
+export const propertyFunctionAction = { regex: propertyRegEx, parser: propertyFunctionParser };
+export const propertyParserAction = { regex: elseRegEx, parser: propertyParser };
+
 const propertyParsers = [
-  { regex: literalRegEx, parser: literalParser },
-  { regex: propertyRegEx, parser: propertyFunctionParser },
+  literalAction,
+  propertyFunctionAction,
   { regex: identifierRegEx, parser: parseNormal },
   { regex: propertySeparatorRegEx, parser: removeMatch },
   { regex: squareBracketsRegEx, parser: squareBracketsParser },
 ];
 
-const squareBracketsParsers = [
-  { regex: literalRegEx, parser: literalParser },
-  { regex: constantRegEx, parser: constantParser },
-  { regex: propertyRegEx, parser: propertyFunctionParser },
-  { regex: elseRegEx, parser: propertyParser },
-];
+const squareBracketsParsers = [literalAction, constantAction, propertyFunctionAction, propertyParserAction];
