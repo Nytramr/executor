@@ -12,32 +12,32 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return the join of the given array', () => {
-      const executer = engine.compile('JN(SL(), ",")');
+      const executor = engine.compile('JN(SL(), ",")');
 
-      expect(executer([1, 2, 3, 4, 5])).toEqual('1,2,3,4,5');
-      expect(executer(['1', '2', '3', '4', '5'])).toEqual('1,2,3,4,5');
+      expect(executor([1, 2, 3, 4, 5])).toEqual('1,2,3,4,5');
+      expect(executor(['1', '2', '3', '4', '5'])).toEqual('1,2,3,4,5');
     });
 
     it('should return the join of the array retrieved by the property', () => {
-      const executer = engine.compile('JN(PP("myArray"), ",")');
+      const executor = engine.compile('JN(PP("myArray"), ",")');
 
-      expect(executer({ myArray: [1, 2, 3, 4, 5] })).toEqual('1,2,3,4,5');
-      expect(executer({ myArray: ['1', '2', '3', '4', '5'] })).toEqual('1,2,3,4,5');
+      expect(executor({ myArray: [1, 2, 3, 4, 5] })).toEqual('1,2,3,4,5');
+      expect(executor({ myArray: ['1', '2', '3', '4', '5'] })).toEqual('1,2,3,4,5');
     });
 
     it('should return the join of the given array, using the string retrieved by a property', () => {
-      const executer = engine.compile('JN(PP("myArray"), PP("myString"))');
+      const executor = engine.compile('JN(PP("myArray"), PP("myString"))');
 
-      expect(executer({ myArray: [1, 2, 3, 4, 5], myString: '.' })).toEqual('1.2.3.4.5');
-      expect(executer({ myArray: ['1', '2', '3', '4', '5'], myString: ' ,' })).toEqual('1 ,2 ,3 ,4 ,5');
+      expect(executor({ myArray: [1, 2, 3, 4, 5], myString: '.' })).toEqual('1.2.3.4.5');
+      expect(executor({ myArray: ['1', '2', '3', '4', '5'], myString: ' ,' })).toEqual('1 ,2 ,3 ,4 ,5');
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('JN(SL(), CT(","))');
+      const executor = engine.compile('JN(SL(), CT(","))');
 
-      expect(executer()).toEqual('');
-      expect(executer('string')).toEqual('');
-      expect(executer({})).toEqual('');
+      expect(executor()).toEqual('');
+      expect(executor('string')).toEqual('');
+      expect(executor({})).toEqual('');
     });
   });
 
@@ -52,22 +52,22 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return every number grater or equals to 3', () => {
-      const executer = engine.compile('filter(SL(), GE(SL(), 3)');
+      const executor = engine.compile('filter(SL(), GE(SL(), 3)');
 
-      expect(executer([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
+      expect(executor([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
     });
 
     it('should return every element of the array retrieved by the property', () => {
-      const executer = engine.compile('filter(PP("myArray"), true)');
+      const executor = engine.compile('filter(PP("myArray"), true)');
 
-      expect(executer({ myArray: [1, 2, 3, 4, 5] })).toEqual([1, 2, 3, 4, 5]);
+      expect(executor({ myArray: [1, 2, 3, 4, 5] })).toEqual([1, 2, 3, 4, 5]);
     });
 
     it('should return every "The Beatles" element of the given array, using properties in the predicate', () => {
-      const executer = engine.compile('filter(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
+      const executor = engine.compile('filter(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
 
       expect(
-        executer({
+        executor({
           myArray: [
             { name: 'John', band: 'The Beatles' },
             { name: 'Paul', band: 'The Beatles' },
@@ -86,11 +86,11 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('filter(SL(), GE(SL(), CT(3))');
+      const executor = engine.compile('filter(SL(), GE(SL(), CT(3))');
 
-      expect(executer()).toEqual([]);
-      expect(executer('string')).toEqual([]);
-      expect(executer({})).toEqual([]);
+      expect(executor()).toEqual([]);
+      expect(executor('string')).toEqual([]);
+      expect(executor({})).toEqual([]);
     });
   });
 
@@ -105,16 +105,16 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return the first number grater than 3', () => {
-      const executer = engine.compile('find(SL(), GE(SL(), CT(3))');
+      const executor = engine.compile('find(SL(), GE(SL(), CT(3))');
 
-      expect(executer([1, 2, 3, 4, 5])).toEqual(3);
+      expect(executor([1, 2, 3, 4, 5])).toEqual(3);
     });
 
     it('should return the element for the given name, of the given array, using properties in the predicate', () => {
-      const executer = engine.compile('find(PP("myArray"), EQ(SL(PP("name")), PP("myName")))');
+      const executor = engine.compile('find(PP("myArray"), EQ(SL(PP("name")), PP("myName")))');
 
       expect(
-        executer({
+        executor({
           myArray: [
             { name: 'John', band: 'The Beatles' },
             { name: 'Paul', band: 'The Beatles' },
@@ -128,11 +128,11 @@ describe('Extras, tests common functions not included in the current build', () 
     });
 
     it('should return empty when the the given array is not an array', () => {
-      const executer = engine.compile('find(SL(), GE(SL(), CT(3))');
+      const executor = engine.compile('find(SL(), GE(SL(), CT(3))');
 
-      expect(executer()).toBeUndefined();
-      expect(executer('string')).toBeUndefined();
-      expect(executer({})).toBeUndefined();
+      expect(executor()).toBeUndefined();
+      expect(executor('string')).toBeUndefined();
+      expect(executor({})).toBeUndefined();
     });
   });
 });

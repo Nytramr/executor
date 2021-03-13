@@ -17,10 +17,10 @@ describe('Engine', () => {
       });
 
       it('should compile the new operation', () => {
-        const executer = engine.compile('CC(CT("hello"))');
+        const executor = engine.compile('CC(CT("hello"))');
 
         expect(operation).toHaveBeenCalledTimes(1);
-        expect(executer({})).toEqual('hello');
+        expect(executor({})).toEqual('hello');
       });
 
       it('should not exist in other engines', () => {

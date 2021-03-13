@@ -5,147 +5,147 @@ describe('Engine', () => {
     it('should set and get a value', () => {
       const engine = new Engine();
 
-      const setExecuter = engine.compile('SET(CT("name"), CT("John"))');
-      const getExecuter = engine.compile('GET(CT("name"))');
+      const setExecutor = engine.compile('SET(CT("name"), CT("John"))');
+      const getExecutor = engine.compile('GET(CT("name"))');
 
-      setExecuter({});
-      expect(getExecuter({})).toEqual('John');
+      setExecutor({});
+      expect(getExecutor({})).toEqual('John');
     });
 
     it('should set a value from the context', () => {
       const engine = new Engine();
 
-      const setExecuter = engine.compile('SET(CT("name"), PP("name"))');
-      const getExecuter = engine.compile('GET(CT("name"))');
+      const setExecutor = engine.compile('SET(CT("name"), PP("name"))');
+      const getExecutor = engine.compile('GET(CT("name"))');
 
-      setExecuter({ name: 'John' });
-      expect(getExecuter({})).toEqual('John');
+      setExecutor({ name: 'John' });
+      expect(getExecutor({})).toEqual('John');
     });
 
     it('should set a value, taking the name from the context', () => {
       const engine = new Engine();
 
-      const setExecuter = engine.compile('SET(PP("valueName"), CT("John"))');
-      const getExecuter = engine.compile('GET(PP("valueName"))');
+      const setExecutor = engine.compile('SET(PP("valueName"), CT("John"))');
+      const getExecutor = engine.compile('GET(PP("valueName"))');
 
-      setExecuter({ valueName: 'name' });
-      expect(getExecuter({ valueName: 'name' })).toEqual('John');
+      setExecutor({ valueName: 'name' });
+      expect(getExecutor({ valueName: 'name' })).toEqual('John');
     });
   });
 
-  describe('Compiler and executers', () => {
+  describe('Compiler and executors', () => {
     const engine = new Engine();
     describe('Empty', () => {
       it('should return undefined', () => {
-        const executer = engine.compile('');
+        const executor = engine.compile('');
 
-        expect(executer({})).toBeUndefined();
+        expect(executor({})).toBeUndefined();
       });
     });
 
     describe('Self', () => {
       it('should return the entire context', () => {
-        const executer = engine.compile('SL()');
+        const executor = engine.compile('SL()');
 
-        expect(executer({})).toEqual({});
-        expect(executer({ name: 'John' })).toEqual({ name: 'John' });
+        expect(executor({})).toEqual({});
+        expect(executor({ name: 'John' })).toEqual({ name: 'John' });
       });
 
       it('should return the given property of the context', () => {
-        const executer = engine.compile('SL(PP(name))');
+        const executor = engine.compile('SL(PP(name))');
 
-        expect(executer({})).toBeUndefined();
-        expect(executer({ name: 'John' })).toEqual('John');
-        expect(executer({ name: 'Paul' })).toEqual('Paul');
+        expect(executor({})).toBeUndefined();
+        expect(executor({ name: 'John' })).toEqual('John');
+        expect(executor({ name: 'Paul' })).toEqual('Paul');
       });
 
       it('should return the given complex property of the context', () => {
-        const executer = engine.compile('SL(PP(body.name))');
+        const executor = engine.compile('SL(PP(body.name))');
 
-        expect(executer({})).toBeUndefined();
-        expect(executer({ body: { name: 'John' } })).toEqual('John');
-        expect(executer({ body: { name: 'Paul' } })).toEqual('Paul');
+        expect(executor({})).toBeUndefined();
+        expect(executor({ body: { name: 'John' } })).toEqual('John');
+        expect(executor({ body: { name: 'Paul' } })).toEqual('Paul');
       });
     });
 
     describe('Constant', () => {
       describe('string using CT', () => {
         it('should return a constant, with the given double quotes string', () => {
-          const executer = engine.compile('CT("someText")');
+          const executor = engine.compile('CT("someText")');
 
-          expect(executer({})).toEqual('someText');
+          expect(executor({})).toEqual('someText');
         });
 
         it('should return a constant, with the given single quotes string', () => {
-          const executer = engine.compile("CT('someText')");
+          const executor = engine.compile("CT('someText')");
 
-          expect(executer({})).toEqual('someText');
+          expect(executor({})).toEqual('someText');
         });
 
         it('should return a constant, with an empty string', () => {
-          const executer = engine.compile('CT("")');
+          const executor = engine.compile('CT("")');
 
-          expect(executer({})).toEqual('');
+          expect(executor({})).toEqual('');
         });
       });
 
       describe('string', () => {
         it('should return a constant, with the given double quotes string', () => {
-          const executer = engine.compile('"someText"');
+          const executor = engine.compile('"someText"');
 
-          expect(executer({})).toEqual('someText');
+          expect(executor({})).toEqual('someText');
         });
 
         it('should return a constant, with the given single quotes string', () => {
-          const executer = engine.compile("'someText'");
+          const executor = engine.compile("'someText'");
 
-          expect(executer({})).toEqual('someText');
+          expect(executor({})).toEqual('someText');
         });
 
         it('should return a constant, with an empty string', () => {
-          const executer = engine.compile('""');
+          const executor = engine.compile('""');
 
-          expect(executer({})).toEqual('');
+          expect(executor({})).toEqual('');
         });
       });
 
       describe('numbers', () => {
         it('should return a constant, with the given positive number', () => {
-          const executer = engine.compile('CT(150)');
+          const executor = engine.compile('CT(150)');
 
-          expect(executer({})).toEqual(150);
+          expect(executor({})).toEqual(150);
         });
 
         it('should return a constant, with 0', () => {
-          const executer = engine.compile('CT(0)');
+          const executor = engine.compile('CT(0)');
 
-          expect(executer({})).toEqual(0);
+          expect(executor({})).toEqual(0);
         });
 
         it('should return a constant, with the given negative number', () => {
-          const executer = engine.compile('CT(-67)');
+          const executor = engine.compile('CT(-67)');
 
-          expect(executer({})).toEqual(-67);
+          expect(executor({})).toEqual(-67);
         });
 
         it('should return a constant, with the given float number', () => {
-          const executer = engine.compile('CT(0.890)');
+          const executor = engine.compile('CT(0.890)');
 
-          expect(executer({})).toEqual(0.89);
+          expect(executor({})).toEqual(0.89);
         });
       });
 
       describe('boolean', () => {
         it('should return a constant, with a true value', () => {
-          const executer = engine.compile('CT(true)');
+          const executor = engine.compile('CT(true)');
 
-          expect(executer({})).toEqual(true);
+          expect(executor({})).toEqual(true);
         });
 
         it('should return a constant, with a false value', () => {
-          const executer = engine.compile('CT(false)');
+          const executor = engine.compile('CT(false)');
 
-          expect(executer({})).toEqual(false);
+          expect(executor({})).toEqual(false);
         });
       });
     });
