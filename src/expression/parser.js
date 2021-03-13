@@ -1,4 +1,19 @@
 import { endOfFunction } from './regexs';
+import { constant } from './executers';
+
+export const parseNormal = (match, accum) => {
+  return {
+    accum: accum.concat(constant(match[1])),
+    text: match[2],
+  };
+};
+
+export const removeMatch = (match, accum) => {
+  return {
+    accum,
+    text: match[2],
+  };
+};
 
 export const parseNextPart = (text, parsers, parsersLength, accum) => {
   for (let i = 0; i < parsersLength; i++) {

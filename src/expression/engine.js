@@ -12,8 +12,16 @@ import {
   self,
   undef,
 } from './executers';
-import { propertyRegEx, constantRegEx, functionRegEx, functionPartsSeparator, literalRegEx, elseRegEx } from './regexs';
-import { textParser } from './parser';
+import {
+  constantRegEx,
+  elseRegEx,
+  endOfFunction,
+  functionPartsSeparator,
+  functionRegEx,
+  literalRegEx,
+  propertyRegEx,
+} from './regexs';
+import { textParser2, removeMatch } from './parser';
 import { propertyParser, propertyFunctionParser } from './property-parser';
 
 export class Engine {
@@ -57,7 +65,7 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 5, functionPartsSeparator, accum);
+    this._textParser_ = (text, accum) => textParser2(text, this._instructionParsers_, 6, endOfFunction, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];
@@ -67,7 +75,7 @@ export class Engine {
       const args = this._textParser_(match[2], []);
 
       return {
-        text: args.text,
+        text: args.text.replace(endOfFunction, ''),
         accum: accum.concat(executer(...args.accum)),
       };
     };
@@ -77,6 +85,7 @@ export class Engine {
       { regex: constantRegEx, parser: constantParser },
       { regex: functionRegEx, parser: this._parseExecuter_ },
       { regex: literalRegEx, parser: literalParser },
+      { regex: functionPartsSeparator, parser: removeMatch },
       { regex: elseRegEx, parser: propertyParser },
     ];
 
