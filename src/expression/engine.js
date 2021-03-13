@@ -21,7 +21,7 @@ import {
   literalRegEx,
   propertyRegEx,
 } from './regexs';
-import { textParser2, removeMatch } from './parser';
+import { textParser, removeMatch } from './parser';
 import { propertyParser, propertyFunctionParser } from './property-parser';
 
 export class Engine {
@@ -65,7 +65,7 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) => textParser2(text, this._instructionParsers_, 6, endOfFunction, accum);
+    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunction, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];

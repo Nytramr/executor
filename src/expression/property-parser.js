@@ -1,6 +1,6 @@
 import { property } from './executers';
 import { constantParser, literalParser } from './constant-parser';
-import { parseNormal, removeMatch, textParser2, parseNextPart } from './parser';
+import { parseNormal, removeMatch, textParser, parseNextPart } from './parser';
 import { constantRegEx, elseRegEx, endOfFunction, identifierRegEx, propertyRegEx, literalRegEx } from './regexs';
 
 const squareBracketsRegEx = /^\[\s*(.*)/; // square brackets path part, first group: part, second group: rest.
@@ -26,7 +26,7 @@ export const propertyFunctionParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const result = textParser2(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
+  const result = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
   let i = result.accum.length - 1;
   let path = property(result.accum[i]);
 
