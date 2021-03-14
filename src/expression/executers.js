@@ -140,3 +140,9 @@ export const lessOrEqualsThan = (oper1, oper2) => {
     return (oper1 && oper1(...context)) <= (oper2 && oper2(...context));
   };
 };
+
+export const find = (arrayGetter, predicate) => (subContext, context = subContext) => {
+  const array = arrayGetter && arrayGetter(subContext, context);
+  if (predicate && Array.isArray(array)) return array.find((element) => predicate(subContext, context, element));
+  return undefined;
+};

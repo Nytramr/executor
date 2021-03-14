@@ -3,6 +3,7 @@ import { literalAction, constantAction } from './constant-parser';
 import {
   and,
   equals,
+  find,
   greaterOrEqualsThan,
   greaterThan,
   lessOrEqualsThan,
@@ -57,6 +58,7 @@ export class Engine {
       'SL': self,
       'GET': getter,
       'SET': setter,
+      'FND': find,
     };
 
     this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunctionRegEx, accum);
