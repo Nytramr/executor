@@ -3,14 +3,14 @@ import { constant } from './executers';
 export const parseNormal = (match, accum) => {
   return {
     accum: accum.concat(constant(match[1])),
-    text: match[2],
+    txt: match[2],
   };
 };
 
 export const removeMatch = (match, accum) => {
   return {
     accum,
-    text: match[2],
+    txt: match[2],
   };
 };
 
@@ -32,11 +32,11 @@ export const textParser = (text, parsers, parsersLength, endOfSequence, accum) =
   while (_text && !endOfSequence.test(_text)) {
     const next = parseNextPart(_text, parsers, parsersLength, _accum);
     _accum = next.accum;
-    _text = next.text;
+    _text = next.txt;
   }
 
   return {
     accum: _accum,
-    text: _text,
+    txt: _text,
   };
 };

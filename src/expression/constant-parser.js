@@ -2,13 +2,13 @@ import endOfFunction from './end-of-function';
 import { constant } from './executers';
 import { literalRegEx, constantRegEx } from './regexs';
 
-export function parseAll(match) {
-  const text = match[5] || '';
+function parseAll(match) {
+  const txt = match[5] || '';
   if (match[4]) {
     //boolean
     return {
       val: match[4] === 'true',
-      text,
+      txt,
     };
   }
 
@@ -16,14 +16,14 @@ export function parseAll(match) {
     //number
     return {
       val: +match[3], // convert into number
-      text,
+      txt,
     };
   }
 
   // string
   return {
     val: match[1] || match[2] || '',
-    text,
+    txt,
   };
 }
 
@@ -32,7 +32,7 @@ export function literalParser(match, accum) {
 
   return {
     accum: accum.concat(constant(result.val)),
-    text: result.text,
+    txt: result.txt,
   };
 }
 
@@ -42,7 +42,7 @@ export function constantParser(match, accum) {
 
   return {
     accum: accum.concat(constant(result.val)),
-    text: endOfFunction.remove(result.text),
+    txt: endOfFunction.remove(result.txt),
   };
 }
 

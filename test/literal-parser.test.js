@@ -18,7 +18,7 @@ describe('Literal Parser', () => {
 
     expect(result).toEqual({
       accum: [constant1],
-      text: '), some more text to be parsed',
+      txt: '), some more text to be parsed',
     });
   });
 
@@ -29,7 +29,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith('someText');
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -39,7 +39,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith('someText');
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -49,7 +49,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith('');
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
   });
@@ -62,7 +62,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(150);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -73,7 +73,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(0);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -84,7 +84,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(-67);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -95,7 +95,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(0.89);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
   });
@@ -108,7 +108,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(true);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
 
@@ -119,7 +119,7 @@ describe('Literal Parser', () => {
       expect(constant).toHaveBeenCalledWith(false);
       expect(result).toEqual({
         accum: [constant1],
-        text: '',
+        txt: '',
       });
     });
   });

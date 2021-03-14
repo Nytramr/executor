@@ -15,7 +15,7 @@ const squareBracketsParser = (match, accum) => {
   const result = parseNextPart(match[1], squareBracketsParsers, 4, []);
   return {
     accum: accum.concat(result.accum),
-    text: endOfFunction.remove(result.text),
+    txt: endOfFunction.remove(result.txt),
   };
 };
 
@@ -23,7 +23,7 @@ export const propertyFunctionParser = (match, accum) => {
   const result = propertyParser(match, accum);
   return {
     accum: result.accum,
-    text: endOfFunction.remove(result.text),
+    txt: endOfFunction.remove(result.txt),
   };
 };
 
@@ -38,7 +38,7 @@ export const propertyParser = (match, accum) => {
 
   return {
     accum: accum.concat(path),
-    text: result.text,
+    txt: result.txt,
   };
 };
 
