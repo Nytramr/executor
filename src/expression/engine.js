@@ -16,6 +16,7 @@ import {
 import { functionPartsSeparator, functionRegEx } from './regexs';
 import { textParser, removeMatch } from './parser';
 import { propertyParserAction, propertyFunctionAction } from './property-parser';
+import { throwError } from './utils';
 
 export class Engine {
   constructor() {
@@ -63,7 +64,7 @@ export class Engine {
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];
       if (!executer) {
-        throw new Error(`Executer ${match[1]} wasn't recognized`);
+        throwError(`Executer ${match[1]} wasn't recognized`);
       }
       const args = this._textParser_(match[2], []);
 
@@ -111,7 +112,7 @@ export class Engine {
     const result = this._textParser_(code, []);
 
     if (result.accum.length > 1) {
-      throw new Error(`The expression ${code} has more than a main executer`);
+      throwError(`The expression ${code} has more than a main executer`);
     }
 
     return result.accum[0];

@@ -1,4 +1,5 @@
 import { constant } from './executers';
+import { throwError } from './utils';
 
 export const parseNormal = (match, accum) => {
   return {
@@ -22,7 +23,7 @@ export const parseNextPart = (text, parsers, parsersLength, accum) => {
     }
   }
 
-  throw new Error(`Token unrecognized near to ${text}`);
+  throwError(`Token unrecognized near to ${text}`);
 };
 
 export const textParser = (text, parsers, parsersLength, endOfSequence, accum) => {
