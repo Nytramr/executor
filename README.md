@@ -32,7 +32,7 @@ $> yarn add @nytramr/executor
 
 | name        | description                                                                                      |
 | ----------- | ------------------------------------------------------------------------------------------------ |
-| `textGraph` | The textGraph is a graph like string that represents the code to be "compiled" into an executer. |
+| `textGraph` | The textGraph is a graph like string that represents the code to be "compiled" into an executor. |
 
 #### Return value
 
@@ -86,12 +86,12 @@ engine.define('IF', (pred, trueResult, falseResult) => (context) =>
 // let's create an operator that prints in the console the value got by `valueGetter`
 engine.define('CL', (valueGetter) => (context) => console.log(valueGetter(context)));
 
-var executer = engine.compile('IF(PP(value), CL(CT("true")), CL(CT("false")))');
+var executor = engine.compile('IF(PP(value), CL(CT("true")), CL(CT("false")))');
 
-executer({ value: true }); // prints "true"
-executer({ value: 'hello' }); // prints "true"
-executer({ value: 0 }); // prints "false"
-executer({}); // prints "false"
+executor({ value: true }); // prints "true"
+executor({ value: 'hello' }); // prints "true"
+executor({ value: 0 }); // prints "false"
+executor({}); // prints "false"
 ```
 
 #### Recipes
@@ -133,7 +133,7 @@ engine.define('IF', (pred, trueResult, falseResult) => (context) =>
 </td><td>
 
 ```javascript
-var executer = engine.compile('IF(PP(value), CT("true")), CL(CT("false"))');
+var executor = engine.compile('IF(PP(value), CT("true")), CL(CT("false"))');
 ```
 
 </td></tr>
@@ -152,7 +152,7 @@ engine.define('CL', (valueGetter) => (context) => console.log(valueGetter(contex
 </td><td>
 
 ```javascript
-var executer = engine.compile('CL(PP(value))');
+var executor = engine.compile('CL(PP(value))');
 ```
 
 </td></tr>
@@ -175,7 +175,7 @@ engine.define('JN', (arrayGetter, string) => (context) => {
 </td><td>
 
 ```javascript
-var executer = engine.compile('JN(PP("myArray"), CT(","))');
+var executor = engine.compile('JN(PP("myArray"), CT(","))');
 ```
 
 </td></tr>
@@ -198,7 +198,7 @@ engine.define('FD', (arrayGetter, string) => (context) => {
 </td><td>
 
 ```javascript
-var executer = engine.compile('FN(PP("singers"), EQ(SL(PP("name")), CT("John")))');
+var executor = engine.compile('FN(PP("singers"), EQ(SL(PP("name")), CT("John")))');
 ```
 
 </td></tr>
@@ -221,7 +221,7 @@ engine.define('FT', (arrayGetter, string) => (context) => {
 </td><td>
 
 ```javascript
-var executer = engine.compile('FT(PP("singers"), EQ(SL(PP("band")), CT("The Beatles")))');
+var executor = engine.compile('FT(PP("singers"), EQ(SL(PP("band")), CT("The Beatles")))');
 ```
 
 </td></tr>
@@ -330,7 +330,7 @@ It should return the value of the property `name`
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('PP(name)');
+const executor = engine.compile('PP(name)');
 
 executor({ name: 'John' }); // returns "John"
 executor({ name: 'Paul' }); // returns "Paul"
@@ -350,7 +350,7 @@ It should return the value of the property `name` of the object `user`
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('PP(user.name)');
+const executor = engine.compile('PP(user.name)');
 
 executor({ user: { name: 'John' } }); // returns "John"
 executor({ user: { name: 'Paul' } }); // returns "Paul"
@@ -370,7 +370,7 @@ It should return the value of second position in the array
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('PP(1)');
+const executor = engine.compile('PP(1)');
 
 executor(['cero', 'uno', 'dos']); // returns "uno"
 executor([20, 30, 40]); // returns 30
@@ -454,7 +454,7 @@ The execution is lazy, therefore in case the first condition returns falsy value
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('AN(PP(first), PP(second))');
+const executor = engine.compile('AN(PP(first), PP(second))');
 executor({ first: true, second: true }); // returns true
 executor({ first: true, second: 10 }); // returns 10
 executor({ first: true, second: 'true' }); // returns "true"
@@ -476,8 +476,8 @@ It will return an executor that always returns _value_. Is the way we can define
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('CT("someText")');
-executer({}); // returns "someText"
+const executor = engine.compile('CT("someText")');
+executor({}); // returns "someText"
 executor({ first: 10, second: '10' }); // returns "someText"
 ```
 
@@ -490,7 +490,7 @@ It will return `true` when both values are equals, returns `false` otherwise.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('EQ(PP(first), PP(second))');
+const executor = engine.compile('EQ(PP(first), PP(second))');
 executor({ first: 10, second: 10 }); // returns true
 executor({ first: '10', second: '10' }); // returns true
 executor({ first: true, second: true }); // returns true
@@ -510,7 +510,7 @@ It will return `true` when the first value is greater or equals than the second 
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('GE(PP(first), PP(second))');
+const executor = engine.compile('GE(PP(first), PP(second))');
 executor({ first: 10, second: 5 }); // returns true
 executor({ first: -1, second: -12 }); // returns true
 executor({ first: 'b', second: 'a' }); // returns true
@@ -530,8 +530,8 @@ It will return the stored value under the name _valueName_.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('GET(CT("someText"))');
-executer({}); // returns any previously stored valued under the name "someText"
+const executor = engine.compile('GET(CT("someText"))');
+executor({}); // returns any previously stored valued under the name "someText"
 ```
 
 ### GT(value1, value2)
@@ -543,7 +543,7 @@ It will return `true` when the first value is greater than the second value, ret
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('GT(PP(first), PP(second))');
+const executor = engine.compile('GT(PP(first), PP(second))');
 executor({ first: 10, second: 5 }); // returns true
 executor({ first: -1, second: -12 }); // returns true
 executor({ first: 'b', second: 'a' }); // returns true
@@ -563,7 +563,7 @@ It will return `true` when the first value is less or equals than the second val
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('LE(PP(first), PP(second))');
+const executor = engine.compile('LE(PP(first), PP(second))');
 executor({ first: 10, second: 10 }); // returns true
 executor({ first: 5, second: 10 }); // returns true
 executor({ first: -1, second: 0 }); // returns true
@@ -583,7 +583,7 @@ It will return `true` when the first value is less than the second value, return
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('LT(PP(first), PP(second))');
+const executor = engine.compile('LT(PP(first), PP(second))');
 executor({ first: 5, second: 6 }); // returns true
 executor({ first: -2, second: 0 }); // returns true
 executor({ first: 'a', second: 'b' }); // returns true
@@ -603,7 +603,7 @@ It will return `true` when both values are different, returns `false` otherwise.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('EQ(PP(first), PP(second))');
+const executor = engine.compile('EQ(PP(first), PP(second))');
 executor({ first: 10, second: 10 }); // returns false
 executor({ first: '10', second: '10' }); // returns false
 executor({ first: true, second: true }); // returns false
@@ -623,7 +623,7 @@ It will return `true` when the condition is `false` or `false` when the conditio
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('NT(PP(first))');
+const executor = engine.compile('NT(PP(first))');
 executor({ first: false }); // returns true
 executor({ first: 0 }); // returns true
 executor({ first: null }); // returns true
@@ -644,7 +644,7 @@ The execution is lazy, therefore in case the first condition returns a truly val
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('OR(PP(first), PP(second))');
+const executor = engine.compile('OR(PP(first), PP(second))');
 executor({ first: true, second: true }); // returns true
 executor({ first: true, second: false }); // returns true
 executor({ first: false, second: true }); // returns true
@@ -666,8 +666,8 @@ It will store the _value_ under the name _valueName_.
 ```javascript
 const engine = new Engine();
 
-const executer = engine.compile('SET(PP(name), CT("artistName"))');
-executer({name: 'John'}); // will store "John" under the key "artistName"
+const executor = engine.compile('SET(PP(name), CT("artistName"))');
+executor({ name: 'John' }); // will store "John" under the key "artistName"
 ```
 
 ## Dev Setup

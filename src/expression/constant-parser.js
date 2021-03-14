@@ -1,5 +1,6 @@
+import endOfFunction from './end-of-function';
 import { constant } from './executers';
-import { endOfFunction, literalRegEx } from './regexs';
+import { literalRegEx, constantRegEx } from './regexs';
 
 export function parseAll(match) {
   const text = match[5] || '';
@@ -41,6 +42,9 @@ export function constantParser(match, accum) {
 
   return {
     accum: accum.concat(constant(result.value)),
-    text: result.text.replace(endOfFunction, ''),
+    text: endOfFunction.remove(result.text),
   };
 }
+
+export const literalAction = { regex: literalRegEx, parser: literalParser };
+export const constantAction = { regex: constantRegEx, parser: constantParser };
