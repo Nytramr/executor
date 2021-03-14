@@ -68,7 +68,7 @@ export class Engine {
       const args = this._textParser_(match[2], []);
 
       return {
-        txt: endOfFunction.remove(args.txt),
+        txt: endOfFunction._remove(args.txt),
         accum: accum.concat(executer(...args.accum)),
       };
     };

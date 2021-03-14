@@ -1,4 +1,4 @@
-import endOfFunction from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { constant } from './executers';
 import { literalRegEx, constantRegEx } from './regexs';
 
@@ -42,7 +42,7 @@ export function constantParser(match, accum) {
 
   return {
     accum: accum.concat(constant(result.val)),
-    txt: endOfFunction.remove(result.txt),
+    txt: removeEndOfFunction(result.txt),
   };
 }
 

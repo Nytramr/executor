@@ -1,4 +1,4 @@
-import endOfFunction from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { property } from './executers';
 import { constantAction, literalAction } from './constant-parser';
 import { parseNormal, removeMatch, textParser, parseNextPart } from './parser';
@@ -15,7 +15,7 @@ const squareBracketsParser = (match, accum) => {
   const result = parseNextPart(match[1], squareBracketsParsers, 4, []);
   return {
     accum: accum.concat(result.accum),
-    txt: endOfFunction.remove(result.txt),
+    txt: removeEndOfFunction(result.txt),
   };
 };
 
@@ -23,7 +23,7 @@ export const propertyFunctionParser = (match, accum) => {
   const result = propertyParser(match, accum);
   return {
     accum: result.accum,
-    txt: endOfFunction.remove(result.txt),
+    txt: removeEndOfFunction(result.txt),
   };
 };
 

@@ -4,7 +4,7 @@ function test(text) {
   return char == ']' || char == ')';
 }
 
-function remove(text) {
+function _remove(text) {
   const newText = text.trimStart();
   const char = newText.slice(0, 1);
   if (char == ']' || char == ')') {
@@ -15,5 +15,5 @@ function remove(text) {
 
 export default {
   test,
-  remove,
+  _remove,
 };
