@@ -28,17 +28,17 @@ export const propertyFunctionParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const result = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
-  let i = result.accum.length - 1;
-  let path = property(result.accum[i]);
+  const { accum: accumResult, txt } = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
+  let i = accumResult.length - 1;
+  let path = property(accumResult[i]);
 
   for (i = i - 1; i >= 0; i--) {
-    path = property(result.accum[i], path);
+    path = property(accumResult[i], path);
   }
 
   return {
     accum: accum.concat(path),
-    txt: result.txt,
+    txt,
   };
 };
 
