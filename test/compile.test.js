@@ -238,6 +238,21 @@ describe('Engine', () => {
           expect(executor({ context: { value: 'name' }, keyNotFound: 'value' })).toBeUndefined();
           expect(executor({})).toBeUndefined();
         });
+
+        it('should return the value of the key obtained by a double lookup property access', () => {
+          const executor = engine.compile('PP(context[keys[key]].a)');
+
+          expect(executor({ context: { value: { a: 'name' } }, keys: { a: 'value' }, key: 'a' })).toBe('name');
+          expect(
+            executor({
+              context: { 'another.value': { a: 'another name' } },
+              keys: { key: 'another.value' },
+              key: 'key',
+            }),
+          ).toBe('another name');
+          expect(executor({ context: { value: 'name' }, keys: { keyNotFound: 'value' } })).toBeUndefined();
+          expect(executor({})).toBeUndefined();
+        });
       });
     });
 

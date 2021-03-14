@@ -1,4 +1,4 @@
-import endOfFunction from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { property } from './executers';
 import { constantAction, literalAction } from './constant-parser';
 import { parseNormal, removeMatch, textParser, parseNextPart } from './parser';
@@ -15,7 +15,7 @@ const squareBracketsParser = (match, accum) => {
   const result = parseNextPart(match[1], squareBracketsParsers, 4, []);
   return {
     accum: accum.concat(result.accum),
-    text: endOfFunction.remove(result.text),
+    txt: removeEndOfFunction(result.txt),
   };
 };
 
@@ -23,22 +23,22 @@ export const propertyFunctionParser = (match, accum) => {
   const result = propertyParser(match, accum);
   return {
     accum: result.accum,
-    text: endOfFunction.remove(result.text),
+    txt: removeEndOfFunction(result.txt),
   };
 };
 
 export const propertyParser = (match, accum) => {
-  const result = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
-  let i = result.accum.length - 1;
-  let path = property(result.accum[i]);
+  const { accum: accumResult, txt } = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
+  let i = accumResult.length - 1;
+  let path = property(accumResult[i]);
 
   for (i = i - 1; i >= 0; i--) {
-    path = property(result.accum[i], path);
+    path = property(accumResult[i], path);
   }
 
   return {
     accum: accum.concat(path),
-    text: result.text,
+    txt,
   };
 };
 

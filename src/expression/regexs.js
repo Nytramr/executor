@@ -7,6 +7,7 @@ export const identifierRegEx = /^(\w[\w\d\-]*)(.*)/i;
 export const squareBracketsRegEx = /^\[\s*(.*)/; // square brackets path part, first group: part, second group: rest.
 export const endOfPropertyRegEx = /^[\)\], ]/; // possible end of properties
 export const propertySeparatorRegEx = /^(\.(?!\[))(.*)/;
+export const endOfFunctionRegEx = /^\)/;
 
 /*
  * Literal regex

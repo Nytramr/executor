@@ -1,4 +1,4 @@
-import endOfFunction from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { literalAction, constantAction } from './constant-parser';
 import {
   and,
@@ -13,9 +13,10 @@ import {
   self,
   undef,
 } from './executers';
-import { functionPartsSeparator, functionRegEx } from './regexs';
+import { functionPartsSeparator, functionRegEx, endOfFunctionRegEx } from './regexs';
 import { textParser, removeMatch } from './parser';
 import { propertyParserAction, propertyFunctionAction } from './property-parser';
+import { throwError } from './utils';
 
 export class Engine {
   constructor() {
@@ -58,17 +59,17 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunction, accum);
+    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunctionRegEx, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];
       if (!executer) {
-        throw new Error(`Executer ${match[1]} wasn't recognized`);
+        throwError(`Executer ${match[1]} wasn't recognized`);
       }
       const args = this._textParser_(match[2], []);
 
       return {
-        text: endOfFunction.remove(args.text),
+        txt: removeEndOfFunction(args.txt),
         accum: accum.concat(executer(...args.accum)),
       };
     };
@@ -111,7 +112,7 @@ export class Engine {
     const result = this._textParser_(code, []);
 
     if (result.accum.length > 1) {
-      throw new Error(`The expression ${code} has more than a main executer`);
+      throwError(`The expression ${code} has more than a main executer`);
     }
 
     return result.accum[0];

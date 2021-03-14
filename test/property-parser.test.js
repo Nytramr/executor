@@ -37,7 +37,7 @@ describe('propertyFunctionParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
@@ -50,7 +50,7 @@ describe('propertyFunctionParser', () => {
     expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
     expect(result).toEqual({
       accum: [property2],
-      text: '',
+      txt: '',
     });
   });
 
@@ -61,7 +61,7 @@ describe('propertyFunctionParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
@@ -72,14 +72,14 @@ describe('propertyFunctionParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
   it('should return any extra text after the match', () => {
     const result = propertyFunctionParser([, "'prop1.name'), and more text after the final parenthesis"], []);
 
-    expect(result.text).toEqual(', and more text after the final parenthesis');
+    expect(result.txt).toEqual(', and more text after the final parenthesis');
   });
 
   describe('between square brackets', () => {
@@ -92,7 +92,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -105,7 +105,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -118,7 +118,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -134,7 +134,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
-          text: '',
+          txt: '',
         });
       });
 
@@ -151,7 +151,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
         expect(result).toEqual({
           accum: [property4],
-          text: '',
+          txt: '',
         });
       });
 
@@ -168,7 +168,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
         expect(result).toEqual({
           accum: [property4],
-          text: '',
+          txt: '',
         });
       });
 
@@ -183,7 +183,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
-          text: '',
+          txt: '',
         });
       });
     });
@@ -199,7 +199,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
       expect(result).toEqual({
         accum: [property3],
-        text: '',
+        txt: '',
       });
     });
 
@@ -216,7 +216,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
       expect(result).toEqual({
         accum: [property4],
-        text: '',
+        txt: '',
       });
     });
 
@@ -235,7 +235,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
       expect(result).toEqual({
         accum: [property5],
-        text: '',
+        txt: '',
       });
     });
   });
@@ -277,7 +277,7 @@ describe('propertyParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
@@ -290,7 +290,7 @@ describe('propertyParser', () => {
     expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
     expect(result).toEqual({
       accum: [property2],
-      text: '',
+      txt: '',
     });
   });
 
@@ -301,7 +301,7 @@ describe('propertyParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
@@ -312,14 +312,14 @@ describe('propertyParser', () => {
     expect(property).toHaveBeenCalledWith(constant1);
     expect(result).toEqual({
       accum: [property1],
-      text: '',
+      txt: '',
     });
   });
 
   it('should return any extra text after the match', () => {
     const result = propertyParser([, "'prop1.name', and more text after the final parenthesis"], []);
 
-    expect(result.text).toEqual(', and more text after the final parenthesis');
+    expect(result.txt).toEqual(', and more text after the final parenthesis');
   });
 
   describe('between square brackets', () => {
@@ -332,7 +332,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -345,7 +345,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -358,7 +358,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
       expect(result).toEqual({
         accum: [property2],
-        text: '',
+        txt: '',
       });
     });
 
@@ -374,7 +374,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
-          text: '',
+          txt: '',
         });
       });
 
@@ -391,7 +391,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
         expect(result).toEqual({
           accum: [property4],
-          text: '',
+          txt: '',
         });
       });
 
@@ -408,7 +408,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
         expect(result).toEqual({
           accum: [property4],
-          text: '',
+          txt: '',
         });
       });
 
@@ -423,7 +423,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
         expect(result).toEqual({
           accum: [property3],
-          text: '',
+          txt: '',
         });
       });
     });
@@ -439,7 +439,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
       expect(result).toEqual({
         accum: [property3],
-        text: '',
+        txt: '',
       });
     });
 
@@ -456,7 +456,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
       expect(result).toEqual({
         accum: [property4],
-        text: '',
+        txt: '',
       });
     });
 
@@ -475,7 +475,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
       expect(result).toEqual({
         accum: [property5],
-        text: '',
+        txt: '',
       });
     });
   });

@@ -1,50 +1,60 @@
-import endOfFunction from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { constant } from './executers';
 import { literalRegEx, constantRegEx } from './regexs';
 
-export function parseAll(match) {
-  const text = match[5] || '';
+/* 
+I am keeping the old code to be more clear for the next developer
+Unfortunately the obfuscator cannot translate it directly
+
+const parseAll = (match) => {
+  const txt = match[5] || '';
   if (match[4]) {
     //boolean
     return {
-      value: match[4] === 'true',
-      text,
+      val: match[4] === 'true',
+      txt,
     };
   }
 
   if (match[3]) {
     //number
     return {
-      value: +match[3], // convert into number
-      text,
+      val: +match[3], // convert into number
+      txt,
     };
   }
 
   // string
   return {
-    value: match[1] || match[2] || '',
-    text,
+    val: match[1] || match[2] || '',
+    txt,
   };
-}
+};
+*/
 
-export function literalParser(match, accum) {
+const parseAll = (match) => ({
+  val: match[4] ? match[4] === 'true' : match[3] ? +match[3] : match[1] || match[2] || '',
+  txt: match[5] || '',
+});
+
+export const literalParser = (match, accum) => {
   const result = parseAll(match);
 
   return {
-    accum: accum.concat(constant(result.value)),
-    text: result.text,
+    accum: accum.concat(constant(result.val)),
+    txt: result.txt,
   };
-}
+};
 
-export function constantParser(match, accum) {
+export const constantParser = (match, accum) => {
   const literalMatch = literalRegEx.exec(match[1]);
   const result = parseAll(literalMatch);
 
   return {
-    accum: accum.concat(constant(result.value)),
-    text: endOfFunction.remove(result.text),
+    accum: accum.concat(constant(result.val)),
+    txt: removeEndOfFunction(result.txt),
   };
-}
+};
 
 export const literalAction = { regex: literalRegEx, parser: literalParser };
 export const constantAction = { regex: constantRegEx, parser: constantParser };
