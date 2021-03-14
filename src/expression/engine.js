@@ -1,4 +1,4 @@
-import { endOfFunctionRegExProxy, removeEndOfFunction } from './end-of-function';
+import { removeEndOfFunction } from './end-of-function';
 import { literalAction, constantAction } from './constant-parser';
 import {
   and,
@@ -13,7 +13,7 @@ import {
   self,
   undef,
 } from './executers';
-import { functionPartsSeparator, functionRegEx } from './regexs';
+import { functionPartsSeparator, functionRegEx, endOfFunctionRegEx } from './regexs';
 import { textParser, removeMatch } from './parser';
 import { propertyParserAction, propertyFunctionAction } from './property-parser';
 import { throwError } from './utils';
@@ -59,7 +59,7 @@ export class Engine {
       'SET': setter,
     };
 
-    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunctionRegExProxy, accum);
+    this._textParser_ = (text, accum) => textParser(text, this._instructionParsers_, 6, endOfFunctionRegEx, accum);
 
     this._parseExecuter_ = (match, accum) => {
       const executer = this._executers_[match[1]];
