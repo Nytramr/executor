@@ -2,7 +2,7 @@ import { removeEndOfFunction } from './end-of-function';
 import { constant } from './executers';
 import { literalRegEx, constantRegEx } from './regexs';
 
-function parseAll(match) {
+const parseAll = (match) => {
   const txt = match[5] || '';
   if (match[4]) {
     //boolean
@@ -25,18 +25,18 @@ function parseAll(match) {
     val: match[1] || match[2] || '',
     txt,
   };
-}
+};
 
-export function literalParser(match, accum) {
+export const literalParser = (match, accum) => {
   const result = parseAll(match);
 
   return {
     accum: accum.concat(constant(result.val)),
     txt: result.txt,
   };
-}
+};
 
-export function constantParser(match, accum) {
+export const constantParser = (match, accum) => {
   const literalMatch = literalRegEx.exec(match[1]);
   const result = parseAll(literalMatch);
 
@@ -44,7 +44,7 @@ export function constantParser(match, accum) {
     accum: accum.concat(constant(result.val)),
     txt: removeEndOfFunction(result.txt),
   };
-}
+};
 
 export const literalAction = { regex: literalRegEx, parser: literalParser };
 export const constantAction = { regex: constantRegEx, parser: constantParser };
