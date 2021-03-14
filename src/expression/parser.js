@@ -1,16 +1,17 @@
 import { constant } from './executers';
+import { throwError } from './utils';
 
 export const parseNormal = (match, accum) => {
   return {
     accum: accum.concat(constant(match[1])),
-    text: match[2],
+    txt: match[2],
   };
 };
 
 export const removeMatch = (match, accum) => {
   return {
     accum,
-    text: match[2],
+    txt: match[2],
   };
 };
 
@@ -22,7 +23,7 @@ export const parseNextPart = (text, parsers, parsersLength, accum) => {
     }
   }
 
-  throw new Error(`Token unrecognized near to ${text}`);
+  throwError(`Token unrecognized near to ${text}`);
 };
 
 export const textParser = (text, parsers, parsersLength, endOfSequence, accum) => {
@@ -32,11 +33,11 @@ export const textParser = (text, parsers, parsersLength, endOfSequence, accum) =
   while (_text && !endOfSequence.test(_text)) {
     const next = parseNextPart(_text, parsers, parsersLength, _accum);
     _accum = next.accum;
-    _text = next.text;
+    _text = next.txt;
   }
 
   return {
     accum: _accum,
-    text: _text,
+    txt: _text,
   };
 };
