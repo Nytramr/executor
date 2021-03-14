@@ -466,19 +466,19 @@ describe('Engine', () => {
       });
 
       it('should return every number grater or equals to 3', () => {
-        const executor = engine.compile('filter(SL(), GE(SL(), 3)');
+        const executor = engine.compile('FLT(SL(), GE(SL(), 3)');
 
         expect(executor([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
       });
 
       it('should return every element of the array retrieved by the property', () => {
-        const executor = engine.compile('filter(PP("myArray"), true)');
+        const executor = engine.compile('FLT(PP("myArray"), true)');
 
         expect(executor({ myArray: [1, 2, 3, 4, 5] })).toEqual([1, 2, 3, 4, 5]);
       });
 
       it('should return every "The Beatles" element of the given array, using properties in the predicate', () => {
-        const executor = engine.compile('filter(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
+        const executor = engine.compile('FLT(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
 
         expect(
           executor({
@@ -500,7 +500,7 @@ describe('Engine', () => {
       });
 
       it('should return empty when the the given array is not an array', () => {
-        const executor = engine.compile('filter(SL(), GE(SL(), CT(3))');
+        const executor = engine.compile('FLT(SL(), GE(SL(), CT(3))');
 
         expect(executor()).toEqual([]);
         expect(executor('string')).toEqual([]);
