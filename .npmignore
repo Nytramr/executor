@@ -3,3 +3,5 @@ src
 test
 babel.config.js
 rollup.config.js
+.nvmrc
+.prettierrc.yaml
