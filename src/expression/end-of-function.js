@@ -1,10 +1,12 @@
-function test(text) {
-  const newText = text.trimStart();
-  const char = newText.slice(0, 1);
-  return char == ']' || char == ')';
-}
+export const endOfFunctionRegExProxy = {
+  test: (text) => {
+    const newText = text.trimStart();
+    const char = newText.slice(0, 1);
+    return char == ']' || char == ')';
+  },
+};
 
-function _remove(text) {
+export function removeEndOfFunction(text) {
   const newText = text.trimStart();
   const char = newText.slice(0, 1);
   if (char == ']' || char == ')') {
@@ -12,8 +14,3 @@ function _remove(text) {
   }
   return text;
 }
-
-export default {
-  test,
-  _remove,
-};
