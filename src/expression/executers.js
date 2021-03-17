@@ -152,3 +152,9 @@ export const filter = (arrayGetter, predicate) => (subContext, context = subCont
   if (predicate && Array.isArray(array)) return array.filter((element) => predicate(subContext, context, element));
   return [];
 };
+
+export const conditional = (condition, consequent, alternative) => (...context) => {
+  return (
+    condition && (condition(...context) ? consequent && consequent(...context) : alternative && alternative(...context))
+  );
+};

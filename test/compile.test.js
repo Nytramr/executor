@@ -457,14 +457,6 @@ describe('Engine', () => {
     });
 
     describe('Filter', () => {
-      beforeAll(() => {
-        engine.define('filter', (arrayGetter, predicate) => (context, subContext) => {
-          const array = arrayGetter(context);
-          if (Array.isArray(array)) return array.filter((element) => predicate(context, subContext, element));
-          return []; // you may choice to return undefined instead.
-        });
-      });
-
       it('should return every number grater or equals to 3', () => {
         const executor = engine.compile('FLT(SL(), GE(SL(), 3)');
 
@@ -502,6 +494,7 @@ describe('Engine', () => {
       it('should return empty when the the given array is not an array', () => {
         const executor = engine.compile('FLT(SL(), GE(SL(), CT(3))');
 
+        expect(executor([-1, 0, 1, 2])).toEqual([]);
         expect(executor()).toEqual([]);
         expect(executor('string')).toEqual([]);
         expect(executor({})).toEqual([]);
@@ -535,9 +528,28 @@ describe('Engine', () => {
       it('should return empty when the the given array is not an array', () => {
         const executor = engine.compile('FND(SL(), GE(SL(), CT(3))');
 
+        expect(executor([-1, 0, 1, 2])).toBeUndefined();
         expect(executor()).toBeUndefined();
         expect(executor('string')).toBeUndefined();
         expect(executor({})).toBeUndefined();
+      });
+    });
+
+    describe('If (conditional)', () => {
+      const executor = engine.compile('IF(LE(first, second), false, true');
+
+      it('should return false', () => {
+        expect(executor({ first: 10, second: 10 })).toBe(false);
+        expect(executor({ first: 5, second: 10 })).toBe(false);
+        expect(executor({ first: -1, second: 0 })).toBe(false);
+        expect(executor({ first: 'a', second: 'b' })).toBe(false);
+        expect(executor({ first: 'A', second: 'a' })).toBe(false);
+      });
+
+      it('should return true', () => {
+        expect(executor({ first: 10, second: -10 })).toBe(true);
+        expect(executor({ first: 'b', second: 'a' })).toBe(true);
+        expect(executor({})).toBe(true);
       });
     });
   });
