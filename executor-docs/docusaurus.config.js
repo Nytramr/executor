@@ -13,19 +13,19 @@ module.exports = {
       title: 'Executor',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/executor-logo.svg',
       },
       items: [
         {
-          to: 'docs/docs1/doc1',
-          activeBasePath: 'docs/docs1',
+          to: 'docs/docs/install',
+          activeBasePath: 'docs/docs',
           label: 'Docs',
           position: 'left',
         },
         {
-          to: 'docs/docs2/doc-2',
-          activeBasePath: 'docs/docs2',
-          label: 'Docs2',
+          to: 'docs/recipes/recipe-conditional',
+          activeBasePath: 'docs/recipes',
+          label: 'Recipes',
           position: 'left',
         },
         {
@@ -47,29 +47,12 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'Getting Started',
+              to: 'docs/docs/install',
             },
             {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Language',
+              to: 'docs/docs/property-function',
             },
           ],
         },
@@ -77,17 +60,13 @@ module.exports = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: 'blog',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/Nytramr/executor.git',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Martin Rubinsztein, Inc. Built with Docusaurus.`,
     },
   },
   presets: [

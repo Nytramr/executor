@@ -6,13 +6,60 @@ const e = new Engine();
 
 const codeExample = 'AN(PP(first), PP(second))';
 
-const dataExample = `
-{
+const dataExamples = [
+  `{
   "first": true,
   "second": false,
-  "third": "",
-  "forth": 0
-}`;
+  "array": [true, false, null],
+  "object": {
+    "prop1": false,
+    "prop2": true,
+    "prop-3": null,
+    "index": 2
+  },
+  "index": 0,
+  "key": "index"
+}`,
+  `{
+  "first": "hello",
+  "second": "",
+  "array": ["a", "b", "c"],
+  "object": {
+    "prop1": "hello",
+    "prop2": "true",
+    "prop-3": "",
+    "index": 0
+  },
+  "index": 1,
+  "key": "index"
+}`,
+  `{
+  "first": 10,
+  "second": 0,
+  "array": [0, 2, 4],
+  "object": {
+    "prop1": 23,
+    "prop2": 45,
+    "prop-3": 0,
+    "index": 3
+  },
+  "index": 1,
+  "key": "index"
+}`,
+  `{
+  "first": true,
+  "second": "true",
+  "array": ["a", 5, true],
+  "object": {
+    "prop1": "hello",
+    "prop2": false,
+    "prop-3": 23,
+    "index": 2
+  },
+  "index": 3,
+  "key": "index"
+}`,
+];
 
 function useExecutor(code) {
   try {
@@ -33,8 +80,8 @@ function useExecutorResult(executor, data) {
   }
 }
 
-function Sandbox({ executor }) {
-  const [data, setData] = useState(dataExample);
+function Sandbox({ executor, initialState = dataExamples[0] }) {
+  const [data, setData] = useState(initialState);
   const result = useExecutorResult(executor, data);
   return (
     <div
@@ -50,7 +97,7 @@ function Sandbox({ executor }) {
     >
       <textarea
         style={{
-          fontSize: '20px',
+          fontSize: '14px',
           marginBottom: '4px',
           flexGrow: '1',
           resize: 'none',
@@ -127,9 +174,9 @@ function Playground() {
           }}
         >
           <Sandbox executor={executor} />
-          <Sandbox executor={executor} />
-          <Sandbox executor={executor} />
-          <Sandbox executor={executor} />
+          <Sandbox executor={executor} initialState={dataExamples[1]} />
+          <Sandbox executor={executor} initialState={dataExamples[2]} />
+          <Sandbox executor={executor} initialState={dataExamples[3]} />
         </div>
       </div>
     </Layout>

@@ -2,7 +2,36 @@
 # yarn lockfile v1
 
 
+"@babel/runtime@^7.10.2":
+  version "7.13.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.8.tgz#cc886a85c072df1de23670dc1aa59fc116c4017c"
+  integrity sha512-CwQljpw6qSayc0fRG1soxHAKs1CnQMOChm4mlQP6My0kf9upVGizj/KhlTTgyUnETmHpcUXjaluNAkteRFuafg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@nytramr/executor@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@nytramr/executor/-/executor-1.2.0.tgz#778bfc9eed931d3627ffaafcd9301ae39af6044f"
+  integrity sha512-uoM/XBl8/2j5r/kSVUfBFvDbdqli+GxgluLNdDMuQtlihffeMDrdHUh5hhai+zDS2X5yjWM5Xq/HotJMNTHcew==
+
+jexl@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/jexl/-/jexl-2.3.0.tgz#73e0694d86ca917ac24fed753f201c1db59a46c5"
+  integrity sha512-ecqln4kTWNkMwbFvTukOMDq1jy1GcPzvshhMp/s4pxU86xdLDq7HbDRa87DfMfbSAOS8V6EwvCdfs0S+w/iycA==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+
+jmespath@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
+  integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
+
 prettier@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
   integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==
+
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
