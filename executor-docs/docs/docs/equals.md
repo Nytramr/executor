@@ -13,8 +13,6 @@ It will return `true` when both values are equals, returns `false` otherwise.
 
 #### Parameters
 
-##### value1 and value2
-
 | name     | description                   |
 | -------- | ----------------------------- |
 | `value1` | Executor that returns a value |

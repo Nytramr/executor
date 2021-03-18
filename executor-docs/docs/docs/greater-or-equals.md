@@ -13,7 +13,10 @@ It will return `true` when the first value is greater or equals than the second 
 
 #### Parameters
 
-##### value1 and value2
+| name     | description                   |
+| -------- | ----------------------------- |
+| `value1` | Executor that returns a value |
+| `value2` | Executor that returns a value |
 
 ### example
 

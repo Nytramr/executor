@@ -1,6 +1,6 @@
 ---
 id: constant-function
-title: Constant
+title: Constant and literals
 ---
 
 ## CT(value)

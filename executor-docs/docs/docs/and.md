@@ -15,8 +15,6 @@ The execution is lazy, therefore in case the first condition returns falsy value
 
 #### Parameters
 
-##### condition1 and condition2
-
 | name         | description                                |
 | ------------ | ------------------------------------------ |
 | `condition1` | Executor that returns a boolean like value |
