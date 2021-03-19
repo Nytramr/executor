@@ -501,6 +501,60 @@ executor({ first: false, second: undefined }); // returns false
 executor({ first: false, second: 0 }); // returns false
 ```
 
+### FLT(array, predicate)
+
+It returns a new array with every element from the _array_ that the _predicate_ executes in `true`. If none element meets the _predicate_, it returns an empty array (`[]`)
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executor = engine.compile('FLT(PP("myArray"), EQ(SL(PP("band")), PP("myBand")))');
+
+executor({
+  myArray: [
+    { name: 'John', band: 'The Beatles' },
+    { name: 'Paul', band: 'The Beatles' },
+    { name: 'Ringo', band: 'The Beatles' },
+    { name: 'George', band: 'The Beatles' },
+    { name: 'Yoko', band: 'None' },
+  ],
+  myBand: 'The Beatles',
+});
+/* returns [
+  { name: 'John', band: 'The Beatles' },
+  { name: 'Paul', band: 'The Beatles' },
+  { name: 'Ringo', band: 'The Beatles' },
+  { name: 'George', band: 'The Beatles' },
+  { name: 'Yoko', band: 'None' },
+]
+*/
+```
+
+### FND(array, predicate)
+
+It returns the first element from the _array_ that the _predicate_ executes in `true`. It returns `undefined` if none element meets the _predicate_.
+
+#### example
+
+```javascript
+const engine = new Engine();
+
+const executor = engine.compile('FND(PP("myArray"), EQ(SL(PP("name")), PP("myName")))');
+
+executor({
+  myArray: [
+    { name: 'John', band: 'The Beatles' },
+    { name: 'Paul', band: 'The Beatles' },
+    { name: 'Ringo', band: 'The Beatles' },
+    { name: 'George', band: 'The Beatles' },
+    { name: 'Yoko', band: 'None' },
+  ],
+  myName: 'Ringo',
+}); // returns { name: 'Ringo', band: 'The Beatles' }
+```
+
 ### GE(value1, value2)
 
 It will return `true` when the first value is greater or equals than the second value, returns `false` otherwise.
