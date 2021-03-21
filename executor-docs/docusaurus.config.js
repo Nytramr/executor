@@ -17,7 +17,7 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/docs/start/install',
+          to: 'docs/start/install',
           activeBaseRegex: 'docs/(start|language|syntax)',
           label: 'Docs',
           position: 'left',
@@ -48,11 +48,15 @@ module.exports = {
           items: [
             {
               label: 'Getting Started',
-              to: 'docs/docs/install',
+              to: 'docs/start/install',
             },
             {
               label: 'Language',
-              to: 'docs/docs/property-function',
+              to: 'docs/language/property-function',
+            },
+            {
+              label: 'Recipes',
+              to: 'docs/recipes/recipe-conditional',
             },
           ],
         },
