@@ -9,7 +9,11 @@ It will return `true` when the first value is greater than the second value, ret
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('GT','(',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ',',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ,')')"></ny-railroad-diagram>
 
 #### Parameters
 

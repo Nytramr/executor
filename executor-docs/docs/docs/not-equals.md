@@ -9,7 +9,11 @@ It will return `true` when both values are different, returns `false` otherwise.
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('NE','(',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ',',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ')')"></ny-railroad-diagram>
 
 #### Parameters
 

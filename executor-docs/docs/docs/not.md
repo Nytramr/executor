@@ -9,7 +9,9 @@ It will return `true` when the condition is `false` or `false` when the conditio
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('NT','(',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ')')"></ny-railroad-diagram>
 
 #### Parameters
 

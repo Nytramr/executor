@@ -3,13 +3,16 @@ id: properties
 title: Property
 ---
 
-import {Identifier, Property, PropertyAccessor} from '../../src/components/railroad';
-
 ## Property Identifier
 
 ### Diagram
 
-<Identifier />
+<ny-railroad-diagram diagram="Diagram(
+    Choice(1, Terminal('_'), 
+    NonTerminal('chars', optionsBuilder('href', 'literals#chars'))),
+    ZeroOrMore(Choice(3, Terminal('_'), Terminal('-'), 
+    NonTerminal('digit', optionsBuilder('href', 'literals#digits')), 
+    NonTerminal('chars', optionsBuilder('href', 'literals#chars')))))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -27,7 +30,16 @@ __private__
 
 ### Diagram
 
-<PropertyAccessor />
+<ny-railroad-diagram diagram="Diagram(
+    Sequence(
+      Terminal('['),
+      Choice(
+        0, 
+        NonTerminal('string', optionsBuilder('href', 'literals#string')), 
+        NonTerminal('number', optionsBuilder('href', 'literals#number')), 
+        NonTerminal('property', optionsBuilder('href', 'properties#property')),
+        NonTerminal('function', optionsBuilder('href', 'term#function'))),
+      Terminal(']')))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -52,7 +64,18 @@ __private__
 
 ### Diagram
 
-<Property />
+<ny-railroad-diagram diagram="Diagram(
+    Choice(1, NonTerminal('number', optionsBuilder('href', 'literals#number')), NonTerminal('identifier', optionsBuilder('href', 'properties#property-identifier')), NonTerminal('accessor', optionsBuilder('href', 'properties#property-accessor'))),
+    ZeroOrMore(
+      Choice(
+        0,
+        Sequence(Terminal('.'), 
+          Choice(
+            1, 
+            NonTerminal('number', optionsBuilder('href', 'literals#number')), 
+            NonTerminal('identifier', optionsBuilder('href', 'properties#property-identifier')), 
+            NonTerminal('string', optionsBuilder('href', 'literals#string')))),
+        NonTerminal('accessor', optionsBuilder('href', 'properties#property-accessor')))))"></ny-railroad-diagram>
 
 ### Examples
 

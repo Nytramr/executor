@@ -11,7 +11,11 @@ The execution is lazy, therefore in case the first condition returns falsy value
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('AN','(',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ',',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ,')')"></ny-railroad-diagram>
 
 #### Parameters
 

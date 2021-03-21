@@ -94,4 +94,5 @@ module.exports = {
       },
     ],
   ],
+  clientModules: [require.resolve('./node_modules/@nytramr/railroad-custom-element/build/bundle.js')],
 };

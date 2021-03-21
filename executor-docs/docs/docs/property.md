@@ -1,6 +1,6 @@
 ---
 id: property-function
-title: Property
+title: Properties
 ---
 
 ## PP(path)
@@ -9,7 +9,8 @@ It will return the part of the context object according to the given `path`. If 
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('PP','(',NonTerminal('property', optionsBuilder('href', 'properties')),
+    ,')')"></ny-railroad-diagram>
 
 #### Parameters
 

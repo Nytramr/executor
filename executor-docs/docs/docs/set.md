@@ -9,7 +9,11 @@ It will store the _value_ under the name _valueName_.
 
 ### Syntax
 
-//TODO: Add diagram
+<ny-railroad-diagram diagram="Diagram('SET','(',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ',',
+    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    ,')')"></ny-railroad-diagram>
 
 #### Parameters
 
@@ -17,10 +21,6 @@ It will store the _value_ under the name _valueName_.
 | ----------- | -------------------------------------------------------------------------------------- |
 | `valueName` | Executor that returns a value to be use as the identifier for the `value` to be stored |
 | `value`     | Executor that returns a value to be stored under the name `valueName`                  |
-
-##### valueName
-
-##### value
 
 ### example
 

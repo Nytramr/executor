@@ -3,19 +3,24 @@ id: term
 title: Sentences
 ---
 
-import {Term, Sentence, Function} from '../../src/components/railroad';
-
 ## Sentence
 
 ### Diagram
 
-<Sentence />
+<ny-railroad-diagram diagram="Diagram(NonTerminal('term', optionsBuilder('href', 'term#term')))"></ny-railroad-diagram>
 
 ## Term
 
 ### Diagram
 
-<Term />
+<ny-railroad-diagram diagram="Diagram(
+      Choice(
+        0,
+        NonTerminal('string', optionsBuilder('href', 'literals#string')),
+        NonTerminal('number', optionsBuilder('href', 'literals#number')),
+        NonTerminal('boolean', optionsBuilder('href', 'literals#boolean')),
+        NonTerminal('function', optionsBuilder('href', 'term#function')),
+        NonTerminal('property', optionsBuilder('href', 'properties'))))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -32,6 +37,12 @@ import {Term, Sentence, Function} from '../../src/components/railroad';
 ### Diagram
 
 <Function />
+
+<ny-railroad-diagram diagram="Diagram(
+      NonTerminal('identifier', optionsBuilder('href', 'properties#property-identifier')),
+      Terminal('('),
+      Optional(Sequence(NonTerminal('term', optionsBuilder('href', 'term#term')), ZeroOrMore(Sequence(Terminal(','), NonTerminal('term', optionsBuilder('href', 'term#term')))))),
+      Terminal(')'))"></ny-railroad-diagram>
 
 ### Examples
 

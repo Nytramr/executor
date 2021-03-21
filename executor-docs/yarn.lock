@@ -1522,10 +1522,15 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@nytramr/executor@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@nytramr/executor/-/executor-1.1.0.tgz#1b073640a00fbeab330634e312e92567a0d18023"
-  integrity sha512-Fa7QvFf8fv/Hu7zBRJPo7c8SRoGIotnORLBgPUrt7Sno4ugGpTiAiiFZPej9yHCY5a9O814lWDBJ7n/YbZ1f9A==
+"@nytramr/executor@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@nytramr/executor/-/executor-1.5.0.tgz#faef48f76a7e15e00014ee1f443a2c6973beb557"
+  integrity sha512-w7J9tCGhc0Y+YuVA8zBalyo6pRhwTddR+ioa280iaOwDG7f/RvWkcDdH3Hw4pJyxb96UuTlXpLaf0p61YWkhhQ==
+
+"@nytramr/railroad-custom-element@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@nytramr/railroad-custom-element/-/railroad-custom-element-0.0.0.tgz#1aea25cde42ff1aa1084fc05cc2ab7e9735b79b0"
+  integrity sha512-GCVugjK5105DqeSVHlPuVxYq25hCdmQTz6WxueT3J3KBQaDn0VyXIPGdqaD8cDjD2WCDkJNLrbDwkTgiTbnZnQ==
 
 "@sideway/address@^4.1.0":
   version "4.1.1"

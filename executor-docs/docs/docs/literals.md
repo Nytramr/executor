@@ -3,13 +3,14 @@ id: literals
 title: Literals
 ---
 
-import {Char, Digit, LiteralBoolean, LiteralNumber, LiteralString} from '../../src/components/railroad';
-
 ## Number
 
 ### Diagram
 
-<LiteralNumber />
+<ny-railroad-diagram diagram="Diagram(
+      Optional('-', 'skip'),
+      OneOrMore(NonTerminal('digit', optionsBuilder('href', 'literals#digits'))),
+      Optional(Sequence('.', OneOrMore(NonTerminal('digit', optionsBuilder('href', 'literals#digits'))))))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -25,7 +26,11 @@ import {Char, Digit, LiteralBoolean, LiteralNumber, LiteralString} from '../../s
 
 ### Diagram
 
-<LiteralString />
+<ny-railroad-diagram diagram="Diagram(
+      Choice(
+        0,
+        Sequence(Terminal('&quot;'), ZeroOrMore(Terminal('Any char but &quot;')), Terminal('&quot;')),
+        Sequence(Terminal(&quot;'&quot;), ZeroOrMore(Terminal(&quot;Any char but '&quot;)), Terminal(&quot;'&quot;))))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -42,7 +47,7 @@ import {Char, Digit, LiteralBoolean, LiteralNumber, LiteralString} from '../../s
 
 ### Diagram
 
-<LiteralBoolean />
+<ny-railroad-diagram diagram="Diagram(Choice(0, Terminal('true'), Terminal('false')))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -55,7 +60,7 @@ false
 
 ### Diagram
 
-<Char />
+<ny-railroad-diagram diagram="Diagram(NonTerminal(' Any character from a to z both upper and lower case '))"></ny-railroad-diagram>
 
 ### Examples
 
@@ -72,7 +77,7 @@ Z
 
 ### Diagram
 
-<Digit />
+<ny-railroad-diagram diagram="Diagram(NonTerminal('Any number from 0 to 9'))"></ny-railroad-diagram>
 
 ### Examples
 
