@@ -9,8 +9,8 @@ import { Engine } from '@nytramr/executor';
 ```javascript
 const engine = new Engine();
 
-engine.define('IF', (pred, trueResult, falseResult) => (context) =>
-  pred(context) ? trueResult(context) : falseResult(context),
+engine.define('IF', (pred, consequent, alternative) => (context) =>
+  pred(context) ? consequent(context) : alternative(context),
 );
 ```
 

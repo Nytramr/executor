@@ -12,9 +12,9 @@ The execution is lazy, therefore in case the first condition returns a truly val
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('OR','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ',',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ')')"></ny-railroad-diagram>
 
 #### Parameters

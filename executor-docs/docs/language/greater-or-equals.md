@@ -10,9 +10,9 @@ It will return `true` when the first value is greater or equals than the second 
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('GE','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ',',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ,')')"></ny-railroad-diagram>
 
 #### Parameters

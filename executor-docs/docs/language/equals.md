@@ -10,9 +10,9 @@ It will return `true` when both values are equals, returns `false` otherwise.
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('EQ','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ',',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ')')"></ny-railroad-diagram>
 
 #### Parameters

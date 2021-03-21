@@ -17,8 +17,8 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/docs/install',
-          activeBasePath: 'docs/docs',
+          to: 'docs/docs/start/install',
+          activeBaseRegex: 'docs/(start|language|syntax)',
           label: 'Docs',
           position: 'left',
         },

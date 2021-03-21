@@ -9,7 +9,7 @@ It will return the part of the context object according to the given `path`. If 
 
 ### Syntax
 
-<ny-railroad-diagram diagram="Diagram('PP','(',NonTerminal('property', optionsBuilder('href', 'properties')),
+<ny-railroad-diagram diagram="Diagram('PP','(',NonTerminal('property', optionsBuilder('href', '../syntax/properties')),
     ,')')"></ny-railroad-diagram>
 
 #### Parameters

@@ -10,7 +10,7 @@ It will return the stored value under the name _valueName_.
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('GET','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ')')"></ny-railroad-diagram>
 
 #### Parameters

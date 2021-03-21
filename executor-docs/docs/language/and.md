@@ -5,16 +5,16 @@ title: And
 
 ## AN(condition1, condition2)
 
-It will return `true` or `false` depending of the **and** evaluation of `condition1` and `condition2`.
+The **and** evaluation is executed between `condition1` and `condition2`.
 
 The execution is lazy, therefore in case the first condition returns falsy value, the second condition is not evaluated.
 
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('AN','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ',',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ,')')"></ny-railroad-diagram>
 
 #### Parameters
@@ -23,6 +23,10 @@ The execution is lazy, therefore in case the first condition returns falsy value
 | ------------ | ------------------------------------------ |
 | `condition1` | Executor that returns a boolean like value |
 | `condition2` | Executor that returns a boolean like value |
+
+#### Returns
+
+The value returned by the fist condition when it is _falsy_, otherwise the value returned by second condition.
 
 ### Example
 

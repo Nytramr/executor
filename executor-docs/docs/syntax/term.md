@@ -7,7 +7,7 @@ title: Sentences
 
 ### Diagram
 
-<ny-railroad-diagram diagram="Diagram(NonTerminal('term', optionsBuilder('href', 'term#term')))"></ny-railroad-diagram>
+<ny-railroad-diagram diagram="Diagram(NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')))"></ny-railroad-diagram>
 
 ## Term
 
@@ -41,7 +41,7 @@ title: Sentences
 <ny-railroad-diagram diagram="Diagram(
       NonTerminal('identifier', optionsBuilder('href', 'properties#property-identifier')),
       Terminal('('),
-      Optional(Sequence(NonTerminal('term', optionsBuilder('href', 'term#term')), ZeroOrMore(Sequence(Terminal(','), NonTerminal('term', optionsBuilder('href', 'term#term')))))),
+      Optional(Sequence(NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')), ZeroOrMore(Sequence(Terminal(','), NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')))))),
       Terminal(')'))"></ny-railroad-diagram>
 
 ### Examples

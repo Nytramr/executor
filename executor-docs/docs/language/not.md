@@ -10,7 +10,7 @@ It will return `true` when the condition is `false` or `false` when the conditio
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('NT','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ')')"></ny-railroad-diagram>
 
 #### Parameters

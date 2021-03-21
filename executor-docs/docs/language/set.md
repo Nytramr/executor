@@ -10,9 +10,9 @@ It will store the _value_ under the name _valueName_.
 ### Syntax
 
 <ny-railroad-diagram diagram="Diagram('SET','(',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ',',
-    NonTerminal('term', optionsBuilder('href', 'term#term')),
+    NonTerminal('term', optionsBuilder('href', '/docs/syntax/term#term')),
     ,')')"></ny-railroad-diagram>
 
 #### Parameters
