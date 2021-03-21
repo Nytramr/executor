@@ -14,7 +14,7 @@ It will return an executor that always returns _value_. Is the way we can define
       0,
       NonTerminal('string', optionsBuilder('href', '/docs/syntax/literals#string')),
       NonTerminal('number', optionsBuilder('href', '/docs/syntax/literals#number')),
-      NonTerminal('boolean', optionsBuilder('href', '/docs/syntax/literals#boolean')),
+      NonTerminal('boolean', optionsBuilder('href', '/docs/syntax/literals#boolean'))),
     ')')"></ny-railroad-diagram>
 
 #### Parameters
