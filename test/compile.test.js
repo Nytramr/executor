@@ -458,7 +458,7 @@ describe('Engine', () => {
 
     describe('Filter', () => {
       it('should return every number grater or equals to 3', () => {
-        const executor = engine.compile('FLT(SL(), GE(SL(), 3)');
+        const executor = engine.compile('FLT(SL(), GE(SL(), 3))');
 
         expect(executor([1, 2, 3, 4, 5])).toEqual([3, 4, 5]);
       });
@@ -492,7 +492,7 @@ describe('Engine', () => {
       });
 
       it('should return empty when the the given array is not an array', () => {
-        const executor = engine.compile('FLT(SL(), GE(SL(), CT(3))');
+        const executor = engine.compile('FLT(SL(), GE(SL(), CT(3)))');
 
         expect(executor([-1, 0, 1, 2])).toEqual([]);
         expect(executor()).toEqual([]);
@@ -503,7 +503,7 @@ describe('Engine', () => {
 
     describe('Find', () => {
       it('should return the first number grater than 3', () => {
-        const executor = engine.compile('FND(SL(), GE(SL(), CT(3))');
+        const executor = engine.compile('FND(SL(), GE(SL(), CT(3)))');
 
         expect(executor([1, 2, 3, 4, 5])).toEqual(3);
       });
@@ -526,7 +526,7 @@ describe('Engine', () => {
       });
 
       it('should return empty when the the given array is not an array', () => {
-        const executor = engine.compile('FND(SL(), GE(SL(), CT(3))');
+        const executor = engine.compile('FND(SL(), GE(SL(), CT(3)))');
 
         expect(executor([-1, 0, 1, 2])).toBeUndefined();
         expect(executor()).toBeUndefined();
@@ -536,7 +536,7 @@ describe('Engine', () => {
     });
 
     describe('If (conditional)', () => {
-      const executor = engine.compile('IF(LE(first, second), false, true');
+      const executor = engine.compile('IF(LE(first, second), false, true)');
 
       it('should return false', () => {
         expect(executor({ first: 10, second: 10 })).toBe(false);
