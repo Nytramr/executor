@@ -109,7 +109,7 @@ describe('Engine', () => {
         });
       });
 
-      describe('numbers', () => {
+      describe('numbers using CT', () => {
         it('should return a constant, with the given positive number', () => {
           const executor = engine.compile('CT(150)');
 
@@ -130,6 +130,32 @@ describe('Engine', () => {
 
         it('should return a constant, with the given float number', () => {
           const executor = engine.compile('CT(0.890)');
+
+          expect(executor({})).toEqual(0.89);
+        });
+      });
+
+      describe('numbers', () => {
+        it('should return a constant, with the given positive number', () => {
+          const executor = engine.compile('150');
+
+          expect(executor({})).toEqual(150);
+        });
+
+        it('should return a constant, with 0', () => {
+          const executor = engine.compile('0');
+
+          expect(executor({})).toEqual(0);
+        });
+
+        it('should return a constant, with the given negative number', () => {
+          const executor = engine.compile('-67');
+
+          expect(executor({})).toEqual(-67);
+        });
+
+        it('should return a constant, with the given float number', () => {
+          const executor = engine.compile('0.890');
 
           expect(executor({})).toEqual(0.89);
         });
@@ -551,6 +577,20 @@ describe('Engine', () => {
         expect(executor({ first: 'b', second: 'a' })).toBe(true);
         expect(executor({})).toBe(true);
       });
+    });
+  });
+
+  describe('Compilation errors', () => {
+    const engine = new Engine();
+    it("should throw a missing '(' or '[' error", () => {
+      expect(() => engine.compile('IF(LE(first, second), false, true')).toThrow("Missing ']' or ')'");
+      expect(() => engine.compile('IF(LE(first, second, false, true)')).toThrow("Missing ']' or ')'");
+      expect(() => engine.compile('PP(context[key)')).toThrow("Missing ']' or ')'");
+    });
+    it('The expression X has more than a main executer', () => {
+      expect(() => engine.compile('PP context[key])')).toThrow(
+        'The expression PP context[key]) has more than a main executer',
+      );
     });
   });
 });
