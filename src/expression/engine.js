@@ -83,9 +83,9 @@ export class Engine {
     this._instructionParsers_ = [
       constantAction,
       propertyFunctionAction,
-      { regex: functionRegEx, parser: this._parseExecuter_ },
+      [functionRegEx, this._parseExecuter_],
       literalAction,
-      { regex: functionPartsSeparator, parser: removeMatch },
+      [functionPartsSeparator, removeMatch],
       propertyParserAction,
     ];
 

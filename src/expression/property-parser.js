@@ -1,11 +1,12 @@
 import { removeEndOfFunction } from './end-of-function';
 import { property } from './executers';
 import { constantAction, literalAction } from './constant-parser';
-import { parseNormal, removeMatch, textParser, parseNextPart } from './parser';
+import { parseNormal, parseNumber, removeMatch, textParser, parseNextPart } from './parser';
 import {
   elseRegEx,
   endOfPropertyRegEx,
   identifierRegEx,
+  integerRegEx,
   propertyRegEx,
   propertySeparatorRegEx,
   squareBracketsRegEx,
@@ -28,7 +29,7 @@ export const propertyFunctionParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const { accum: accumResult, txt } = textParser(match[1], propertyParsers, 5, endOfPropertyRegEx, []);
+  const { accum: accumResult, txt } = textParser(match[1], propertyParsers, 6, endOfPropertyRegEx, []);
   let i = accumResult.length - 1;
   let path = property(accumResult[i]);
 
@@ -42,15 +43,16 @@ export const propertyParser = (match, accum) => {
   };
 };
 
-export const propertyFunctionAction = { regex: propertyRegEx, parser: propertyFunctionParser };
-export const propertyParserAction = { regex: elseRegEx, parser: propertyParser };
+export const propertyFunctionAction = [propertyRegEx, propertyFunctionParser];
+export const propertyParserAction = [elseRegEx, propertyParser];
 
 const propertyParsers = [
+  [integerRegEx, parseNumber],
   literalAction,
   propertyFunctionAction,
-  { regex: identifierRegEx, parser: parseNormal },
-  { regex: propertySeparatorRegEx, parser: removeMatch },
-  { regex: squareBracketsRegEx, parser: squareBracketsParser },
+  [identifierRegEx, parseNormal],
+  [propertySeparatorRegEx, removeMatch],
+  [squareBracketsRegEx, squareBracketsParser],
 ];
 
 const squareBracketsParsers = [literalAction, constantAction, propertyFunctionAction, propertyParserAction];

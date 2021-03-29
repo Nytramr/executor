@@ -56,5 +56,5 @@ export const constantParser = (match, accum) => {
   };
 };
 
-export const literalAction = { regex: literalRegEx, parser: literalParser };
-export const constantAction = { regex: constantRegEx, parser: constantParser };
+export const literalAction = [literalRegEx, literalParser];
+export const constantAction = [constantRegEx, constantParser];

@@ -8,6 +8,13 @@ export const parseNormal = (match, accum) => {
   };
 };
 
+export const parseNumber = (match, accum) => {
+  return {
+    accum: accum.concat(constant(+match[1])),
+    txt: match[2],
+  };
+};
+
 export const removeMatch = (match, accum) => {
   return {
     accum,
@@ -17,9 +24,9 @@ export const removeMatch = (match, accum) => {
 
 export const parseNextPart = (text, parsers, parsersLength, accum) => {
   for (let i = 0; i < parsersLength; i++) {
-    const match = parsers[i].regex.exec(text);
+    const match = parsers[i][0].exec(text);
     if (match) {
-      return parsers[i].parser(match, accum);
+      return parsers[i][1](match, accum);
     }
   }
 
