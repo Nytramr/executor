@@ -38,13 +38,10 @@ export const textParser = (text, parsers, parsersLength, endOfSequence, accum) =
   let _accum = accum;
 
   while (_text && !endOfSequence.test(_text)) {
-    const next = parseNextPart(_text, parsers, parsersLength, _accum);
-    _accum = next.accum;
-    _text = next.txt;
+    const { accum: accumResult, txt } = parseNextPart(_text, parsers, parsersLength, _accum);
+    _accum = accumResult;
+    _text = txt;
   }
 
-  return {
-    accum: _accum,
-    txt: _text,
-  };
+  return [_accum, _text];
 };

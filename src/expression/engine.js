@@ -72,11 +72,11 @@ export class Engine {
       if (!executer) {
         throwError(`Executer ${match[1]} wasn't recognized`);
       }
-      const args = this._textParser_(match[2], []);
+      const [accumResult, txt] = this._textParser_(match[2], []);
 
       return {
-        txt: removeEndOfFunction(args.txt),
-        accum: accum.concat(executer(...args.accum)),
+        accum: accum.concat(executer(...accumResult)),
+        txt: removeEndOfFunction(txt),
       };
     };
 
@@ -115,13 +115,13 @@ export class Engine {
       return undef();
     }
 
-    const result = this._textParser_(code, []);
+    const [result] = this._textParser_(code, []);
 
-    if (result.accum.length > 1) {
+    if (result.length > 1) {
       throwError(`The expression ${code} has more than a main executer`);
     }
 
-    return result.accum[0];
+    return result[0];
   }
 
   /**

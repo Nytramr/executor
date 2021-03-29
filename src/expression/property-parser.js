@@ -29,7 +29,7 @@ export const propertyFunctionParser = (match, accum) => {
 };
 
 export const propertyParser = (match, accum) => {
-  const { accum: accumResult, txt } = textParser(match[1], propertyParsers, 6, endOfPropertyRegEx, []);
+  const [accumResult, txt] = textParser(match[1], propertyParsers, 6, endOfPropertyRegEx, []);
   let i = accumResult.length - 1;
   let path = property(accumResult[i]);
 
