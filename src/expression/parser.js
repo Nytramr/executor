@@ -2,24 +2,15 @@ import { constant } from './executers';
 import { throwError } from './utils';
 
 export const parseNormal = (match, accum) => {
-  return {
-    accum: accum.concat(constant(match[1])),
-    txt: match[2],
-  };
+  return [accum.concat(constant(match[1])), match[2]];
 };
 
 export const parseNumber = (match, accum) => {
-  return {
-    accum: accum.concat(constant(+match[1])),
-    txt: match[2],
-  };
+  return [accum.concat(constant(+match[1])), match[2]];
 };
 
 export const removeMatch = (match, accum) => {
-  return {
-    accum,
-    txt: match[2],
-  };
+  return [accum, match[2]];
 };
 
 export const parseNextPart = (text, parsers, parsersLength, accum) => {
@@ -38,7 +29,7 @@ export const textParser = (text, parsers, parsersLength, endOfSequence, accum) =
   let _accum = accum;
 
   while (_text && !endOfSequence.test(_text)) {
-    const { accum: accumResult, txt } = parseNextPart(_text, parsers, parsersLength, _accum);
+    const [accumResult, txt] = parseNextPart(_text, parsers, parsersLength, _accum);
     _accum = accumResult;
     _text = txt;
   }

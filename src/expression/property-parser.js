@@ -13,19 +13,13 @@ import {
 } from './regexs';
 
 const squareBracketsParser = (match, accum) => {
-  const result = parseNextPart(match[1], squareBracketsParsers, 4, []);
-  return {
-    accum: accum.concat(result.accum),
-    txt: removeEndOfFunction(result.txt),
-  };
+  const [accumResult, txt] = parseNextPart(match[1], squareBracketsParsers, 4, []);
+  return [accum.concat(accumResult), removeEndOfFunction(txt)];
 };
 
 export const propertyFunctionParser = (match, accum) => {
-  const result = propertyParser(match, accum);
-  return {
-    accum: result.accum,
-    txt: removeEndOfFunction(result.txt),
-  };
+  const [accumResult, txt] = propertyParser(match, accum);
+  return [accumResult, removeEndOfFunction(txt)];
 };
 
 export const propertyParser = (match, accum) => {
@@ -37,10 +31,7 @@ export const propertyParser = (match, accum) => {
     path = property(accumResult[i], path);
   }
 
-  return {
-    accum: accum.concat(path),
-    txt,
-  };
+  return [accum.concat(path), txt];
 };
 
 export const propertyFunctionAction = [propertyRegEx, propertyFunctionParser];

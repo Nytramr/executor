@@ -74,10 +74,7 @@ export class Engine {
       }
       const [accumResult, txt] = this._textParser_(match[2], []);
 
-      return {
-        accum: accum.concat(executer(...accumResult)),
-        txt: removeEndOfFunction(txt),
-      };
+      return [accum.concat(executer(...accumResult)), removeEndOfFunction(txt)];
     };
 
     this._instructionParsers_ = [
