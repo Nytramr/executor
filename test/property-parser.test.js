@@ -478,5 +478,24 @@ describe('propertyParser', () => {
         txt: '',
       });
     });
+
+    it('should compile a non quoted text with consecutive numbers as a new complex property and use it to retrieve the property name', () => {
+      const result = propertyParser([, 'obj[value.4.8]'], []);
+
+      expect(constant).toHaveBeenNthCalledWith(1, 'obj'); // returns constant1
+      expect(constant).toHaveBeenNthCalledWith(2, 'value'); // returns constant2
+      expect(constant).toHaveBeenNthCalledWith(3, 4); // returns constant3
+      expect(constant).toHaveBeenNthCalledWith(4, 8); // returns constant4
+      expect(property).toHaveBeenNthCalledWith(1, constant4); // we create a property using the 'value' constant
+      expect(property).toHaveBeenNthCalledWith(2, constant3, property1); // we create a property using the 'prop' constant and the value sub-context
+      expect(property).toHaveBeenNthCalledWith(3, constant2, property2); // we create a property using the 'prop' constant and the value sub-context
+      expect(property).toHaveBeenNthCalledWith(4, property3); // we create a property using the 'obj' constant
+      // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
+      expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
+      expect(result).toEqual({
+        accum: [property5],
+        txt: '',
+      });
+    });
   });
 });
