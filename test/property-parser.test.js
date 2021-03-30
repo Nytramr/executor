@@ -35,10 +35,7 @@ describe('propertyFunctionParser', () => {
 
     expect(constant).toHaveBeenCalledWith('obj');
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should compile a multiple parts property', () => {
@@ -48,10 +45,7 @@ describe('propertyFunctionParser', () => {
     expect(constant).toHaveBeenNthCalledWith(2, 'prop1');
     expect(property).toHaveBeenNthCalledWith(1, constant2);
     expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-    expect(result).toEqual({
-      accum: [property2],
-      txt: '',
-    });
+    expect(result).toEqual([[property2], '']);
   });
 
   it('should compile a property between quotes, considering all inside it as a single property name', () => {
@@ -59,10 +53,7 @@ describe('propertyFunctionParser', () => {
 
     expect(constant).toHaveBeenCalledWith('prop1.name');
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should compile a number property', () => {
@@ -70,16 +61,13 @@ describe('propertyFunctionParser', () => {
 
     expect(constant).toHaveBeenCalledWith(2);
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should return any extra text after the match', () => {
-    const result = propertyFunctionParser([, "'prop1.name'), and more text after the final parenthesis"], []);
+    const [_, txt] = propertyFunctionParser([, "'prop1.name'), and more text after the final parenthesis"], []);
 
-    expect(result.txt).toEqual(', and more text after the final parenthesis');
+    expect(txt).toEqual(', and more text after the final parenthesis');
   });
 
   describe('between square brackets', () => {
@@ -90,10 +78,7 @@ describe('propertyFunctionParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     it('should compile a constant, literally', () => {
@@ -103,10 +88,7 @@ describe('propertyFunctionParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     it('should compile a number constant', () => {
@@ -116,10 +98,7 @@ describe('propertyFunctionParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 2);
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     describe('with a property call inside', () => {
@@ -132,10 +111,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-        expect(result).toEqual({
-          accum: [property3],
-          txt: '',
-        });
+        expect(result).toEqual([[property3], '']);
       });
 
       it('should compile a new complex property, and use it to retrieve the property name', () => {
@@ -149,10 +125,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-        expect(result).toEqual({
-          accum: [property4],
-          txt: '',
-        });
+        expect(result).toEqual([[property4], '']);
       });
 
       it('should compile a new complex property, and use it to retrieve the property name', () => {
@@ -166,10 +139,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-        expect(result).toEqual({
-          accum: [property4],
-          txt: '',
-        });
+        expect(result).toEqual([[property4], '']);
       });
 
       it('should compile a new property between quotes, and use it to retrieve the property name', () => {
@@ -181,10 +151,7 @@ describe('propertyFunctionParser', () => {
         expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-        expect(result).toEqual({
-          accum: [property3],
-          txt: '',
-        });
+        expect(result).toEqual([[property3], '']);
       });
     });
 
@@ -197,10 +164,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-      expect(result).toEqual({
-        accum: [property3],
-        txt: '',
-      });
+      expect(result).toEqual([[property3], '']);
     });
 
     it('should compile a non quoted text as a new complex property and use it to retrieve the property name', () => {
@@ -214,10 +178,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-      expect(result).toEqual({
-        accum: [property4],
-        txt: '',
-      });
+      expect(result).toEqual([[property4], '']);
     });
 
     it('should compile a non quoted text with numbers as a new complex property and use it to retrieve the property name', () => {
@@ -233,10 +194,7 @@ describe('propertyFunctionParser', () => {
       expect(property).toHaveBeenNthCalledWith(4, property3); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
-      expect(result).toEqual({
-        accum: [property5],
-        txt: '',
-      });
+      expect(result).toEqual([[property5], '']);
     });
   });
 });
@@ -275,10 +233,7 @@ describe('propertyParser', () => {
 
     expect(constant).toHaveBeenCalledWith('obj');
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should compile a multiple parts property', () => {
@@ -288,10 +243,7 @@ describe('propertyParser', () => {
     expect(constant).toHaveBeenNthCalledWith(2, 'prop1');
     expect(property).toHaveBeenNthCalledWith(1, constant2);
     expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-    expect(result).toEqual({
-      accum: [property2],
-      txt: '',
-    });
+    expect(result).toEqual([[property2], '']);
   });
 
   it('should compile a property between quotes, considering all inside it as a single property name', () => {
@@ -299,10 +251,7 @@ describe('propertyParser', () => {
 
     expect(constant).toHaveBeenCalledWith('prop1.name');
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should compile a number property', () => {
@@ -310,16 +259,13 @@ describe('propertyParser', () => {
 
     expect(constant).toHaveBeenCalledWith(2);
     expect(property).toHaveBeenCalledWith(constant1);
-    expect(result).toEqual({
-      accum: [property1],
-      txt: '',
-    });
+    expect(result).toEqual([[property1], '']);
   });
 
   it('should return any extra text after the match', () => {
-    const result = propertyParser([, "'prop1.name', and more text after the final parenthesis"], []);
+    const [_, txt] = propertyParser([, "'prop1.name', and more text after the final parenthesis"], []);
 
-    expect(result.txt).toEqual(', and more text after the final parenthesis');
+    expect(txt).toEqual(', and more text after the final parenthesis');
   });
 
   describe('between square brackets', () => {
@@ -330,10 +276,7 @@ describe('propertyParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     it('should compile a constant, literally', () => {
@@ -343,10 +286,7 @@ describe('propertyParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 'prop1.name');
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     it('should compile a number constant', () => {
@@ -356,10 +296,7 @@ describe('propertyParser', () => {
       expect(constant).toHaveBeenNthCalledWith(2, 2);
       expect(property).toHaveBeenNthCalledWith(1, constant2);
       expect(property).toHaveBeenNthCalledWith(2, constant1, property1);
-      expect(result).toEqual({
-        accum: [property2],
-        txt: '',
-      });
+      expect(result).toEqual([[property2], '']);
     });
 
     describe('with a property call inside', () => {
@@ -372,10 +309,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-        expect(result).toEqual({
-          accum: [property3],
-          txt: '',
-        });
+        expect(result).toEqual([[property3], '']);
       });
 
       it('should compile a new complex property, and use it to retrieve the property name', () => {
@@ -389,10 +323,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-        expect(result).toEqual({
-          accum: [property4],
-          txt: '',
-        });
+        expect(result).toEqual([[property4], '']);
       });
 
       it('should compile a new complex property, and use it to retrieve the property name', () => {
@@ -406,10 +337,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-        expect(result).toEqual({
-          accum: [property4],
-          txt: '',
-        });
+        expect(result).toEqual([[property4], '']);
       });
 
       it('should compile a new property between quotes, and use it to retrieve the property name', () => {
@@ -421,10 +349,7 @@ describe('propertyParser', () => {
         expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
         // we create a property using the return of the 'value property' as name and the 'obj property' as context
         expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-        expect(result).toEqual({
-          accum: [property3],
-          txt: '',
-        });
+        expect(result).toEqual([[property3], '']);
       });
     });
 
@@ -437,10 +362,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(2, property1); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(3, constant1, property2);
-      expect(result).toEqual({
-        accum: [property3],
-        txt: '',
-      });
+      expect(result).toEqual([[property3], '']);
     });
 
     it('should compile a non quoted text as a new complex property and use it to retrieve the property name', () => {
@@ -454,10 +376,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(3, property2); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(4, constant1, property3);
-      expect(result).toEqual({
-        accum: [property4],
-        txt: '',
-      });
+      expect(result).toEqual([[property4], '']);
     });
 
     it('should compile a non quoted text with numbers as a new complex property and use it to retrieve the property name', () => {
@@ -473,10 +392,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(4, property3); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
-      expect(result).toEqual({
-        accum: [property5],
-        txt: '',
-      });
+      expect(result).toEqual([[property5], '']);
     });
 
     it('should compile a non quoted text with consecutive numbers as a new complex property and use it to retrieve the property name', () => {
@@ -492,10 +408,7 @@ describe('propertyParser', () => {
       expect(property).toHaveBeenNthCalledWith(4, property3); // we create a property using the 'obj' constant
       // we create a property using the return of the 'value.prop property' as name and the 'obj property' as context
       expect(property).toHaveBeenNthCalledWith(5, constant1, property4);
-      expect(result).toEqual({
-        accum: [property5],
-        txt: '',
-      });
+      expect(result).toEqual([[property5], '']);
     });
   });
 });
