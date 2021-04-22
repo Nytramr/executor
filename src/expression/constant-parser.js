@@ -40,21 +40,15 @@ const parseAll = (match) => ({
 export const literalParser = (match, accum) => {
   const result = parseAll(match);
 
-  return {
-    accum: accum.concat(constant(result.val)),
-    txt: result.txt,
-  };
+  return [accum.concat(constant(result.val)), result.txt];
 };
 
 export const constantParser = (match, accum) => {
   const literalMatch = literalRegEx.exec(match[1]);
   const result = parseAll(literalMatch);
 
-  return {
-    accum: accum.concat(constant(result.val)),
-    txt: removeEndOfFunction(result.txt),
-  };
+  return [accum.concat(constant(result.val)), removeEndOfFunction(result.txt)];
 };
 
-export const literalAction = { regex: literalRegEx, parser: literalParser };
-export const constantAction = { regex: constantRegEx, parser: constantParser };
+export const literalAction = [literalRegEx, literalParser];
+export const constantAction = [constantRegEx, constantParser];

@@ -8,6 +8,7 @@ export const squareBracketsRegEx = /^\[\s*([^]*)/; // square brackets path part,
 export const endOfPropertyRegEx = /^[\)\],\s]/; // possible end of properties
 export const propertySeparatorRegEx = /^(\.(?!\[))([^]*)/;
 export const endOfFunctionRegEx = /^\)/;
+export const integerRegEx = /^(\d+)([^]*)/;
 
 /*
  * Literal regex

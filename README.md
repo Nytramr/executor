@@ -2,6 +2,12 @@
 
 A compact library to execute small scripts in a secure way and avoiding an [eval](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval) expression. See also [Never use eval()!](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#Never_use_eval!) or this [Stackoverflow link](https://stackoverflow.com/questions/86513/why-is-using-the-javascript-eval-function-a-bad-idea).
 
+> NOTE for version 1.6 and further:
+>
+> The way to access numerical properties had slightly changed. While in version 1.5.X and older, a property like : `PP(obj.1.1)` would return `obj["1.1"]`, since version 1.6.x the same property will return `obj[1][1]`.
+>
+> In my humble opinion I think this way is more intuitive an more predictable, that is why I didn't made a new mayor version of the library, trying to make everyone getting this important change.
+
 ## Install
 
 npm

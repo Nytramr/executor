@@ -72,20 +72,17 @@ export class Engine {
       if (!executer) {
         throwError(`Executer ${match[1]} wasn't recognized`);
       }
-      const args = this._textParser_(match[2], []);
+      const [accumResult, txt] = this._textParser_(match[2], []);
 
-      return {
-        txt: removeEndOfFunction(args.txt),
-        accum: accum.concat(executer(...args.accum)),
-      };
+      return [accum.concat(executer(...accumResult)), removeEndOfFunction(txt)];
     };
 
     this._instructionParsers_ = [
-      propertyFunctionAction,
       constantAction,
-      { regex: functionRegEx, parser: this._parseExecuter_ },
+      propertyFunctionAction,
+      [functionRegEx, this._parseExecuter_],
       literalAction,
-      { regex: functionPartsSeparator, parser: removeMatch },
+      [functionPartsSeparator, removeMatch],
       propertyParserAction,
     ];
 
@@ -115,13 +112,13 @@ export class Engine {
       return undef();
     }
 
-    const result = this._textParser_(code, []);
+    const [result] = this._textParser_(code, []);
 
-    if (result.accum.length > 1) {
+    if (result.length > 1) {
       throwError(`The expression ${code} has more than a main executer`);
     }
 
-    return result.accum[0];
+    return result[0];
   }
 
   /**
